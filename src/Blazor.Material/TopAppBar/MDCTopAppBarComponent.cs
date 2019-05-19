@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Blazor.Material.TopAppBar
@@ -26,7 +27,9 @@ namespace Blazor.Material.TopAppBar
 
         protected override void OnInit()
         {
-            ClassString = "mdc-top-app-bar";
+            var sb = new StringBuilder(CSSClasses.MDCTopAppBar);
+
+            ClassString = sb.ToString();
         }
 
         protected override async Task OnAfterRenderAsync()
@@ -51,5 +54,15 @@ namespace Blazor.Material.TopAppBar
         /// </summary>
         [JSInvokable]
         public Task OnMDCTopAppBarNav() => OnNav != null ? OnNav() : Task.CompletedTask;
+
+        public static class CSSClasses
+        {
+            internal const string MDCTopAppBar = "mdc-top-app-bar";
+
+            /// <summary>
+            /// Class used to style the content below the standard and fixed top app bar to prevent the top app bar from covering it.
+            /// </summary>
+            public const string MDCTopAppBarFixedAdjust = "mdc-top-app-bar--fixed-adjust";
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Blazor.Material.Drawer
@@ -21,7 +22,16 @@ namespace Blazor.Material.Drawer
 
         protected override void OnInit()
         {
-            ClassString = "mdc-drawer mdc-drawer--dismissible mdc-drawer--open";
+            var sb = new StringBuilder(CSSClasses.MDCDrawer)
+                .Append($" {CSSClasses.MDCDrawerDismissible}")
+                .Append($" {CSSClasses.MDCDrawerOpen}");
+
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
+            ClassString = sb.ToString();
         }
 
         protected override async Task OnAfterRenderAsync()
@@ -34,5 +44,21 @@ namespace Blazor.Material.Drawer
         }
 
         public Task ToggleOpen() => JSRuntime.InvokeAsync<bool>(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
+
+        internal static class CSSClasses
+        {
+            public const string MDCDrawer = "mdc-drawer";
+
+            /// <summary>Dismissible drawer variant class.</summary>
+            public const string MDCDrawerDismissible = "mdc-drawer--dismissible";
+
+            /// <summary>If present, indicates that the dismissible drawer is in the open position.</summary>
+            public const string MDCDrawerOpen = "mdc-drawer--open";
+
+            /// <summary>
+            /// Mandatory for dismissible variant only. Sibling element that is resized when the drawer opens/closes.
+            /// </summary>
+            public const string MDCDrawerAppContent = "mdc-drawer-app-content";
+        }
     }
 }
