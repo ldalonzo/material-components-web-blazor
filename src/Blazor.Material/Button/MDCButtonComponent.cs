@@ -9,7 +9,7 @@ namespace Blazor.Material.Button
     /// <see href="https://material.io/develop/web/components/buttons/"/>
     public class MDCButtonComponent : BlazorMaterialComponent
     {
-        private const string MDCRippleComponentAttachTo = "MDCRippleComponent.attachTo";
+        private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
 
         [Parameter]
         protected EventCallback<UIMouseEventArgs> OnClick { get; set; }
@@ -32,7 +32,7 @@ namespace Blazor.Material.Button
             if (_isFirstRender)
             {
                 _isFirstRender = false;
-                await JSRuntime.InvokeAsync<bool>(MDCRippleComponentAttachTo, _MDCButton);
+                await JSRuntime.InvokeAsync<bool>(MDCRippleComponent_AttachTo, _MDCButton);
             }
         }
     }

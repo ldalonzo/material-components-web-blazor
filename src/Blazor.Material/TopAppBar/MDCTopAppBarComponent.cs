@@ -11,9 +11,9 @@ namespace Blazor.Material.TopAppBar
     /// <seealso href="https://material.io/develop/web/components/top-app-bar/"/>
     public class MDCTopAppBarComponent : BlazorMaterialComponent
     {
-        private const string AttachTo = "MDCTopAppBarComponent.attachTo";
-        private const string ListenToNav = "MDCTopAppBarComponent.listenToNav";
-        private const string MDCTopAppBarComponentSetScrollTarget = "MDCTopAppBarComponent.SetScrollTarget";
+        private const string MDCTopAppBarComponent_AttachTo = "MDCTopAppBarComponent.attachTo";
+        private const string MDCTopAppBarComponent_ListenToNav = "MDCTopAppBarComponent.listenToNav";
+        private const string MDCTopAppBarComponent_SetScrollTarget = "MDCTopAppBarComponent.SetScrollTarget";
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
@@ -35,8 +35,8 @@ namespace Blazor.Material.TopAppBar
             {
                 _isFirstRender = false;
 
-                await JSRuntime.InvokeAsync<bool>(AttachTo, _MDCTopAppBar);
-                await JSRuntime.InvokeAsync<bool>(ListenToNav, new DotNetObjectRef(this));
+                await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_AttachTo, _MDCTopAppBar);
+                await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_ListenToNav, new DotNetObjectRef(this));
             }
         }
 
@@ -44,7 +44,7 @@ namespace Blazor.Material.TopAppBar
         /// Sets scroll target to different DOM node (default is window).
         /// </summary>
         public Task SetScrollTarget(ElementRef target) =>
-            JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponentSetScrollTarget, _MDCTopAppBar, target);
+            JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_SetScrollTarget, _MDCTopAppBar, target);
 
         /// <summary>
         /// Emits when the navigation icon is clicked.
