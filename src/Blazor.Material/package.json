@@ -13,12 +13,12 @@
     "name": "Leonardo D'Alonzo"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@material/button": "^2.1.1",
-    "@material/drawer": "^2.1.1",
-    "@material/ripple": "^2.1.1",
-    "@material/top-app-bar": "^2.1.1",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@material/button": "^2.3.0",
+    "@material/drawer": "^2.3.0",
+    "@material/ripple": "^2.3.0",
+    "@material/top-app-bar": "^2.3.0",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-object-assign": "^6.22.0",
