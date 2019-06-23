@@ -39,7 +39,7 @@ namespace Blazor.Material.TopAppBar
                 _isFirstRender = false;
 
                 await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_AttachTo, _MDCTopAppBar);
-                await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_ListenToNav, new DotNetObjectRef(this));
+                await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_ListenToNav, DotNetObjectRef.Create(this));
             }
         }
 
