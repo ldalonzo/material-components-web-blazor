@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,15 +14,18 @@ namespace Blazor.Material.Drawer
         private const string MDCDrawerComponent_AttachTo = "MDCDrawerComponent.attachTo";
         private const string MDCDrawerComponent_ToggleOpen = "MDCDrawerComponent.toggleOpen";
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected string ClassString { get; private set; }
 
-        protected ElementRef _MDCDrawer;
-        private bool _isFirstRender = true;
+        protected ElementReference _MDCDrawer;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
+            base.OnInitialized();
+
             var sb = new StringBuilder(CSSClasses.MDCDrawer)
                 .Append($" {CSSClasses.MDCDrawerDismissible}")
                 .Append($" {CSSClasses.MDCDrawerOpen}");
@@ -34,16 +38,15 @@ namespace Blazor.Material.Drawer
             ClassString = sb.ToString();
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (_isFirstRender)
+            if (firstRender)
             {
-                _isFirstRender = false;
                 await JSRuntime.InvokeAsync<bool>(MDCDrawerComponent_AttachTo, _MDCDrawer);
             }
         }
 
-        public Task ToggleOpen() => JSRuntime.InvokeAsync<bool>(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
+        public async Task ToggleOpen() => await JSRuntime.InvokeAsync<bool>(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
 
         internal static class CSSClasses
         {

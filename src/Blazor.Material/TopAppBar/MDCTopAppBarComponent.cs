@@ -16,38 +16,39 @@ namespace Blazor.Material.TopAppBar
         private const string MDCTopAppBarComponent_ListenToNav = "MDCTopAppBarComponent.listenToNav";
         private const string MDCTopAppBarComponent_SetScrollTarget = "MDCTopAppBarComponent.SetScrollTarget";
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] protected Func<Task> OnNav { get; set; }
+        [Parameter] public Func<Task> OnNav { get; set; }
+
+        [Inject] private IJSRuntime JSRuntime { get; set; }
 
         protected string ClassString { get; set; }
 
-        protected ElementRef _MDCTopAppBar;
-        private bool _isFirstRender = true;
+        protected ElementReference _MDCTopAppBar;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
+            base.OnInitialized();
+
             var sb = new StringBuilder(CSSClasses.MDCTopAppBar);
 
             ClassString = sb.ToString();
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (_isFirstRender)
+            if (firstRender)
             {
-                _isFirstRender = false;
-
                 await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_AttachTo, _MDCTopAppBar);
-                await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_ListenToNav, DotNetObjectRef.Create(this));
+                await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_ListenToNav, DotNetObjectReference.Create(this));
             }
         }
 
         /// <summary>
         /// Sets scroll target to different DOM node (default is window).
         /// </summary>
-        public Task SetScrollTarget(ElementRef target) =>
-            JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_SetScrollTarget, _MDCTopAppBar, target);
+        public async Task SetScrollTarget(ElementReference target) =>
+            await JSRuntime.InvokeAsync<bool>(MDCTopAppBarComponent_SetScrollTarget, _MDCTopAppBar, target);
 
         /// <summary>
         /// Emits when the navigation icon is clicked.

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
 namespace Blazor.Material.Button
@@ -12,26 +14,28 @@ namespace Blazor.Material.Button
         private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
 
         [Parameter]
-        protected EventCallback<UIMouseEventArgs> OnClick { get; set; }
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         [Parameter]
-        protected RenderFragment ChildContent { get; set; }
+        public RenderFragment ChildContent { get; set; }
+
+        [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected string ClassString { get; private set; }
 
-        protected ElementRef _MDCButton;
-        private bool _isFirstRender = true;
+        protected ElementReference _MDCButton;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
+            base.OnInitialized();
+
             ClassString = "mdc-button";
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (_isFirstRender)
+            if (firstRender)
             {
-                _isFirstRender = false;
                 await JSRuntime.InvokeAsync<bool>(MDCRippleComponent_AttachTo, _MDCButton);
             }
         }
