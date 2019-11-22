@@ -1,10 +1,9 @@
-﻿using Blazor.Material.Components;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazor.Material.Drawer
+namespace Blazor.Material.Components.Drawer
 {
     /// <summary>
     /// The MDC Navigation Drawer is used to organize access to destinations and other functionality on an app.
@@ -19,7 +18,7 @@ namespace Blazor.Material.Drawer
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        protected string ClassString { get; private set; }
+        public string ClassString { get; private set; }
 
         protected ElementReference _MDCDrawer;
 
@@ -43,13 +42,14 @@ namespace Blazor.Material.Drawer
         {
             if (firstRender)
             {
-                await JSRuntime.InvokeAsync<bool>(MDCDrawerComponent_AttachTo, _MDCDrawer);
+                await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_AttachTo, _MDCDrawer);
             }
         }
 
-        public async Task ToggleOpen() => await JSRuntime.InvokeAsync<bool>(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
+        public async Task ToggleOpen()
+            => await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
 
-        internal static class CSSClasses
+        public static class CSSClasses
         {
             public const string MDCDrawer = "mdc-drawer";
 

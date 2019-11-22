@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Test.Blazor.Material.Components
 {
-    public class UnitTest1
+    public class MDCButtonUnitTest
     {
         TestHost host = new TestHost();
 
