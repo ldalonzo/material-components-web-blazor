@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Material.Components"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LD.AspNetCore.Components.Testing", "test\LD.AspNetCore.Components.Testing\LD.AspNetCore.Components.Testing.csproj", "{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4477073-11D1-4ED5-9173-B034335D9774}"
+	ProjectSection(SolutionItems) = preProject
+		.azure\pipelines\ci.yaml = .azure\pipelines\ci.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
