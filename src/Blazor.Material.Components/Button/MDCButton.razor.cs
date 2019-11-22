@@ -1,10 +1,9 @@
-﻿using Blazor.Material.Components;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
-namespace Blazor.Material.Button
+namespace Blazor.Material.Components.Button
 {
     /// <summary>
     /// Buttons allow users to take actions, and make choices, with a single tap.
@@ -20,7 +19,7 @@ namespace Blazor.Material.Button
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        protected string ClassString { get; private set; }
+        public string ClassString { get; private set; }
 
         protected ElementReference _MDCButton;
 

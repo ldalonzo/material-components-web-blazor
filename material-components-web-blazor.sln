@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Blazor.Material.Compon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Material.Components", "src\Blazor.Material.Components\Blazor.Material.Components.csproj", "{1A228333-507E-477A-BA21-134E345DE8DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LD.AspNetCore.Components.Testing", "test\LD.AspNetCore.Components.Testing\LD.AspNetCore.Components.Testing.csproj", "{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{1A228333-507E-477A-BA21-134E345DE8DB}.Release|x64.Build.0 = Release|Any CPU
 		{1A228333-507E-477A-BA21-134E345DE8DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A228333-507E-477A-BA21-134E345DE8DB}.Release|x86.Build.0 = Release|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x64.Build.0 = Release|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
