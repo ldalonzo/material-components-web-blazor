@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazor.Material.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
@@ -9,15 +10,13 @@ namespace Blazor.Material.Button
     /// Buttons allow users to take actions, and make choices, with a single tap.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/buttons/"/>
-    public class MDCButtonComponent : BlazorMaterialComponent
+    public class MDCButtonComponent : MaterialComponent
     {
         private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
 
-        [Parameter]
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 

@@ -1,9 +1,10 @@
+using Blazor.Material.Components;
 using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Blazor.Material.Drawer
 {
-    public class MDCDrawerAppContentComponent : BlazorMaterialComponent
+    public class MDCDrawerAppContentComponent : MaterialComponent
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 

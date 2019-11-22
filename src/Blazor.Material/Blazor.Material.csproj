@@ -18,4 +18,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Blazor.Material.Components\Blazor.Material.Components.csproj" />
+  </ItemGroup>
+
 </Project>

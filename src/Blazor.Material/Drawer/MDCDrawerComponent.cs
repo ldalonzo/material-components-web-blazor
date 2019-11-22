@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazor.Material.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Blazor.Material.Drawer
     /// The MDC Navigation Drawer is used to organize access to destinations and other functionality on an app.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/drawers/"/>
-    public class MDCDrawerComponent : BlazorMaterialComponent
+    public class MDCDrawerComponent : MaterialComponent
     {
         private const string MDCDrawerComponent_AttachTo = "MDCDrawerComponent.attachTo";
         private const string MDCDrawerComponent_ToggleOpen = "MDCDrawerComponent.toggleOpen";

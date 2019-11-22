@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Material
+namespace Blazor.Material.Components
 {
-    public class BlazorMaterialComponent : ComponentBase
+    public class MaterialComponent : ComponentBase
     {
         [Parameter] public string Class { get; set; }
     }

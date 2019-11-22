@@ -1,3 +1,4 @@
+using Blazor.Material.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -10,7 +11,7 @@ namespace Blazor.Material.TopAppBar
     /// MDC Top App Bar acts as a container for items such as application title, navigation icon, and action items.
     /// </summary>
     /// <seealso href="https://material.io/develop/web/components/top-app-bar/"/>
-    public class MDCTopAppBarComponent : BlazorMaterialComponent
+    public class MDCTopAppBarComponent : MaterialComponent
     {
         private const string MDCTopAppBarComponent_AttachTo = "MDCTopAppBarComponent.attachTo";
         private const string MDCTopAppBarComponent_ListenToNav = "MDCTopAppBarComponent.listenToNav";
