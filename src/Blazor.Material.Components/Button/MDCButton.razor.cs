@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Blazor.Material.Components.Button
@@ -13,6 +14,8 @@ namespace Blazor.Material.Components.Button
     {
         private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
 
+        [Parameter] public MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
+
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -23,11 +26,25 @@ namespace Blazor.Material.Components.Button
 
         protected ElementReference _MDCButton;
 
-        protected override void OnInitialized()
+        protected override void OnParametersSet()
         {
-            base.OnInitialized();
+            base.OnParametersSet();
 
-            ClassString = "mdc-button";
+            ClassString = BuildClassString();
+        }
+
+        private string BuildClassString()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("mdc-button");
+
+            if (Variant == MDCButtonStyle.Outlined)
+            {
+                sb.Append(" mdc-button--outlined");
+            }
+
+            return sb.ToString();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -1,7 +1,23 @@
 ﻿@page "/component/button"
 
-<MDCButton>@ButtonText</MDCButton>
+<MDCButton Variant="@Variant">@ButtonText</MDCButton>
+
+<article>
+    <header>
+        <h1>Text Button</h1>
+    </header>
+    <MDCButton>Default</MDCButton>
+</article>
+
+<article>
+    <header></header>
+    <header>
+        <h1>Outlined Button</h1>
+    </header>
+    <MDCButton Variant="@MDCButtonStyle.Outlined">Default</MDCButton>
+</article>
 
 @code {
     [Parameter] public string ButtonText { get; set; } = "Learn More";
+    [Parameter] public MDCButtonStyle Variant { get; set; }
 }

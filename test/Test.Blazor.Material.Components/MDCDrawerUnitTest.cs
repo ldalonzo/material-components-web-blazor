@@ -11,11 +11,17 @@ namespace Test.Blazor.Material.Components
         TestHost host = new TestHost();
 
         [Fact]
-        public void Test1()
+        public void TestCreation()
+        {
+            var component = host.AddComponent<MDCDrawer>();
+            component.Item.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public void TestCssClasses()
         {
             var component = host.AddComponent<MDCDrawer>();
 
-            component.Item.ShouldNotBeNull();
             component.Item.ClassString.ShouldNotBeNull();
             component.Item.ClassString.Split().Where(r => r == "mdc-drawer").ShouldHaveSingleItem();
         }
