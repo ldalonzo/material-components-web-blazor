@@ -11,12 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Blazor.Material.Compon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Material.Components", "src\Blazor.Material.Components\Blazor.Material.Components.csproj", "{1A228333-507E-477A-BA21-134E345DE8DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LD.AspNetCore.Components.Testing", "test\LD.AspNetCore.Components.Testing\LD.AspNetCore.Components.Testing.csproj", "{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4477073-11D1-4ED5-9173-B034335D9774}"
 	ProjectSection(SolutionItems) = preProject
 		.azure\pipelines\ci.yaml = .azure\pipelines\ci.yaml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{05077BE2-3B28-4345-A7D0-B9A8B2B458FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Components.Testing", "test\Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj", "{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,21 +78,25 @@ Global
 		{1A228333-507E-477A-BA21-134E345DE8DB}.Release|x64.Build.0 = Release|Any CPU
 		{1A228333-507E-477A-BA21-134E345DE8DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A228333-507E-477A-BA21-134E345DE8DB}.Release|x86.Build.0 = Release|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x64.Build.0 = Debug|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Debug|x86.Build.0 = Debug|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x64.ActiveCfg = Release|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x64.Build.0 = Release|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x86.ActiveCfg = Release|Any CPU
-		{AA2A4527-8BB2-4094-B59F-0C15202EF9EC}.Release|x86.Build.0 = Release|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Debug|x64.Build.0 = Debug|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Debug|x86.Build.0 = Debug|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Release|x64.ActiveCfg = Release|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Release|x64.Build.0 = Release|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Release|x86.ActiveCfg = Release|Any CPU
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BEB06458-CA0E-4E07-91E8-3C6881AFC750} = {05077BE2-3B28-4345-A7D0-B9A8B2B458FE}
+		{D60FF9A0-EA07-4E61-A5AE-4FAE2D944415} = {05077BE2-3B28-4345-A7D0-B9A8B2B458FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4844E325-ED6C-4D2D-80D6-FD90821AB0D1}

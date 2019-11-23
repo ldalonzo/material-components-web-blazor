@@ -1,5 +1,7 @@
 ﻿using Blazor.Material.Components.Drawer;
-using LD.AspNetCore.Components.Testing;
+using Microsoft.AspNetCore.Components.Testing;
+using Microsoft.JSInterop;
+using Moq;
 using Shouldly;
 using System.Linq;
 using Xunit;
@@ -8,22 +10,24 @@ namespace Test.Blazor.Material.Components
 {
     public class MDCDrawerUnitTest
     {
-        TestHost host = new TestHost();
+        private readonly TestHost host = new TestHost();
 
         [Fact]
         public void TestCreation()
         {
+            host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCDrawer>();
-            component.Item.ShouldNotBeNull();
+            component.Instance.ShouldNotBeNull();
         }
 
         [Fact]
         public void TestCssClasses()
         {
+            host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCDrawer>();
 
-            component.Item.ClassString.ShouldNotBeNull();
-            component.Item.ClassString.Split().Where(r => r == "mdc-drawer").ShouldHaveSingleItem();
+            component.Instance.ClassString.ShouldNotBeNull();
+            component.Instance.ClassString.Split().Where(r => r == "mdc-drawer").ShouldHaveSingleItem();
         }
     }
 }
