@@ -22,7 +22,7 @@ namespace Blazor.Material.Components.Button
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        public string ClassString { get; private set; }
+        protected string ClassString { get; private set; }
 
         protected ElementReference _MDCButton;
 
@@ -51,7 +51,7 @@ namespace Blazor.Material.Components.Button
         {
             if (firstRender)
             {
-                await JSRuntime.InvokeAsync<bool>(MDCRippleComponent_AttachTo, _MDCButton);
+                await JSRuntime.InvokeVoidAsync(MDCRippleComponent_AttachTo, _MDCButton);
             }
         }
     }

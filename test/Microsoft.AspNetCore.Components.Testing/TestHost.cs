@@ -50,12 +50,12 @@ namespace Microsoft.AspNetCore.Components.Testing
             }
         }
 
-        public RenderedComponent<TComponent> AddComponent<TComponent>(params KeyValuePair<string, object>[] parameters) where TComponent: IComponent
+        public RenderedComponent<TComponent> AddComponent<TComponent>(params (string, object)[] parameters) where TComponent: IComponent
         {
             var result = new RenderedComponent<TComponent>(Renderer);
 
             result.SetParametersAndRender(parameters.Any()
-                ? ParameterView.FromDictionary(parameters.ToDictionary(kv => kv.Key, kv => kv.Value))
+                ? ParameterView.FromDictionary(parameters.ToDictionary(kv => kv.Item1, kv => kv.Item2))
                 : ParameterView.Empty);
 
             return result;

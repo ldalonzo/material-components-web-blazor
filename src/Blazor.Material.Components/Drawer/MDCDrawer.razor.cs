@@ -18,7 +18,7 @@ namespace Blazor.Material.Components.Drawer
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        public string ClassString { get; private set; }
+        protected string ClassString { get; private set; }
 
         protected ElementReference _MDCDrawer;
 

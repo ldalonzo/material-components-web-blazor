@@ -27,8 +27,8 @@ namespace Microsoft.AspNetCore.Components.Testing
 
         internal void SetParametersAndRender(ParameterView parameters)
         {
-            _containerTestRootComponent.RenderComponentUnderTest(
-                typeof(TComponent), parameters);
+            _containerTestRootComponent.RenderComponentUnderTest(typeof(TComponent), parameters);
+
             var foundTestComponent = _containerTestRootComponent.FindComponentUnderTest();
             _testComponentId = foundTestComponent.Item1;
             _testComponentInstance = (TComponent)foundTestComponent.Item2;

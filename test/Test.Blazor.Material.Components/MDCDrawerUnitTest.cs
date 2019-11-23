@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
-using System.Linq;
 using Xunit;
 
 namespace Test.Blazor.Material.Components
@@ -26,8 +25,8 @@ namespace Test.Blazor.Material.Components
             host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCDrawer>();
 
-            component.Instance.ClassString.ShouldNotBeNull();
-            component.Instance.ClassString.Split().Where(r => r == "mdc-drawer").ShouldHaveSingleItem();
+            var markup = component.GetMarkup();
+            markup.ShouldContain("mdc-drawer");
         }
     }
 }

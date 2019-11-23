@@ -1,8 +1,7 @@
 @using Microsoft.AspNetCore.Components.Web
 
 @inherits MDCButtonComponent
-<button class=@ClassString
-        @ref="_MDCButton"
-        @onclick=OnClick>
-    @ChildContent
+<button class="@ClassString" @ref="_MDCButton" @onclick=OnClick>
+    <div class="mdc-button__ripple"></div>
+    <span class="mdc-button__label">@ChildContent</span>
 </button>

@@ -1,10 +1,10 @@
+using AutoFixture.Xunit2;
 using Blazor.Material.Components.Button;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Test.Blazor.Material.Components
@@ -21,29 +21,36 @@ namespace Test.Blazor.Material.Components
             component.Instance.ShouldNotBeNull();
         }
 
+        [Theory]
+        [AutoData]
+        public void TestButtonLabel(string label)
+        {
+            host.AddService(new Mock<IJSRuntime>().Object);
+            var component = host.AddComponent<MDCButton>(("ChildContent", (RenderFragment)(b => b.AddContent(0, label))));
+
+            var markup = component.GetMarkup();
+            markup.ShouldContain(label);
+        }
+
         [Fact]
         public void TestCssClasses()
         {
             host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCButton>();
 
-            component.Instance.ClassString.ShouldNotBeNull();
-            component.Instance.ClassString.Split().Where(r => r == "mdc-button").ShouldHaveSingleItem();
+            var markup = component.GetMarkup();
+            markup.ShouldContain("mdc-button");
         }
 
         [Fact]
         public void TestCssClasses_VariantOutlined()
         {
-            var parameters = new Dictionary<string, object>() {
-                {nameof(MDCButton.Variant), MDCButtonStyle.Outlined }
-            };
-
             host.AddService(new Mock<IJSRuntime>().Object);
-            var component = host.AddComponent<MDCButton>(parameters.Select(r=>r).ToArray());
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.Variant), MDCButtonStyle.Outlined));
 
-            component.Instance.ClassString.ShouldNotBeNull();
-            component.Instance.ClassString.Split().Where(r => r == "mdc-button").ShouldHaveSingleItem();
-            component.Instance.ClassString.Split().Where(r => r == "mdc-button--outlined").ShouldHaveSingleItem();
+            var markup = component.GetMarkup();
+            markup.ShouldContain("mdc-button");
+            markup.ShouldContain("mdc-button--outlined");
         }
     }
 }
