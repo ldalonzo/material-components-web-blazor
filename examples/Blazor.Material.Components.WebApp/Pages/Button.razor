@@ -1,21 +1,31 @@
 ﻿@page "/component/button"
 
-<MDCButton Variant="@Variant">@ButtonText</MDCButton>
-
-<article>
-    <header>
-        <h1>Text Button</h1>
-    </header>
-    <MDCButton>Default</MDCButton>
-</article>
-
-<article>
-    <header></header>
-    <header>
-        <h1>Outlined Button</h1>
-    </header>
-    <MDCButton Variant="@MDCButtonStyle.Outlined">Default</MDCButton>
-</article>
+<section class="component-catalog-panel">
+    <div class="component-catalog-panel__hero-area">
+        <div class="component-catalog-panel__header">
+            <h1 class="component-catalog-panel__header-elements mdc-typography--headline3">
+                Button
+            </h1>
+            <div class="hero-component">
+                <MDCButton Variant="@Variant">@ButtonText</MDCButton>
+            </div>
+        </div>
+    </div>
+    <h2 class="demo-title">Resources</h2>
+    <ul class="component-catalog-resources">
+    </ul>
+    <h2 class="demo-title">Demos</h2>
+    <div>
+        <div>
+            <h3 class="mdc-typography--subtitle1">Text Button</h3>
+            <MDCButton>Default</MDCButton>
+        </div>
+        <div>
+            <h3 class="mdc-typography--subtitle1">Outlined Button</h3>
+            <MDCButton Variant="@MDCButtonStyle.Outlined">Default</MDCButton>
+        </div>
+    </div>
+</section>
 
 @code {
     [Parameter] public string ButtonText { get; set; } = "Learn More";
