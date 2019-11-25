@@ -11,21 +11,25 @@ namespace Test.Blazor.Material.Components
 {
     public class MDCButtonUnitTest
     {
-        private readonly TestHost host = new TestHost();
+        public MDCButtonUnitTest()
+        {
+            host = new TestHost();
+            host.AddService(new Mock<IJSRuntime>().Object);
+        }
+
+        private readonly TestHost host;
 
         [Fact]
-        public void TestCreation()
+        public void Lifecyle_Creation()
         {
-            host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCButton>();
             component.Instance.ShouldNotBeNull();
         }
 
         [Theory]
         [AutoData]
-        public void TestButtonLabel(string label)
+        public void Label(string label)
         {
-            host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCButton>(("ChildContent", (RenderFragment)(b => b.AddContent(0, label))));
 
             var markup = component.GetMarkup();
@@ -33,9 +37,8 @@ namespace Test.Blazor.Material.Components
         }
 
         [Fact]
-        public void TestCssClasses()
+        public void Css()
         {
-            host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCButton>();
 
             var markup = component.GetMarkup();
@@ -43,14 +46,33 @@ namespace Test.Blazor.Material.Components
         }
 
         [Fact]
-        public void TestCssClasses_VariantOutlined()
+        public void Css_Variants_Outlined()
         {
-            host.AddService(new Mock<IJSRuntime>().Object);
             var component = host.AddComponent<MDCButton>((nameof(MDCButton.Variant), MDCButtonStyle.Outlined));
 
             var markup = component.GetMarkup();
             markup.ShouldContain("mdc-button");
             markup.ShouldContain("mdc-button--outlined");
+        }
+
+        [Fact]
+        public void Css_Variants_Icons_Leading_NotPresent()
+        {
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingMaterialIconName), string.Empty));
+
+            var markup = component.GetMarkup();
+            markup.ShouldNotContain("material-icons mdc-button__icon");
+        }
+
+        [Theory]
+        [AutoData]
+        public void Css_Variants_Icons_Leading(string iconName)
+        {
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingMaterialIconName), iconName));
+
+            var markup = component.GetMarkup();
+            markup.ShouldContain("material-icons mdc-button__icon");
+            markup.ShouldContain(iconName);
         }
     }
 }

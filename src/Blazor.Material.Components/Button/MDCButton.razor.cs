@@ -18,6 +18,8 @@ namespace Blazor.Material.Components.Button
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
+        [Parameter] public string LeadingMaterialIconName { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
