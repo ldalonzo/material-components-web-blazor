@@ -45,14 +45,17 @@ namespace Test.Blazor.Material.Components
             markup.ShouldContain("mdc-button");
         }
 
-        [Fact]
-        public void Css_Variants_Outlined()
+        [Theory]
+        [InlineData(MDCButtonStyle.Outlined, "mdc-button--outlined")]
+        [InlineData(MDCButtonStyle.Raised, "mdc-button--raised")]
+        [InlineData(MDCButtonStyle.Unelevated, "mdc-button--unelevated")]
+        public void Css_Variants_ButtonStyle(MDCButtonStyle style, string expectedCssClass)
         {
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.Variant), MDCButtonStyle.Outlined));
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.Variant), style));
 
             var markup = component.GetMarkup();
             markup.ShouldContain("mdc-button");
-            markup.ShouldContain("mdc-button--outlined");
+            markup.ShouldContain(expectedCssClass);
         }
 
         [Fact]

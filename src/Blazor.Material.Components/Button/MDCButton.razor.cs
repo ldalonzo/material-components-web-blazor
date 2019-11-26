@@ -41,9 +41,19 @@ namespace Blazor.Material.Components.Button
 
             sb.Append("mdc-button");
 
-            if (Variant == MDCButtonStyle.Outlined)
+            switch (Variant)
             {
-                sb.Append(" mdc-button--outlined");
+                case MDCButtonStyle.Outlined:
+                    sb.Append(" mdc-button--outlined");
+                    break;
+
+                case MDCButtonStyle.Raised:
+                    sb.Append(" mdc-button--raised");
+                    break;
+
+                case MDCButtonStyle.Unelevated:
+                    sb.Append(" mdc-button--unelevated");
+                    break;
             }
 
             return sb.ToString();
