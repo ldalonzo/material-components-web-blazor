@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Drawer
@@ -18,24 +17,11 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        protected string ClassString { get; private set; }
-
         protected ElementReference _MDCDrawer;
 
-        protected override void OnInitialized()
+        protected override string BuildClassString()
         {
-            base.OnInitialized();
-
-            var sb = new StringBuilder(CSSClasses.MDCDrawer)
-                .Append($" {CSSClasses.MDCDrawerDismissible}")
-                .Append($" {CSSClasses.MDCDrawerOpen}");
-
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            ClassString = sb.ToString();
+            return "mdc-drawer";
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

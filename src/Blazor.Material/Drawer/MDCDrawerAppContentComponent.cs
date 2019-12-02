@@ -9,7 +9,10 @@ namespace Blazor.Material.Drawer
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        protected string ClassString { get; private set; }
+        protected override string BuildClassString()
+        {
+            throw new System.NotImplementedException();
+        }
 
         protected override void OnInitialized()
         {
@@ -21,8 +24,6 @@ namespace Blazor.Material.Drawer
             {
                 sb.Append($" {Class}");
             }
-
-            ClassString = sb.ToString();
         }
     }
 }

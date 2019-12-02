@@ -24,18 +24,9 @@ namespace Leonardo.AspNetCore.Components.Material.Button
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        protected string ClassString { get; private set; }
-
         protected ElementReference _MDCButton;
 
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-
-            ClassString = BuildClassString();
-        }
-
-        private string BuildClassString()
+        protected override string BuildClassString()
         {
             var sb = new StringBuilder();
 

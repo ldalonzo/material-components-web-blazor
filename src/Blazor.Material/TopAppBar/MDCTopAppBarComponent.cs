@@ -23,18 +23,7 @@ namespace Blazor.Material.TopAppBar
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        protected string ClassString { get; set; }
-
         protected ElementReference _MDCTopAppBar;
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-
-            var sb = new StringBuilder(CSSClasses.MDCTopAppBar);
-
-            ClassString = sb.ToString();
-        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -56,6 +45,11 @@ namespace Blazor.Material.TopAppBar
         /// </summary>
         [JSInvokable]
         public Task OnMDCTopAppBarNav() => OnNav != null ? OnNav() : Task.CompletedTask;
+
+        protected override string BuildClassString()
+        {
+            throw new NotImplementedException();
+        }
 
         public static class CSSClasses
         {
