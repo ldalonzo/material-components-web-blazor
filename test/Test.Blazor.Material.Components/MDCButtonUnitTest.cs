@@ -1,5 +1,5 @@
 using AutoFixture.Xunit2;
-using Blazor.Material.Components.Button;
+using Leonardo.AspNetCore.Components.Material.Button;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;

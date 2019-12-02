@@ -1,4 +1,4 @@
-﻿namespace Blazor.Material.Components.Button
+﻿namespace Leonardo.AspNetCore.Components.Material.Button
 {
     public enum MDCButtonStyle
     {

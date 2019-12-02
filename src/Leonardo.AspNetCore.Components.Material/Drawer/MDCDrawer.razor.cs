@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazor.Material.Components.Drawer
+namespace Leonardo.AspNetCore.Components.Material.Drawer
 {
     /// <summary>
     /// The MDC Navigation Drawer is used to organize access to destinations and other functionality on an app.

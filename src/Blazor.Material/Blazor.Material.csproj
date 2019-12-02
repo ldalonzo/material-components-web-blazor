@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Material.Components\Blazor.Material.Components.csproj" />
+    <ProjectReference Include="..\Leonardo.AspNetCore.Components.Material\Leonardo.AspNetCore.Components.Material.csproj" />
   </ItemGroup>
 
 </Project>

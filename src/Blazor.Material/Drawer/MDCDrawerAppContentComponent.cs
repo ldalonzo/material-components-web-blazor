@@ -1,5 +1,5 @@
-using Blazor.Material.Components;
-using Blazor.Material.Components.Drawer;
+using Leonardo.AspNetCore.Components.Material;
+using Leonardo.AspNetCore.Components.Material.Drawer;
 using Microsoft.AspNetCore.Components;
 using System.Text;
 

@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazor.Material.Components.Button
+namespace Leonardo.AspNetCore.Components.Material.Button
 {
     /// <summary>
     /// Buttons allow users to take actions, and make choices, with a single tap.

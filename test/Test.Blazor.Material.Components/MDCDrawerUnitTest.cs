@@ -1,4 +1,4 @@
-﻿using Blazor.Material.Components.Drawer;
+﻿using Leonardo.AspNetCore.Components.Material.Drawer;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
 using Moq;

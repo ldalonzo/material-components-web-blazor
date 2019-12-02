@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Material.Components
+namespace Leonardo.AspNetCore.Components.Material
 {
     public class MaterialComponent : ComponentBase
     {
