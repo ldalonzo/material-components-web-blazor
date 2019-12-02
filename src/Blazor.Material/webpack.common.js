@@ -11,8 +11,8 @@ module.exports = {
     new CleanWebpackPlugin()
   ],
   output: {
-    filename: 'blazor-material.js',
-    path: path.resolve(__dirname, 'content')
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, '../Leonardo.AspNetCore.Components.Material/wwwroot')
   },
   node: {
     fs: 'empty',
@@ -28,7 +28,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'blazor-material.css'
+              name: 'bundle.css'
             }
           },
           {
