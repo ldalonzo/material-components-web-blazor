@@ -5,4 +5,5 @@
 # Material Components for Blazor WebAssembly
 Blazor components that implement Google's Material Design.
 
-[Live Demo](https://blazor-material.azurewebsites.net/)
+- [Getting Started](docs/getting-started.md)
+- [Live Demos](https://blazor-material.azurewebsites.net/)

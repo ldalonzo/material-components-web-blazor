@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
+using System;
 
 namespace Blazor.Material.Components.WebApp
 {
@@ -6,6 +7,8 @@ namespace Blazor.Material.Components.WebApp
     {
         public static void Main(string[] args)
         {
+            var assemblyName = typeof(Program).Assembly.GetName();
+            Console.WriteLine($"Starting {assemblyName.Name} {assemblyName.Version}");
             CreateHostBuilder(args).Build().Run();
         }
 
