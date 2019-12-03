@@ -6,10 +6,12 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Leonardo D'Alonzo</Authors>
     <Company />
-    <PackageProjectUrl>https://github.com/ldalonzo/material-components-web-blazor</PackageProjectUrl>
+    <PackageProjectUrl>https://blazor-material.azurewebsites.net/</PackageProjectUrl>
     <PackageId>Leonardo.AspNetCore.Components.Material</PackageId>
     <Product>Material Components for Blazor WebAssembly</Product>
     <Version>0.0.1</Version>
+    <Description>Blazor components that implement Google's Material Design.</Description>
+    <RepositoryUrl>https://github.com/ldalonzo/material-components-web-blazor</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -19,8 +21,8 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
   </ItemGroup>
 
 </Project>
