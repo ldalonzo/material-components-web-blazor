@@ -61,7 +61,7 @@ namespace Test.Blazor.Material.Components
         [Fact]
         public void Css_Variants_Icons_Leading_NotPresent()
         {
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingMaterialIconName), string.Empty));
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingIcon), string.Empty));
 
             var markup = component.GetMarkup();
             markup.ShouldNotContain("material-icons mdc-button__icon");
@@ -71,7 +71,7 @@ namespace Test.Blazor.Material.Components
         [AutoData]
         public void Css_Variants_Icons_Leading(string iconName)
         {
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingMaterialIconName), iconName));
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingIcon), iconName));
 
             var markup = component.GetMarkup();
             markup.ShouldContain("material-icons mdc-button__icon");

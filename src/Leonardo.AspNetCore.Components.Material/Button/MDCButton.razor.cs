@@ -14,13 +14,13 @@ namespace Leonardo.AspNetCore.Components.Material.Button
     {
         private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
 
-        [Parameter] public MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        [Parameter] public string LeadingIcon { get; set; }
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        [Parameter] public string LeadingMaterialIconName { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
