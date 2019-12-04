@@ -1,28 +1,17 @@
-﻿using Leonardo.AspNetCore.Components.Material.Drawer;
-using Leonardo.AspNetCore.Components.Material.TextField;
-using Microsoft.AspNetCore.Components.Testing;
-using Microsoft.JSInterop;
-using Moq;
+﻿using Leonardo.AspNetCore.Components.Material.TextField;
 using Shouldly;
+using System.Linq;
 using Xunit;
 
 namespace Test.Blazor.Material.Components
 {
-    public class MDCTextFieldUnitTest
+    public class MDCTextFieldUnitTest : MaterialComponentUnitTest<MDCTextField>
     {
-        public MDCTextFieldUnitTest()
-        {
-            host = new TestHost();
-            host.AddService(new Mock<IJSRuntime>().Object);
-        }
-
-        private readonly TestHost host;
-
         [Fact]
-        public void TestCreation()
+        public void TestMandatoryCssClass()
         {
-            var component = host.AddComponent<MDCTextField>();
-            component.Instance.ShouldNotBeNull();
+            var component = AddComponent();
+            component.GetCssClassForElement("div").ShouldContain("mdc-text-field");
         }
     }
 }

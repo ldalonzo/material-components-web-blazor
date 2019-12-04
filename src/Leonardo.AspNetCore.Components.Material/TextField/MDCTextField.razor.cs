@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Leonardo.AspNetCore.Components.Material.TextField
 {
     /// <summary>
@@ -8,7 +10,16 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
     {
         protected override string BuildClassString()
         {
-            return "";
+            var sb = new StringBuilder();
+
+            sb.Append("mdc-text-field");
+
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
+            return sb.ToString();
         }
     }
 }

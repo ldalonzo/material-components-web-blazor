@@ -1,22 +1,20 @@
-﻿using Microsoft.AspNetCore.Components.RenderTree;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Components.Testing
 {
     public class TestHost
     {
-        private readonly ServiceCollection _serviceCollection = new ServiceCollection();
+        private readonly IServiceCollection _serviceCollection;
         private readonly Lazy<TestRenderer> _renderer;
 
-        public TestHost()
+        public TestHost(IServiceCollection serviceCollection = null)
         {
+            _serviceCollection = serviceCollection ?? new ServiceCollection();
+
             _renderer = new Lazy<TestRenderer>(() =>
             {
                 var serviceProvider = _serviceCollection.BuildServiceProvider();

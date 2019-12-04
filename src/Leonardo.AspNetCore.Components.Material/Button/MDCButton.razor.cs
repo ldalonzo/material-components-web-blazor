@@ -47,6 +47,11 @@ namespace Leonardo.AspNetCore.Components.Material.Button
                     break;
             }
 
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
             return sb.ToString();
         }
 

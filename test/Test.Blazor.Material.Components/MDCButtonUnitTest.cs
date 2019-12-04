@@ -3,6 +3,7 @@ using Leonardo.AspNetCore.Components.Material.Button;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
@@ -10,21 +11,18 @@ using Xunit;
 
 namespace Test.Blazor.Material.Components
 {
-    public class MDCButtonUnitTest
+    public class MDCButtonUnitTest : MaterialComponentUnitTest<MDCButton>
     {
         public MDCButtonUnitTest()
+            : base(new ServiceCollection().AddSingleton(new Mock<IJSRuntime>().Object))
         {
-            host = new TestHost();
-            host.AddService(new Mock<IJSRuntime>().Object);
         }
 
-        private readonly TestHost host;
-
         [Fact]
-        public void Lifecyle_Creation()
+        public void TestMandatoryCssClass()
         {
-            var component = host.AddComponent<MDCButton>();
-            component.Instance.ShouldNotBeNull();
+            var component = AddComponent();
+            component.GetCssClassForElement("button").ShouldContain("mdc-button");
         }
 
         [Theory]
@@ -35,15 +33,6 @@ namespace Test.Blazor.Material.Components
 
             var markup = component.GetMarkup();
             markup.ShouldContain(label);
-        }
-
-        [Fact]
-        public void Css()
-        {
-            var component = host.AddComponent<MDCButton>();
-
-            var markup = component.GetMarkup();
-            markup.ShouldContain("mdc-button");
         }
 
         [Theory]
