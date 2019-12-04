@@ -2,6 +2,7 @@ using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Button;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
@@ -76,6 +77,24 @@ namespace Test.Blazor.Material.Components
             var markup = component.GetMarkup();
             markup.ShouldContain("material-icons mdc-button__icon");
             markup.ShouldContain(iconName);
+        }
+
+        [Fact]
+        public void Click()
+        {
+            var counter = new Counter();
+            var component = host.AddComponent<MDCButton>((nameof(MDCButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, counter.Increment)));
+
+            component.Find("button").Click();
+
+            counter.Count.ShouldBe(1);
+        }
+
+        private class Counter
+        {
+            public int Count { get; private set; }
+
+            public void Increment() => Count++;
         }
     }
 }
