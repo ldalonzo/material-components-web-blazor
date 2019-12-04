@@ -18,7 +18,7 @@ namespace Blazor.Material.Drawer
         {
             base.OnInitialized();
 
-            var sb = new StringBuilder(MDCDrawerComponent.CSSClasses.MDCDrawerAppContent);
+            var sb = new StringBuilder(MDCDrawer.CSSClasses.MDCDrawerAppContent);
 
             if (!string.IsNullOrWhiteSpace(Class))
             {

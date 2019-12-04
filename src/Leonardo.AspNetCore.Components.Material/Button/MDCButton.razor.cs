@@ -10,7 +10,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
     /// Buttons allow users to take actions, and make choices, with a single tap.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/buttons/"/>
-    public class MDCButtonComponent : MaterialComponent
+    public partial class MDCButton : MaterialComponent
     {
         private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
 
