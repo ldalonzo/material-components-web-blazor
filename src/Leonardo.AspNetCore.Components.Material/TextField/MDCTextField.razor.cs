@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+using System;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.TextField
@@ -8,6 +10,10 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
     /// <seealso href="https://material.io/develop/web/components/input-controls/text-field/"/>
     public partial class MDCTextField : MaterialComponent
     {
+        [Parameter] public string Label { get; set; }
+
+        protected string Id { get; set; } = $"text-field-{Guid.NewGuid().ToString().Substring(0, 3).ToLower()}";
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();
