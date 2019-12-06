@@ -1,0 +1,47 @@
+﻿@page "/component/text-field"
+
+<section class="component-catalog-panel">
+    <div class="component-catalog-panel__hero-area">
+        <div class="component-catalog-panel__header">
+            <h1 class="component-catalog-panel__header-elements mdc-typography--headline3">
+                Text Field
+            </h1>
+            <div class="hero-component">
+                <MDCTextField Label="@Label" @bind-Value="@Value" />
+            </div>
+            <div class="hero-options component-catalog-panel__header-elements">
+                <ul>
+                    <li>
+                        <div>
+                            <p>@Value</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h2 class="demo-title">Demos</h2>
+    <div>
+        <div>
+            <h3 class="mdc-typography--subtitle1">Filled</h3>
+            <div>
+                <div>
+                    <MDCTextField Label="Standard" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 class="mdc-typography--subtitle1">Outlined</h3>
+            <div>
+                <div>
+                    <MDCTextField Label="Standard" Variant="MDCTextFieldStyle.Outlined" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private string Label { get; set; } = "Name";
+    private string Value { get; set; } = "";
+}
