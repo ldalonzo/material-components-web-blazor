@@ -1,12 +1,29 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.TextField;
+using Microsoft.JSInterop;
+using Moq;
 using Shouldly;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Test.Blazor.Material.Components
 {
     public class MDCTextFieldUnitTest : MaterialComponentUnitTest<MDCTextField>
     {
+        public MDCTextFieldUnitTest()
+        {
+            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
+
+            jsMock
+                .Setup(r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()))
+                .Returns(new ValueTask<object>())
+                .Verifiable();
+
+            host.AddService(jsMock.Object);
+        }
+
+        private readonly Mock<IJSRuntime> jsMock;
+
         [Fact]
         public void Style_MandatoryCssClass()
         {
@@ -58,6 +75,16 @@ namespace Test.Blazor.Material.Components
         {
             var textFied = AddComponent(("Value", value));
             textFied.Find("input").Attributes["value"].Value.ShouldBe(value);
+        }
+
+        [Fact]
+        public void JavaScriptInstantiation()
+        {
+            var textField = AddComponent();
+
+            jsMock.Verify(
+                r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()),
+                Times.Once);
         }
     }
 }
