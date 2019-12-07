@@ -16,6 +16,14 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
         [Parameter] public string Value { get; set; }
 
+        [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+        private Task OnValueChanged(ChangeEventArgs e)
+        {
+            Value = e.Value.ToString();
+            return ValueChanged.InvokeAsync(Value);
+        }
+
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference mdcTextFieldElement;

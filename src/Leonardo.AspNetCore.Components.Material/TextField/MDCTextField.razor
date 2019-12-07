@@ -1,6 +1,6 @@
 @inherits MaterialComponent
 <div class="@ClassString" @ref="mdcTextFieldElement">
-    <input type="text" id="@Id" class="mdc-text-field__input" value="@Value">
+    <input type="text" id="@Id" class="mdc-text-field__input" value="@Value" @oninput="OnValueChanged" />
     <label class="mdc-floating-label" for="@Id">@Label</label>
     <div class="mdc-line-ripple"></div>
 </div>

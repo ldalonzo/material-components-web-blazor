@@ -1,5 +1,7 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.TextField;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
@@ -73,8 +75,21 @@ namespace Test.Blazor.Material.Components
         [Theory, AutoData]
         public void Value_IsRendered(string value)
         {
-            var textFied = AddComponent(("Value", value));
-            textFied.Find("input").Attributes["value"].Value.ShouldBe(value);
+            var textField = AddComponent(("Value", value));
+            textField.Find("input").Attributes["value"].Value.ShouldBe(value);
+        }
+
+        [Theory, AutoData]
+        public async Task Value_DataBind(string value)
+        {
+            var spy = new ValueSpy();
+
+            var textField = AddComponent(("ValueChanged", EventCallback.Factory.Create<string>(this, spy.SetValue)));
+            textField.Find("input").Attributes["value"].ShouldBeNull();
+
+            await textField.Find("input").InputAsync(value);
+            textField.Find("input").Attributes["value"].Value.ShouldBe(value);
+            spy.Value.ShouldBe(value);
         }
 
         [Fact]
@@ -85,6 +100,13 @@ namespace Test.Blazor.Material.Components
             jsMock.Verify(
                 r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()),
                 Times.Once);
+        }
+
+        private class ValueSpy
+        {
+            public string Value { get; private set; }
+
+            public void SetValue(string value) => Value = value;
         }
     }
 }

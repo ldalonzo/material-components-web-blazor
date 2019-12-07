@@ -41,7 +41,7 @@ namespace Test.Blazor.Material.Components
         [InlineData(MDCButtonStyle.Unelevated, "mdc-button--unelevated")]
         public void Css_Variants_ButtonStyle(MDCButtonStyle style, string expectedCssClass)
         {
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.Variant), style));
+            var component = host.AddComponent<MDCButton>(("Variant", style));
 
             var markup = component.GetMarkup();
             markup.ShouldContain("mdc-button");
@@ -51,7 +51,7 @@ namespace Test.Blazor.Material.Components
         [Fact]
         public void Css_Variants_Icons_Leading_NotPresent()
         {
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingIcon), string.Empty));
+            var component = host.AddComponent<MDCButton>(("LeadingIcon", string.Empty));
 
             var markup = component.GetMarkup();
             markup.ShouldNotContain("material-icons mdc-button__icon");
@@ -61,7 +61,7 @@ namespace Test.Blazor.Material.Components
         [AutoData]
         public void Css_Variants_Icons_Leading(string iconName)
         {
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.LeadingIcon), iconName));
+            var component = host.AddComponent<MDCButton>(("LeadingIcon", iconName));
 
             var markup = component.GetMarkup();
             markup.ShouldContain("material-icons mdc-button__icon");
@@ -72,7 +72,7 @@ namespace Test.Blazor.Material.Components
         public void Click()
         {
             var counter = new Counter();
-            var component = host.AddComponent<MDCButton>((nameof(MDCButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, counter.Increment)));
+            var component = host.AddComponent<MDCButton>(("OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, counter.Increment)));
 
             component.Find("button").Click();
 
