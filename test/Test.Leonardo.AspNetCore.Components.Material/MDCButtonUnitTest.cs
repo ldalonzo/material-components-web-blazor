@@ -7,9 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
+using Test.Blazor.Material.Components;
 using Xunit;
 
-namespace Test.Blazor.Material.Components
+namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCButtonUnitTest : MaterialComponentUnitTest<MDCButton>
     {

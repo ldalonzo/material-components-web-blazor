@@ -6,9 +6,10 @@ using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
 using System.Threading.Tasks;
+using Test.Blazor.Material.Components;
 using Xunit;
 
-namespace Test.Blazor.Material.Components
+namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCTextFieldUnitTest : MaterialComponentUnitTest<MDCTextField>
     {

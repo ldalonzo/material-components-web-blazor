@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
 
-namespace Test.Blazor.Material.Components
+namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public abstract class MaterialComponentUnitTest<T>
         where T : MaterialComponent
