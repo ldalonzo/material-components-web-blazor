@@ -22,7 +22,7 @@ namespace Test.Blazor.Material.Components
         public void TestMandatoryCssClass()
         {
             var component = AddComponent();
-            component.GetCssClassForElement("button").ShouldContain("mdc-button");
+            component.GetCssClassesForElement("button").ShouldContain("mdc-button");
         }
 
         [Theory]

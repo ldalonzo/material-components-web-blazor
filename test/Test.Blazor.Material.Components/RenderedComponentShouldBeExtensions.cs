@@ -8,7 +8,7 @@ namespace Test.Blazor.Material.Components
 {
     public static class RenderedComponentShouldBeExtensions
     {
-        public static IEnumerable<string> GetCssClassForElement<T>(this RenderedComponent<T> target, string targetElement)
+        public static IEnumerable<string> GetCssClassesForElement<T>(this RenderedComponent<T> target, string targetElement)
             where T : MaterialComponent
         {
             var divElement = target.Find(targetElement);

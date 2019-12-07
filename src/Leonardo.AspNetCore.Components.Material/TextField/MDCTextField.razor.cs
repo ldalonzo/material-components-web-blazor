@@ -24,6 +24,8 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             return ValueChanged.InvokeAsync(Value);
         }
 
+        [Parameter] public MDCTextFieldStyle Variant { get; set; } = MDCTextFieldStyle.Filled;
+
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference mdcTextFieldElement;
@@ -35,6 +37,11 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             var sb = new StringBuilder();
 
             sb.Append("mdc-text-field");
+
+            if (Variant == MDCTextFieldStyle.Outlined)
+            {
+                sb.Append(" mdc-text-field--outlined");
+            }
 
             if (!string.IsNullOrWhiteSpace(Class))
             {
