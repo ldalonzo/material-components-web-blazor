@@ -8,14 +8,14 @@ namespace Test.Blazor.Material.Components
     public class MDCTextFieldUnitTest : MaterialComponentUnitTest<MDCTextField>
     {
         [Fact]
-        public void TestContainsMandatoryCssClass()
+        public void Style_MandatoryCssClass()
         {
             var textField = AddComponent();
             textField.GetCssClassForElement("div").ShouldContain("mdc-text-field");
         }
 
         [Theory, AutoData]
-        public void TestLabel(string label)
+        public void Label_IsRendered(string label)
         {
             var sut = AddComponent(("Label", label));
 
@@ -23,7 +23,7 @@ namespace Test.Blazor.Material.Components
         }
 
         [Fact]
-        public void TestLabel_HasForAttributeThatMatchesInputId()
+        public void Label_IsLinkedToInputElement()
         {
             var sut = AddComponent();
 
@@ -42,7 +42,7 @@ namespace Test.Blazor.Material.Components
         }
 
         [Fact]
-        public void Test2TextFieldsHaveDifferentIds()
+        public void Label_IsLinkedToInputElement_AndDoNotClashWithOtherInstances()
         {
             var textField1 = AddComponent();
             var textField2 = AddComponent();
@@ -51,6 +51,13 @@ namespace Test.Blazor.Material.Components
             var id2 = textField2.Find("input").Attributes["id"];
 
             id1.Value.ShouldNotBe(id2.Value);
+        }
+
+        [Theory, AutoData]
+        public void Value_IsRendered(string value)
+        {
+            var textFied = AddComponent(("Value", value));
+            textFied.Find("input").Attributes["value"].Value.ShouldBe(value);
         }
     }
 }

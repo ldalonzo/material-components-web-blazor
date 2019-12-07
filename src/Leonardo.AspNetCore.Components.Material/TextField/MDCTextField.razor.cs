@@ -12,6 +12,8 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
     {
         [Parameter] public string Label { get; set; }
 
+        [Parameter] public string Value { get; set; }
+
         protected string Id { get; set; } = $"text-field-{Guid.NewGuid().ToString().Substring(0, 3).ToLower()}";
 
         protected override string BuildClassString()
