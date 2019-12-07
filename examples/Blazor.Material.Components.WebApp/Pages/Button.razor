@@ -9,6 +9,18 @@
             <div class="hero-component">
                 <MDCButton Variant="@Variant">@ButtonText</MDCButton>
             </div>
+            <div class="hero-options component-catalog-panel__header-elements">
+                <ul>
+                    <li>
+                        <span>Options</span>
+                    </li>
+                    <li>
+                        <div>
+                            <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText"/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <h2 class="demo-title">Demos</h2>
@@ -40,6 +52,6 @@
 </section>
 
 @code {
-    [Parameter] public string ButtonText { get; set; } = "Learn More";
-    [Parameter] public MDCButtonStyle Variant { get; set; }
+    private string ButtonText { get; set; } = "Learn More";
+    private MDCButtonStyle Variant { get; set; }
 }

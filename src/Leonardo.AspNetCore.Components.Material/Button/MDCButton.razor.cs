@@ -12,8 +12,6 @@ namespace Leonardo.AspNetCore.Components.Material.Button
     /// <see href="https://material.io/develop/web/components/buttons/"/>
     public partial class MDCButton : MaterialComponent
     {
-        private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
-
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Parameter] public string LeadingIcon { get; set; }
@@ -24,7 +22,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        protected ElementReference _MDCButton;
+        protected ElementReference mdcButtonElement;
 
         protected override string BuildClassString()
         {
@@ -47,6 +45,11 @@ namespace Leonardo.AspNetCore.Components.Material.Button
                     break;
             }
 
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
             return sb.ToString();
         }
 
@@ -54,7 +57,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
         {
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync(MDCRippleComponent_AttachTo, _MDCButton);
+                await JSRuntime.InvokeVoidAsync("MDCRippleComponent.attachTo", mdcButtonElement);
             }
         }
     }
