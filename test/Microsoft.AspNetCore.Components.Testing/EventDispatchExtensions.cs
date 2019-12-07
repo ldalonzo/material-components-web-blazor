@@ -18,6 +18,10 @@ namespace Microsoft.AspNetCore.Components.Testing
         {
             return element.TriggerEventAsync("onclick", new MouseEventArgs());
         }
+
+        public static Task InputAsync(this HtmlNode element, string value)
+            => element.TriggerEventAsync("oninput", new ChangeEventArgs { Value = value });
+
         public static void Submit(this HtmlNode element)
         {
             _ = SubmitAsync(element);

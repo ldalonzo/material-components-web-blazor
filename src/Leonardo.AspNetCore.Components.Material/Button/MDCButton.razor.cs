@@ -10,21 +10,19 @@ namespace Leonardo.AspNetCore.Components.Material.Button
     /// Buttons allow users to take actions, and make choices, with a single tap.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/buttons/"/>
-    public class MDCButtonComponent : MaterialComponent
+    public partial class MDCButton : MaterialComponent
     {
-        private const string MDCRippleComponent_AttachTo = "MDCRippleComponent.attachTo";
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] public MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
+        [Parameter] public string LeadingIcon { get; set; }
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        [Parameter] public string LeadingMaterialIconName { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
-        protected ElementReference _MDCButton;
+        protected ElementReference mdcButtonElement;
 
         protected override string BuildClassString()
         {
@@ -47,6 +45,11 @@ namespace Leonardo.AspNetCore.Components.Material.Button
                     break;
             }
 
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
             return sb.ToString();
         }
 
@@ -54,7 +57,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
         {
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync(MDCRippleComponent_AttachTo, _MDCButton);
+                await JSRuntime.InvokeVoidAsync("MDCRippleComponent.attachTo", mdcButtonElement);
             }
         }
     }

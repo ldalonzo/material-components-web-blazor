@@ -5,7 +5,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace Test.Blazor.Material.Components
+namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCDrawerUnitTest
     {

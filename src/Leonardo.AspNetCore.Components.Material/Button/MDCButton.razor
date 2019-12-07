@@ -1,12 +1,10 @@
-@using Microsoft.AspNetCore.Components.Web
-
-@inherits MDCButtonComponent
-<button class="@ClassString" @ref="_MDCButton" @onclick=OnClick>
+@inherits MaterialComponent
+<button class="@ClassString" @ref="mdcButtonElement" @onclick=OnClick>
     <div class="mdc-button__ripple"></div>
 
-    @if (!string.IsNullOrWhiteSpace(LeadingMaterialIconName))
+    @if (!string.IsNullOrWhiteSpace(LeadingIcon))
     {
-        <i class="material-icons mdc-button__icon" aria-hidden="true">@LeadingMaterialIconName</i>
+        <i class="material-icons mdc-button__icon" aria-hidden="true">@LeadingIcon</i>
     }
 
     <span class="mdc-button__label">@ChildContent</span>

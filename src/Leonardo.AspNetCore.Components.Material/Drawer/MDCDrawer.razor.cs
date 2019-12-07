@@ -8,7 +8,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
     /// The MDC Navigation Drawer is used to organize access to destinations and other functionality on an app.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/drawers/"/>
-    public class MDCDrawerComponent : MaterialComponent
+    public partial class MDCDrawer : MaterialComponent
     {
         private const string MDCDrawerComponent_AttachTo = "MDCDrawerComponent.attachTo";
         private const string MDCDrawerComponent_ToggleOpen = "MDCDrawerComponent.toggleOpen";

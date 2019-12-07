@@ -12,7 +12,7 @@ module.exports = {
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '../Leonardo.AspNetCore.Components.Material/wwwroot')
+    path: path.resolve(__dirname, 'wwwroot')
   },
   node: {
     fs: 'empty',
