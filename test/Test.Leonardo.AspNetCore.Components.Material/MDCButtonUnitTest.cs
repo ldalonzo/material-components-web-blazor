@@ -49,7 +49,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         [Theory]
         [AutoData]
-        public void Label(string label)
+        public void Label_IsRendered(string label)
         {
             var component = host.AddComponent<MDCButton>(("ChildContent", (RenderFragment)(b => b.AddContent(0, label))));
 

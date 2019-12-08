@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.Select
 {
     public partial class MDCSelect : MaterialComponent
     {
+        [Parameter] public string Label { get; set; }
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();

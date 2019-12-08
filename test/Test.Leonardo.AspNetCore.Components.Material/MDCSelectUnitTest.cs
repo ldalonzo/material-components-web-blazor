@@ -1,4 +1,5 @@
-﻿using Leonardo.AspNetCore.Components.Material.Select;
+﻿using AutoFixture.Xunit2;
+using Leonardo.AspNetCore.Components.Material.Select;
 using Shouldly;
 using Test.Blazor.Material.Components;
 using Xunit;
@@ -13,6 +14,22 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var select = AddComponent();
 
             select.GetCssClassesForElement("div").ShouldBe(new[] { "mdc-select" });
+        }
+
+        [Theory]
+        [AutoData]
+        public void Label_IsRendered(string label)
+        {
+            var select = AddComponent(("Label", label));
+
+            // ASSERT the label is present in the markup
+            select.GetMarkup().ShouldContain(label);
+
+            // ASSERT the label is in the right place.
+            var floatingLabelNode = select.Find("div").SelectSingleNode("div/span");
+            floatingLabelNode.ShouldNotBeNull();
+            floatingLabelNode.ChildNodes.ShouldNotBeEmpty();
+            floatingLabelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
         }
     }
 }
