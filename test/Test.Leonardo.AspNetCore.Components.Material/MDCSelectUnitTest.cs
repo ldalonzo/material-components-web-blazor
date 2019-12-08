@@ -1,9 +1,13 @@
 ﻿using AutoFixture.Xunit2;
+using HtmlAgilityPack;
 using Leonardo.AspNetCore.Components.Material.Select;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
 using Xunit;
@@ -53,7 +57,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void Menu_IsRendered()
+        public void Dropdown_IsRendered()
         {
             var select = AddComponent();
 
@@ -62,14 +66,24 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void Menu_HasEmptyItem()
+        public void DropDown_HasEmptyItem()
         {
             var select = AddComponent();
 
-            var selectListItems = select.Find("div").SelectNodes("div/ul/li");
+            var selectListItems = GetListItems(select);
 
             var emptyItemNode = selectListItems.ShouldHaveSingleItem();
             emptyItemNode.Attributes["data-value"].Value.ShouldBeNullOrEmpty();
+        }
+
+        [Theory]
+        [AutoData]
+        public void WithDataSource_DropDown_ContainsAllItems(List<FoodGroup> dataSource)
+        {
+            var select = AddComponent(("DataSource", dataSource));
+
+            var selectListItems = GetListItems(select);
+            selectListItems.Count().ShouldBe(dataSource.Count + 1);
         }
 
         [Fact]
@@ -101,6 +115,14 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             }
 
             return true;
+        }
+
+        private static HtmlNodeCollection GetListItems(RenderedComponent<MDCSelect> source)
+            => source.Find("div").SelectNodes("div/ul/li");
+
+        public class FoodGroup
+        {
+
         }
     }
 }
