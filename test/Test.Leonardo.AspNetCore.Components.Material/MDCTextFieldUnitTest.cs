@@ -18,7 +18,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
 
             jsMock
-                .Setup(r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()))
+                .Setup(r => r.InvokeAsync<object>(
+                    It.Is<string>(identifier => identifier == "MDCTextFieldComponent.attachTo"),
+                    It.Is<object[]>(args => MatchAttachToArguments(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -137,6 +139,27 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             public string Value { get; private set; }
 
             public void SetValue(string value) => Value = value;
+        }
+
+        public static bool MatchAttachToArguments(object[] args)
+        {
+            if (args.Length != 1)
+            {
+                return false;
+            }
+
+            if (args[0].GetType() != typeof(ElementReference))
+            {
+                return false;
+            }
+
+            var elementReference = (ElementReference)args[0];
+            if (string.IsNullOrEmpty(elementReference.Id))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
