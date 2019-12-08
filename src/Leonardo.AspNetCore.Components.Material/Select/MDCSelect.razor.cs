@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Select
 {
@@ -11,6 +13,10 @@ namespace Leonardo.AspNetCore.Components.Material.Select
     public partial class MDCSelect : MaterialComponent
     {
         [Parameter] public string Label { get; set; }
+
+        [Inject] public IJSRuntime JSRuntime { get; set; }
+
+        protected ElementReference mdcSelectElement;
 
         protected override string BuildClassString()
         {
@@ -24,6 +30,16 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             }
 
             return sb.ToString();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", mdcSelectElement);
+            }
         }
     }
 }

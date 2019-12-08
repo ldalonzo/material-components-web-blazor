@@ -1,7 +1,10 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Select;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Moq;
 using Shouldly;
-using System.Linq;
+using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
 using Xunit;
 
@@ -9,6 +12,22 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCSelectUnitTest : MaterialComponentUnitTest<MDCSelect>
     {
+        public MDCSelectUnitTest()
+        {
+            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
+
+            jsMock
+                .Setup(r => r.InvokeAsync<object>(
+                    It.Is<string>(identifier => identifier == "MDCSelectComponent.attachTo"),
+                    It.Is<object[]>(args => MatchAttachToArguments(args))))
+                .Returns(new ValueTask<object>())
+                .Verifiable();
+
+            host.AddService(jsMock.Object);
+        }
+
+        private readonly Mock<IJSRuntime> jsMock;
+
         [Fact]
         public void Style_HasMandatoryCssClasses()
         {
@@ -51,6 +70,37 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var emptyItemNode = selectListItems.ShouldHaveSingleItem();
             emptyItemNode.Attributes["data-value"].Value.ShouldBeNullOrEmpty();
+        }
+
+        [Fact]
+        public void JavaScriptInstantiation()
+        {
+            var textField = AddComponent();
+
+            jsMock.Verify(
+                r => r.InvokeAsync<object>("MDCSelectComponent.attachTo", It.IsAny<object[]>()),
+                Times.Once);
+        }
+
+        public static bool MatchAttachToArguments(object[] args)
+        {
+            if (args.Length != 1)
+            {
+                return false;
+            }
+
+            if (args[0].GetType() != typeof(ElementReference))
+            {
+                return false;
+            }
+
+            var elementReference = (ElementReference)args[0];
+            if (string.IsNullOrEmpty(elementReference.Id))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
