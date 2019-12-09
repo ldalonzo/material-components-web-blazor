@@ -48,6 +48,10 @@ namespace Leonardo.AspNetCore.Components.Material.Select
     {
         [Parameter] public IList<T> DataSource { get; set; }
 
+        [Parameter] public string DataValueMember { get; set; }
+
+        [Parameter] public string DisplayTextMember { get; set; }
+
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -58,13 +62,18 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             }
         }
 
-        private string GetDataValue(T item)
-        {
-            return item.ToString();
-        }
+        private string GetDataValue(T item) => GetPropertyValueOrDefault(item, DataValueMember);
 
-        private string GetDisplayText(T item)
+        private string GetDisplayText(T item) => GetPropertyValueOrDefault(item, DisplayTextMember);
+
+        private static string GetPropertyValueOrDefault(T item, string propertyName)
         {
+            if (!string.IsNullOrWhiteSpace(propertyName))
+            {
+                var propertyInfo = typeof(T).GetProperty(propertyName);
+                return propertyInfo.GetValue(item) as string;
+            }
+
             return item.ToString();
         }
     }

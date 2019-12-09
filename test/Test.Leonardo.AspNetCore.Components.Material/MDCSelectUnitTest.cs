@@ -82,7 +82,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 Times.Once);
         }
 
-        public static bool MatchAttachToArguments(object[] args)
+        private static bool MatchAttachToArguments(object[] args)
         {
             if (args.Length != 1)
             {
