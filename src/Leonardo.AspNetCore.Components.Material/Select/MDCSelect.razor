@@ -1,4 +1,5 @@
-@inherits MaterialComponent
+@inherits MDCSelect
+@typeparam T
 <div class="@ClassString" @ref="mdcSelectElement">
     <div class="mdc-select__anchor demo-width-class">
         <i class="mdc-select__dropdown-icon"></i>
@@ -11,8 +12,8 @@
             <li class="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
             @foreach (var item in DataSource)
             {
-                <li class="mdc-list-item" data-value="grains">
-                    Bread, Cereal, Rice, and Pasta
+                <li class="mdc-list-item" data-value="@GetDataValue(item)">
+                    @GetDisplayText(item)
                 </li>
             }
         </ul>
