@@ -58,6 +58,21 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
+        [InlineAutoData(MDCTextFieldStyle.Filled)]
+        [InlineAutoData(MDCTextFieldStyle.Outlined)]
+        public void GivenTextFieldIsPreFilled_WhenFirstRendered_ThenLabelFloatsAbove(MDCTextFieldStyle variant, string label, string value)
+        {
+            var textField = AddComponent(
+                ("Variant", variant),
+                ("Label", label),
+                ("Value", value));
+
+            var labelNode = textField.Find("label");
+
+            labelNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
+        }
+
+        [Theory]
         [InlineData(MDCTextFieldStyle.Filled)]
         [InlineData(MDCTextFieldStyle.Outlined)]
         public void Label_IsLinkedToInputElement(MDCTextFieldStyle variant)

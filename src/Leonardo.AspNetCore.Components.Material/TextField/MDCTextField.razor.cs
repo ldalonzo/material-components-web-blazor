@@ -51,6 +51,30 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             return sb.ToString();
         }
 
+        protected string LabelClassString { get; private set; }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            LabelClassString = BuildLabelClassString();
+        }
+
+        private string BuildLabelClassString()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("mdc-floating-label");
+
+            if (!string.IsNullOrWhiteSpace(Value))
+            {
+                // Ensure that the label moves out of the way of the text field's value and prevents a Flash Of Un-styled Content (FOUC).
+                sb.Append(" mdc-floating-label--float-above");
+            }
+
+            return sb.ToString();
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
