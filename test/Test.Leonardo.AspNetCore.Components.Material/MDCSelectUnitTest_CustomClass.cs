@@ -1,7 +1,10 @@
-﻿using AutoFixture.Xunit2;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
+using Microsoft.JSInterop;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_CustomClass;
 
@@ -11,7 +14,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         [Theory]
         [AutoData]
-        public void WithDataSource_DropDown_ContainsAllItems(List<FoodGroup> dataSource)
+        public void GivenDataSource_WhenFirstRendered_DropDownContainsAllItems(List<FoodGroup> dataSource)
         {
             var select = AddComponent(
                 ("DataSource", dataSource),
@@ -39,6 +42,38 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             // The display text for each option should match what we specified in the data source
             actualItems.Select(r => r.InnerText.Trim()).ShouldBe(dataSource.Select(d => d.DisplayText));
+        }
+
+        [Theory]
+        [AutoData]
+        public void GivenDataSource_WhenFirstRendered_NothingIsSelected(List<FoodGroup> dataSource)
+        {
+            var select = AddComponent(
+                ("DataSource", dataSource),
+                ("DataValueMember", nameof(FoodGroup.Id)),
+                ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
+
+            select.Instance.Value.ShouldBe(null);
+        }
+
+        [Theory]
+        [AutoData]
+        public async Task GivenDataSource_WhenUserPicksItem_CurrentlySelectedOptionIsUpdated(List<FoodGroup> dataSource)
+        {
+            var select = AddComponent(
+                ("DataSource", dataSource),
+                ("DataValueMember", nameof(FoodGroup.Id)),
+                ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
+
+            var fixture = new Fixture();
+            var index = new Generator<int>(fixture).First(i => i >= 0 && i < dataSource.Count);
+            var expectedSelection = dataSource[index];
+
+            // ACT Simulate the user selecting a single option from the drop-down menu.
+            await InvokeMethodAsync(DotNetObjectReference.Create(select.Instance), "OnChange", expectedSelection.Id, index);
+
+            // ASSERT the selected value exposed as a property is what they chose.
+            select.Instance.Value.ShouldBe(expectedSelection);
         }
 
         public class FoodGroup

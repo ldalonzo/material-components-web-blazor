@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,14 +40,56 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", mdcSelectElement);
+                await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", mdcSelectElement, DotNetObjectReference.Create(this));
             }
         }
+
+        /// <summary>
+        /// Used to indicate when an element has been selected.
+        /// This event also includes the <paramref name="value"/> of the item and the <paramref name="index"/>.
+        /// </summary>
+        [JSInvokable(nameof(OnChange))]
+        public Task OnChange(string value, int index) => HandleOnChange(value, index);
+
+        protected virtual Task HandleOnChange(string value, int index) => Task.CompletedTask;
     }
 
     public partial class MDCSelect<T> : MDCSelect
     {
-        [Parameter] public IList<T> DataSource { get; set; }
+        private readonly IDictionary<string, T> itemsByDataValue = new Dictionary<string, T>();
+
+        [Parameter] public IEnumerable<T> DataSource { get; set; }
+
+        [Parameter] public T Value { get; set; }
+
+        [Parameter] public EventCallback<T> ValueChanged { get; set; }
+
+        private Task OnValueChanged(T value)
+        {
+            Value = value;
+            return ValueChanged.InvokeAsync(Value);
+        }
+
+        protected override async Task HandleOnChange(string dataValue, int index)
+        {
+            await base.HandleOnChange(dataValue, index);
+
+            var value = GetDataSourceItemFrom(dataValue);
+            if (!Equals(value, Value))
+            {
+                await OnValueChanged(value);
+            }
+        }
+
+        private T GetDataSourceItemFrom(string dataValue)
+        {
+            if (itemsByDataValue.TryGetValue(dataValue, out var value))
+            {
+                return value;
+            }
+
+            return default;
+        }
 
         [Parameter] public string DataValueMember { get; set; }
 
@@ -58,7 +101,14 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             if (DataSource == null)
             {
-                DataSource = new List<T>();
+                DataSource = Enumerable.Empty<T>();
+            }
+
+            itemsByDataValue.Clear();
+            foreach(var item in DataSource)
+            {
+                var dataValue = GetDataValue(item);
+                itemsByDataValue.Add(dataValue, item);
             }
         }
 

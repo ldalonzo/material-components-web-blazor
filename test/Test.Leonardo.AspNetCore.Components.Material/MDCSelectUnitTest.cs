@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
+using System.Reflection;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
 using Xunit;
@@ -42,7 +43,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var select = AddComponent(("Label", label));
 
-            // ASSERT the label is present in the markup
+            // ASSERT the label is present in the markup.
             select.GetMarkup().ShouldContain(label);
 
             // ASSERT the label is in the right place.
@@ -82,9 +83,18 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 Times.Once);
         }
 
+        protected static Task InvokeMethodAsync<TComponent>(DotNetObjectReference<TComponent> target, string methodName, params object[] args)
+            where TComponent : class
+        {
+            var targetMethod = typeof(TComponent).GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
+            targetMethod.ShouldNotBeNull();
+
+            return (Task)targetMethod.Invoke(target.Value, args);
+        }
+
         private static bool MatchAttachToArguments(object[] args)
         {
-            if (args.Length != 1)
+            if (args.Length != 2)
             {
                 return false;
             }
@@ -96,6 +106,12 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var elementReference = (ElementReference)args[0];
             if (string.IsNullOrEmpty(elementReference.Id))
+            {
+                return false;
+            }
+
+            var dotNetObjectRef = args[1] as DotNetObjectReference<MDCSelect>;
+            if (dotNetObjectRef == null)
             {
                 return false;
             }

@@ -10,7 +10,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         [Theory]
         [AutoData]
-        public void WithDataSource_DropDown_ContainsAllItems(List<string> dataSource)
+        public void GivenDataSource_DropDown_ContainsAllItems(List<string> dataSource)
         {
             var select = AddComponent(("DataSource", dataSource));
 
