@@ -68,8 +68,21 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("Value", value));
 
             var labelNode = textField.Find("label");
-
             labelNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
+        }
+
+        [Theory]
+        [AutoData]
+        public void GivenTextFieldIsPreFilledAndOutlined_WhenFirstRendered_ThenNotchedOutlineShouldHostLabel(string label, string value)
+        {
+            var textField = AddComponent(
+                ("Variant", MDCTextFieldStyle.Outlined),
+                ("Label", label),
+                ("Value", value));
+
+            var notchedOutlineNode = textField.Find("div").ChildNodes[3];
+            notchedOutlineNode.ShouldNotBeNull();
+            notchedOutlineNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-notched-outline", "mdc-notched-outline--notched" });
         }
 
         [Theory]

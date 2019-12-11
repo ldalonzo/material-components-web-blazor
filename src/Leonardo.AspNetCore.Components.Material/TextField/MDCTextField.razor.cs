@@ -58,6 +58,7 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             base.OnParametersSet();
 
             LabelClassString = BuildLabelClassString();
+            NotchedOutlineClassString = BuildNotchedOutlineClassString();
         }
 
         private string BuildLabelClassString()
@@ -70,6 +71,22 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             {
                 // Ensure that the label moves out of the way of the text field's value and prevents a Flash Of Un-styled Content (FOUC).
                 sb.Append(" mdc-floating-label--float-above");
+            }
+
+            return sb.ToString();
+        }
+
+        protected string NotchedOutlineClassString { get; private set; }
+
+        private string BuildNotchedOutlineClassString()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("mdc-notched-outline");
+
+            if (!string.IsNullOrWhiteSpace(Value))
+            {
+                sb.Append(" mdc-notched-outline--notched");
             }
 
             return sb.ToString();
