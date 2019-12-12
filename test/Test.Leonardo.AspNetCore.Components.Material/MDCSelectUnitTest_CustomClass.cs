@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.JSInterop;
+using Moq;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         [Theory]
         [AutoData]
-        public void GivenDataSource_WhenFirstRendered_NothingIsSelected(List<FoodGroup> dataSource)
+        public void GivenDataSource_WhenFirstRendered_EmptyOptionIsSelected(List<FoodGroup> dataSource)
         {
             var select = AddComponent(
                 ("DataSource", dataSource),
@@ -54,6 +55,29 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
 
             select.Instance.Value.ShouldBe(null);
+
+            jsMock.Verify(
+                r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == 0)));
+        }
+
+        [Theory]
+        [AutoData]
+        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsSelected(List<FoodGroup> dataSource)
+        {
+            var fixture = new Fixture();
+            var index = new Generator<int>(fixture).First(i => i >= 0 && i < dataSource.Count);
+            var selection = dataSource[index];
+
+            var select = AddComponent(
+                ("DataSource", dataSource),
+                ("Value", selection),
+                ("DataValueMember", nameof(FoodGroup.Id)),
+                ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
+
+            jsMock.Verify(
+                r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == index + 1)));
+
+            select.Instance.Value.ShouldBe(selection);
         }
 
         [Theory]

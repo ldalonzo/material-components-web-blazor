@@ -24,10 +24,16 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
+            jsMock
+                .Setup(r => r.InvokeAsync<object>(
+                    It.Is<string>(identifier => identifier == "MDCSelectComponent.setSelectedIndex"),
+                    It.Is<object[]>(args => true)))
+                .Returns(new ValueTask<object>());
+
             host.AddService(jsMock.Object);
         }
 
-        private readonly Mock<IJSRuntime> jsMock;
+        protected readonly Mock<IJSRuntime> jsMock;
 
         [Fact]
         public void Style_HasMandatoryCssClasses()

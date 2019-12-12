@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         [Inject] public IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference mdcSelectElement;
+
+        protected string Id { get; set; } = $"select-{Guid.NewGuid().ToString().Substring(0, 4).ToLower()}";
 
         protected override string BuildClassString()
         {
@@ -40,9 +43,19 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", mdcSelectElement, DotNetObjectReference.Create(this));
+                await Attach();
             }
         }
+
+        private async Task Attach()
+            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", mdcSelectElement, DotNetObjectReference.Create(this));
+
+        /// <summary>
+        /// Set the index of the currently selected option.  Set to -1 if no option is currently selected.
+        /// Changing this property will update the select element.
+        /// </summary>
+        protected async Task SetSelectedIndex(int selectedIndex)
+            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.setSelectedIndex", mdcSelectElement, selectedIndex);
 
         /// <summary>
         /// Used to indicate when an element has been selected.
@@ -56,7 +69,7 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
     public partial class MDCSelect<T> : MDCSelect
     {
-        private readonly IDictionary<string, T> itemsByDataValue = new Dictionary<string, T>();
+        private readonly IDictionary<string, T> optionsByDataValue = new Dictionary<string, T>();
 
         [Parameter] public IEnumerable<T> DataSource { get; set; }
 
@@ -82,33 +95,68 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         }
 
         private T GetDataSourceItemFrom(string dataValue)
-        {
-            if (itemsByDataValue.TryGetValue(dataValue, out var value))
-            {
-                return value;
-            }
-
-            return default;
-        }
+            => optionsByDataValue.TryGetValue(dataValue, out var value) ? value : (default);
 
         [Parameter] public string DataValueMember { get; set; }
 
         [Parameter] public string DisplayTextMember { get; set; }
 
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
-            base.OnParametersSet();
+            await base.OnParametersSetAsync();
 
             if (DataSource == null)
             {
                 DataSource = Enumerable.Empty<T>();
             }
 
-            itemsByDataValue.Clear();
-            foreach(var item in DataSource)
+            InitializeOptionsItems();
+        }
+
+        private void InitializeOptionsItems()
+        {
+            optionsByDataValue.Clear();
+            foreach (var option in DataSource)
             {
-                var dataValue = GetDataValue(item);
-                itemsByDataValue.Add(dataValue, item);
+                optionsByDataValue.Add(GetDataValue(option), option);
+            }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                await SetSelectedIndex(GetSelectedItem());
+            }
+        }
+
+        private int GetIndexOf(T target, int index = 0)
+        {
+            foreach (var option in DataSource)
+            {
+                if (Equals(target, option))
+                {
+                    return index;
+                }
+
+                index++;
+            }
+
+            return -1;
+        }
+
+        private int GetSelectedItem()
+        {
+            var indexOfValue = GetIndexOf(Value, 1);
+            if (indexOfValue == -1)
+            {
+                return 0;
+            }
+            else
+            {
+                return indexOfValue;
             }
         }
 
