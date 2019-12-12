@@ -9,12 +9,17 @@
             <div class="hero-component">
                 <MDCButton Variant="@Variant">@ButtonText</MDCButton>
             </div>
-            <div class="hero-options component-catalog-panel__header-elements">
-                <ul>
-                    <li>
-                        <span>Options</span>
+            <div class="hero-options component-catalog-panel__header-elements component-catalog-panel__header__hero-options">
+                <ul class="mdc-list mdc-list--non-interactive">
+                    <li class="mdc-list-item">
+                        <span class="mdc-typography--overline">Options</span>
                     </li>
-                    <li>
+                    <li class="mdc-list-item catalog-tf-list-item">
+                        <div>
+                            <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
+                        </div>
+                    </li>
+                    <li class="mdc-list-item catalog-tf-list-item">
                         <div>
                             <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText"/>
                         </div>
@@ -53,5 +58,6 @@
 
 @code {
     private string ButtonText { get; set; } = "Learn More";
-    private MDCButtonStyle Variant { get; set; }
+    private IEnumerable<MDCButtonStyle> VariantItems => Enum.GetValues(typeof(MDCButtonStyle)).OfType<MDCButtonStyle>();
+    private MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
 }
