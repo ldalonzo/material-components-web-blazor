@@ -137,7 +137,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [InlineAutoData(MDCTextFieldStyle.Outlined)]
         public async Task Value_DataBind(MDCTextFieldStyle variant, string value)
         {
-            var spy = new ValueSpy();
+            var spy = new ValueSpy<string>();
 
             var textField = AddComponent(
                 ("Variant", variant),
@@ -160,13 +160,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock.Verify(
                 r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()),
                 Times.Once);
-        }
-
-        private class ValueSpy
-        {
-            public string Value { get; private set; }
-
-            public void SetValue(string value) => Value = value;
         }
 
         public static bool MatchAttachToArguments(object[] args)
