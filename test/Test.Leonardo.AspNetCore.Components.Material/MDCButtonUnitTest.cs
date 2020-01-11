@@ -20,33 +20,41 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void TestMandatoryCssClass()
+        public void Style_Text_HasMandatoryCssClasses()
         {
-            var component = AddComponent();
-            component.GetCssClassesForElement("button").ShouldContain("mdc-button");
+            var button = AddComponent(("Variant", MDCButtonStyle.Text));
+            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button" });
+        }
+
+        [Fact]
+        public void Style_Outlined_HasMandatoryCssClasses()
+        {
+            var button = AddComponent(("Variant", MDCButtonStyle.Outlined));
+            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button", "mdc-button--outlined" });
+        }
+
+        [Fact]
+        public void Style_Raised_HasMandatoryCssClasses()
+        {
+            var button = AddComponent(("Variant", MDCButtonStyle.Raised));
+            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button", "mdc-button--raised" });
+        }
+
+        [Fact]
+        public void Style_Unelevated_HasMandatoryCssClasses()
+        {
+            var button = AddComponent(("Variant", MDCButtonStyle.Unelevated));
+            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button", "mdc-button--unelevated" });
         }
 
         [Theory]
         [AutoData]
-        public void Label(string label)
+        public void Label_IsRendered(string label)
         {
             var component = host.AddComponent<MDCButton>(("ChildContent", (RenderFragment)(b => b.AddContent(0, label))));
 
             var markup = component.GetMarkup();
             markup.ShouldContain(label);
-        }
-
-        [Theory]
-        [InlineData(MDCButtonStyle.Outlined, "mdc-button--outlined")]
-        [InlineData(MDCButtonStyle.Raised, "mdc-button--raised")]
-        [InlineData(MDCButtonStyle.Unelevated, "mdc-button--unelevated")]
-        public void Css_Variants_ButtonStyle(MDCButtonStyle style, string expectedCssClass)
-        {
-            var component = host.AddComponent<MDCButton>(("Variant", style));
-
-            var markup = component.GetMarkup();
-            markup.ShouldContain("mdc-button");
-            markup.ShouldContain(expectedCssClass);
         }
 
         [Fact]

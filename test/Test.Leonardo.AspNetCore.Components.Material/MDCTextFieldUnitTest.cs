@@ -18,7 +18,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
 
             jsMock
-                .Setup(r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()))
+                .Setup(r => r.InvokeAsync<object>(
+                    It.Is<string>(identifier => identifier == "MDCTextFieldComponent.attachTo"),
+                    It.Is<object[]>(args => MatchAttachToArguments(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -53,6 +55,34 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var labelNode = textField.Find("label");
             labelNode.ShouldNotBeNull();
             labelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
+        }
+
+        [Theory]
+        [InlineAutoData(MDCTextFieldStyle.Filled)]
+        [InlineAutoData(MDCTextFieldStyle.Outlined)]
+        public void GivenTextFieldIsPreFilled_WhenFirstRendered_ThenLabelFloatsAbove(MDCTextFieldStyle variant, string label, string value)
+        {
+            var textField = AddComponent(
+                ("Variant", variant),
+                ("Label", label),
+                ("Value", value));
+
+            var labelNode = textField.Find("label");
+            labelNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
+        }
+
+        [Theory]
+        [AutoData]
+        public void GivenTextFieldIsPreFilledAndOutlined_WhenFirstRendered_ThenNotchedOutlineShouldHostLabel(string label, string value)
+        {
+            var textField = AddComponent(
+                ("Variant", MDCTextFieldStyle.Outlined),
+                ("Label", label),
+                ("Value", value));
+
+            var notchedOutlineNode = textField.Find("div").ChildNodes[3];
+            notchedOutlineNode.ShouldNotBeNull();
+            notchedOutlineNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-notched-outline", "mdc-notched-outline--notched" });
         }
 
         [Theory]
@@ -107,7 +137,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [InlineAutoData(MDCTextFieldStyle.Outlined)]
         public async Task Value_DataBind(MDCTextFieldStyle variant, string value)
         {
-            var spy = new ValueSpy();
+            var spy = new ValueSpy<string>();
 
             var textField = AddComponent(
                 ("Variant", variant),
@@ -132,11 +162,25 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 Times.Once);
         }
 
-        private class ValueSpy
+        public static bool MatchAttachToArguments(object[] args)
         {
-            public string Value { get; private set; }
+            if (args.Length != 1)
+            {
+                return false;
+            }
 
-            public void SetValue(string value) => Value = value;
+            if (args[0].GetType() != typeof(ElementReference))
+            {
+                return false;
+            }
+
+            var elementReference = (ElementReference)args[0];
+            if (string.IsNullOrEmpty(elementReference.Id))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
