@@ -1,0 +1,28 @@
+﻿@page "/component/text-field"
+<ComponentCatalogPanel Title="Text Field">
+    <HeroComponent>
+        <MDCTextField Label="@Label" @bind-Value="@Value" />
+    </HeroComponent>
+    <HeroComponentOptions>
+        <li class="mdc-list-item catalog-tf-list-item">
+            <div>
+                <p>@Value</p>
+            </div>
+        </li>
+    </HeroComponentOptions>
+    <Demos>
+        <div>
+            <h3 class="mdc-typography--subtitle1">Filled</h3>
+            <MDCTextField Label="Standard" />
+        </div>
+        <div>
+            <h3 class="mdc-typography--subtitle1">Outlined</h3>
+            <MDCTextField Label="Standard" Variant="MDCTextFieldStyle.Outlined" />
+        </div>
+    </Demos>
+</ComponentCatalogPanel>
+
+@code {
+    private string Label { get; set; } = "Name";
+    private string Value { get; set; } = "";
+}

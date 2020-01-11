@@ -1,0 +1,31 @@
+﻿@page "/component/select"
+<ComponentCatalogPanel Title="Select">
+    <HeroComponent>
+        <MDCSelect Label="@Label" DataSource="@Fruits" @bind-Value="@SelectedItem" />
+    </HeroComponent>
+    <HeroComponentOptions>
+        <li class="mdc-list-item catalog-tf-list-item">
+            <div>
+                <MDCTextField Label="Selected" Variant="MDCTextFieldStyle.Outlined" Value="@SelectedItem" />
+            </div>
+        </li>
+    </HeroComponentOptions>
+    <Demos>
+        <div>
+
+        </div>
+    </Demos>
+</ComponentCatalogPanel>
+
+@code {
+    private string Label { get; set; } = "Fruit";
+
+    private string SelectedItem { get; set; }
+
+    private readonly List<string> Fruits = new List<string>
+    {
+        "Apple",
+        "Orange",
+        "Banana"
+    };
+}
