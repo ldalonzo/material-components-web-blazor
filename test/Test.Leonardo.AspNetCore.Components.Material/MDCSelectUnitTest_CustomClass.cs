@@ -6,6 +6,7 @@ using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Test.Blazor.Material.Components;
 using Xunit;
 using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_CustomClass;
 
@@ -22,7 +23,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DataValueMember", nameof(FoodGroup.Id)),
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
 
-            var selectListItems = select.GetListItems();
+            var selectListItems = select.FindListItemNodes();
 
             // The first item should be the 'empty' item;
             var firstItem = selectListItems.First();
@@ -58,26 +59,42 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             jsMock.Verify(
                 r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == 0)));
+
+            var labelNode = select.FindFloatingLabelNode();
+            labelNode.ShouldContainCssClasses("mdc-floating-label");
         }
 
         [Theory]
         [AutoData]
-        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsSelected(List<FoodGroup> dataSource)
+        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(List<FoodGroup> dataSource)
         {
+            // GIVEN a select component that has a pre-selected value
             var fixture = new Fixture();
             var index = new Generator<int>(fixture).First(i => i >= 0 && i < dataSource.Count);
-            var selection = dataSource[index];
+            var preSelectedValue = dataSource[index];
 
-            var select = AddComponent(
+            var sut = AddComponent(
                 ("DataSource", dataSource),
-                ("Value", selection),
+                ("Value", preSelectedValue),
                 ("DataValueMember", nameof(FoodGroup.Id)),
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
 
             jsMock.Verify(
                 r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == index + 1)));
 
-            select.Instance.Value.ShouldBe(selection);
+            sut.Instance.Value.ShouldBe(preSelectedValue);
+
+            // THEN the label node should float above
+            var labelNode = sut.FindFloatingLabelNode();
+            labelNode.ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
+
+            // THEN the selected item should be displayed
+            var selectedText = sut.FindSelectedTextNode();
+            selectedText.ShouldContainCssClasses("mdc-select__selected-text");
+            selectedText.InnerText.ShouldBe(preSelectedValue.DisplayText);
+
+            // THEN the selected item should be selected in the drop-down menu
+            sut.ShouldContainSelectedItemInMenu(preSelectedValue.Id);
         }
 
         [Theory]

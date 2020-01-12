@@ -14,7 +14,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var select = AddComponent(("DataSource", dataSource));
 
-            var selectListItems = select.GetListItems();
+            var selectListItems = select.FindListItemNodes();
 
             // The first item should be the 'empty' item;
             var firstItem = selectListItems.First();

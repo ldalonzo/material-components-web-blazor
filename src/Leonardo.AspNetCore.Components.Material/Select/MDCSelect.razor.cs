@@ -69,13 +69,21 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
     public partial class MDCSelect<T> : MDCSelect
     {
-        private readonly IDictionary<string, T> optionsByDataValue = new Dictionary<string, T>();
-
         [Parameter] public IEnumerable<T> DataSource { get; set; }
 
         [Parameter] public T Value { get; set; }
 
         [Parameter] public EventCallback<T> ValueChanged { get; set; }
+
+        [Parameter] public string DataValueMember { get; set; }
+
+        [Parameter] public string DisplayTextMember { get; set; }
+
+        private string LabelClassString { get; set; }
+
+        private string SelectedText { get; set; }
+
+        private readonly IDictionary<string, T> optionsByDataValue = new Dictionary<string, T>();
 
         private Task OnValueChanged(T value)
         {
@@ -97,20 +105,43 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         private T GetDataSourceItemFrom(string dataValue)
             => optionsByDataValue.TryGetValue(dataValue, out var value) ? value : (default);
 
-        [Parameter] public string DataValueMember { get; set; }
-
-        [Parameter] public string DisplayTextMember { get; set; }
-
-        protected override async Task OnParametersSetAsync()
+        protected override void OnParametersSet()
         {
-            await base.OnParametersSetAsync();
+            base.OnParametersSet();
 
             if (DataSource == null)
             {
                 DataSource = Enumerable.Empty<T>();
             }
 
+            LabelClassString = BuildLabelClassString();
+            SelectedText = GetItemDisplayText(Value);
+
             InitializeOptionsItems();
+        }
+
+        private string BuildLabelClassString()
+        {
+            var sb = new StringBuilder("mdc-floating-label");
+
+            if (!Equals(Value, default))
+            {
+                sb.Append(" mdc-floating-label--float-above");
+            }
+
+            return sb.ToString();
+        }
+
+        private string BuildItemClassString(T item = default)
+        {
+            var sb = new StringBuilder("mdc-list-item");
+
+            if (Equals(item, Value))
+            {
+                sb.Append(" mdc-list-item--selected");
+            }
+
+            return sb.ToString();
         }
 
         private void InitializeOptionsItems()
@@ -118,7 +149,7 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             optionsByDataValue.Clear();
             foreach (var option in DataSource)
             {
-                optionsByDataValue.Add(GetDataValue(option), option);
+                optionsByDataValue.Add(GetItemDataValue(option), option);
             }
         }
 
@@ -160,12 +191,19 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             }
         }
 
-        private string GetDataValue(T item) => GetPropertyValueOrDefault(item, DataValueMember);
+        private string GetItemDataValue(T item)
+            => GetPropertyValueOrDefault(item, DataValueMember);
 
-        private string GetDisplayText(T item) => GetPropertyValueOrDefault(item, DisplayTextMember);
+        private string GetItemDisplayText(T item)
+            => GetPropertyValueOrDefault(item, DisplayTextMember);
 
         private static string GetPropertyValueOrDefault(T item, string propertyName)
         {
+            if (item == null)
+            {
+                return string.Empty;
+            }
+
             if (!string.IsNullOrWhiteSpace(propertyName))
             {
                 var propertyInfo = typeof(T).GetProperty(propertyName);

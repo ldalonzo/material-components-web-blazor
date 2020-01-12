@@ -23,28 +23,28 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void Style_Text_HasMandatoryCssClasses()
         {
             var button = AddComponent(("Variant", MDCButtonStyle.Text));
-            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button" });
+            button.Find("button").ShouldContainCssClasses("mdc-button");
         }
 
         [Fact]
         public void Style_Outlined_HasMandatoryCssClasses()
         {
             var button = AddComponent(("Variant", MDCButtonStyle.Outlined));
-            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button", "mdc-button--outlined" });
+            button.Find("button").ShouldContainCssClasses("mdc-button", "mdc-button--outlined");
         }
 
         [Fact]
         public void Style_Raised_HasMandatoryCssClasses()
         {
             var button = AddComponent(("Variant", MDCButtonStyle.Raised));
-            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button", "mdc-button--raised" });
+            button.Find("button").ShouldContainCssClasses("mdc-button", "mdc-button--raised");
         }
 
         [Fact]
         public void Style_Unelevated_HasMandatoryCssClasses()
         {
             var button = AddComponent(("Variant", MDCButtonStyle.Unelevated));
-            button.GetCssClassesForElement("button").ShouldBe(new[] { "mdc-button", "mdc-button--unelevated" });
+            button.Find("button").ShouldContainCssClasses("mdc-button", "mdc-button--unelevated");
         }
 
         [Theory]

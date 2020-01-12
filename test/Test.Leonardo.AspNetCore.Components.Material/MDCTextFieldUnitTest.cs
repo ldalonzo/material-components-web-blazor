@@ -33,14 +33,14 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void Style_Filled_HasMandatoryCssClasses()
         {
             var textField = AddComponent(("Variant", MDCTextFieldStyle.Filled));
-            textField.GetCssClassesForElement("div").ShouldBe(new[] { "mdc-text-field" });
+            textField.Find("div").ShouldContainCssClasses("mdc-text-field");
         }
 
         [Fact]
         public void Style_Outlined_HasMandatoryCssClasses()
         {
             var textField = AddComponent(("Variant", MDCTextFieldStyle.Outlined));
-            textField.GetCssClassesForElement("div").ShouldBe(new[] { "mdc-text-field", "mdc-text-field--outlined" });
+            textField.Find("div").ShouldContainCssClasses("mdc-text-field", "mdc-text-field--outlined");
         }
 
         [Theory]
@@ -67,8 +67,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("Label", label),
                 ("Value", value));
 
-            var labelNode = textField.Find("label");
-            labelNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
+            textField.Find("label").ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
         }
 
         [Theory]
@@ -82,7 +81,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var notchedOutlineNode = textField.Find("div").ChildNodes[3];
             notchedOutlineNode.ShouldNotBeNull();
-            notchedOutlineNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-notched-outline", "mdc-notched-outline--notched" });
+            notchedOutlineNode.ShouldContainCssClasses("mdc-notched-outline", "mdc-notched-outline--notched");
         }
 
         [Theory]

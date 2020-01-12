@@ -39,8 +39,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void Style_HasMandatoryCssClasses()
         {
             var select = AddComponent();
-
-            select.GetCssClassesForElement("div").ShouldBe(new[] { "mdc-select" });
+            select.Find("div").ShouldContainCssClasses("mdc-select");
         }
 
         [Theory]
@@ -53,7 +52,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             select.GetMarkup().ShouldContain(label);
 
             // ASSERT the label is in the right place.
-            var floatingLabelNode = select.Find("div").SelectSingleNode("div/span");
+            var floatingLabelNode = select.FindFloatingLabelNode();
             floatingLabelNode.ShouldNotBeNull();
             floatingLabelNode.ChildNodes.ShouldNotBeEmpty();
             floatingLabelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
@@ -65,7 +64,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var select = AddComponent();
 
             var selectListNode = select.Find("div").SelectSingleNode("div/ul");
-            selectListNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-list" });
+            selectListNode.ShouldContainCssClasses("mdc-list");
         }
 
         [Fact]
@@ -73,7 +72,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var select = AddComponent();
 
-            var selectListItems = select.GetListItems();
+            var selectListItems = select.FindListItemNodes();
 
             var emptyItemNode = selectListItems.ShouldHaveSingleItem();
             emptyItemNode.Attributes["data-value"].Value.ShouldBeNullOrEmpty();
