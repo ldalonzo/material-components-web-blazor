@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using Moq;
 using Shouldly;
 using System.Collections.Generic;
@@ -25,6 +24,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             sut.Instance.Value.ShouldBe(default);
 
+            sut.DataValueAttributeShouldBePresentOnEachOption(dataSource, includeEmpty: false);
             sut.LabelShouldFloatAbove();
             sut.SelectedTextShouldBe(default(Season).ToString());
             sut.DropdownShouldHaveSingleSelectedItem(preSelectedValue.ToString());

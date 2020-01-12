@@ -26,6 +26,20 @@ namespace Test.Blazor.Material.Components
             .FindFloatingLabelNode()
             .ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
 
+        public static void DataValueAttributeShouldBePresentOnEachOption<T>(this RenderedComponent<MDCSelect<T>> sut, IEnumerable<T> expectedDataSource, bool includeEmpty)
+        {
+            var optionNodes = sut.FindListItemNodes();
+
+            optionNodes
+                .Where(r => r.Attributes["data-value"] != null)
+                .Count()
+                .ShouldBe(expectedDataSource.Count() + (includeEmpty ? 1 : 0));
+
+            optionNodes
+                .Select(r => r.Attributes["data-value"].Value)
+                .ShouldBeUnique();
+        }
+
         public static void SelectedTextShouldBe<T>(this RenderedComponent<MDCSelect<T>> sut, string expectedDisplayText)
         {
             var selectedText = sut.FindSelectedTextNode();
