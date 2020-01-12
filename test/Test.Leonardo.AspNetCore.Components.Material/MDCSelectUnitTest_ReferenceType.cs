@@ -8,22 +8,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
 using Xunit;
-using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_CustomClass;
+using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_ReferenceType;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
-    public class MDCSelectUnitTest_CustomClass : MDCSelectUnitTest<FoodGroup>
+    public class MDCSelectUnitTest_ReferenceType : MDCSelectUnitTest<FoodGroup>
     {
         [Theory]
         [AutoData]
         public void GivenDataSource_WhenFirstRendered_DropDownContainsAllItems(List<FoodGroup> dataSource)
         {
-            var select = AddComponent(
+            var sut = AddComponent(
                 ("DataSource", dataSource),
                 ("DataValueMember", nameof(FoodGroup.Id)),
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
 
-            var selectListItems = select.FindListItemNodes();
+            var selectListItems = sut.FindListItemNodes();
 
             // The first item should be the 'empty' item;
             var firstItem = selectListItems.First();
@@ -84,17 +84,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             sut.Instance.Value.ShouldBe(preSelectedValue);
 
-            // THEN the label node should float above
-            var labelNode = sut.FindFloatingLabelNode();
-            labelNode.ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
-
-            // THEN the selected item should be displayed
-            var selectedText = sut.FindSelectedTextNode();
-            selectedText.ShouldContainCssClasses("mdc-select__selected-text");
-            selectedText.InnerText.ShouldBe(preSelectedValue.DisplayText);
-
-            // THEN the selected item should be selected in the drop-down menu
-            sut.ShouldContainSelectedItemInMenu(preSelectedValue.Id);
+            sut.LabelShouldFloatAbove();
+            sut.SelectedTextShouldBe(preSelectedValue.DisplayText);
+            sut.DropdownShouldHaveSingleSelectedItem(preSelectedValue.Id);
         }
 
         [Theory]

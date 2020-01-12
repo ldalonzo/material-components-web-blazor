@@ -16,10 +16,21 @@ namespace Test.Blazor.Material.Components
         public static void ShouldContainCssClasses(this HtmlNode target, params string[] expected)
             => target.GetCssClasses().ShouldBe(expected.AsEnumerable(), ignoreOrder: true);
 
-        public static void ShouldContainSelectedItemInMenu<T>(this RenderedComponent<MDCSelect<T>> source, string selectedItemDataValue) => source
+        public static void DropdownShouldHaveSingleSelectedItem<T>(this RenderedComponent<MDCSelect<T>> sut, string selectedItemDataValue) => sut
             .FindListItemNodes()
-            .Where(n => n.Attributes["data-value"].Value == selectedItemDataValue)
+            .Where(n => n.GetCssClasses().Contains("mdc-list-item--selected"))
             .ShouldHaveSingleItem()
-            .ShouldContainCssClasses("mdc-list-item", "mdc-list-item--selected");
+            .Attributes["data-value"].Value.ShouldBe(selectedItemDataValue);
+
+        public static void LabelShouldFloatAbove<T>(this RenderedComponent<MDCSelect<T>> sut) => sut
+            .FindFloatingLabelNode()
+            .ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
+
+        public static void SelectedTextShouldBe<T>(this RenderedComponent<MDCSelect<T>> sut, string expectedDisplayText)
+        {
+            var selectedText = sut.FindSelectedTextNode();
+            selectedText.ShouldContainCssClasses("mdc-select__selected-text");
+            selectedText.InnerText.ShouldBe(expectedDisplayText);
+        }
     }
 }

@@ -9,7 +9,10 @@
     </div>
     <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
         <ul class="mdc-list">
-            <li class="@BuildItemClassString()" data-value="" aria-selected="true"></li>
+            @if (IncludeEmptyItem)
+            {
+                <li class="@BuildItemClassString()" data-value="" aria-selected="true"></li>
+            }
             @foreach (var item in DataSource)
             {
                 <li class="@BuildItemClassString(item)" data-value="@GetItemDataValue(item)">

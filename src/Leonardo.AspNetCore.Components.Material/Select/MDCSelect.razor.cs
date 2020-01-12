@@ -77,9 +77,39 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
         [Parameter] public string DisplayTextMember { get; set; }
 
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            if (DataSource == null)
+            {
+                DataSource = Enumerable.Empty<T>();
+            }
+
+            IncludeEmptyItem = !typeof(T).IsValueType;
+            LabelClassString = BuildLabelClassString();
+            SelectedText = GetItemDisplayText(Value);
+
+            InitializeOptionsItems();
+        }
+
         private string LabelClassString { get; set; }
 
+        private string BuildLabelClassString()
+        {
+            var sb = new StringBuilder("mdc-floating-label");
+
+            if (!Equals(Value, default))
+            {
+                sb.Append(" mdc-floating-label--float-above");
+            }
+
+            return sb.ToString();
+        }
+
         private string SelectedText { get; set; }
+
+        private bool IncludeEmptyItem { get; set; }
 
         private readonly IDictionary<string, T> optionsByDataValue = new Dictionary<string, T>();
 
@@ -102,33 +132,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
         private T GetDataSourceItemFrom(string dataValue)
             => optionsByDataValue.TryGetValue(dataValue, out var value) ? value : (default);
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-
-            if (DataSource == null)
-            {
-                DataSource = Enumerable.Empty<T>();
-            }
-
-            LabelClassString = BuildLabelClassString();
-            SelectedText = GetItemDisplayText(Value);
-
-            InitializeOptionsItems();
-        }
-
-        private string BuildLabelClassString()
-        {
-            var sb = new StringBuilder("mdc-floating-label");
-
-            if (!Equals(Value, default))
-            {
-                sb.Append(" mdc-floating-label--float-above");
-            }
-
-            return sb.ToString();
-        }
 
         private string BuildItemClassString(T item = default)
         {
@@ -157,7 +160,7 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             if (firstRender)
             {
-                await SetSelectedIndex(GetSelectedItem());
+                await SetSelectedIndex(GetSelectedItemIndex());
             }
         }
 
@@ -176,9 +179,9 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             return -1;
         }
 
-        private int GetSelectedItem()
+        private int GetSelectedItemIndex()
         {
-            var indexOfValue = GetIndexOf(Value, 1);
+            var indexOfValue = GetIndexOf(Value, IncludeEmptyItem ? 1 : 0);
             if (indexOfValue == -1)
             {
                 return 0;

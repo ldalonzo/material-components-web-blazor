@@ -68,17 +68,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void DropDown_HasEmptyItem()
-        {
-            var select = AddComponent();
-
-            var selectListItems = select.FindListItemNodes();
-
-            var emptyItemNode = selectListItems.ShouldHaveSingleItem();
-            emptyItemNode.Attributes["data-value"].Value.ShouldBeNullOrEmpty();
-        }
-
-        [Fact]
         public void JavaScriptInstantiation()
         {
             var textField = AddComponent();
