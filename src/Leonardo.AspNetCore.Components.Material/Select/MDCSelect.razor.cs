@@ -21,8 +21,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
         protected ElementReference mdcSelectElement;
 
-        protected string Id { get; set; } = $"select-{Guid.NewGuid().ToString().Substring(0, 4).ToLower()}";
-
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();
