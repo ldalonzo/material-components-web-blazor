@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.Checkbox
@@ -10,6 +11,18 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
     public partial class MDCCheckbox : MaterialComponent
     {
         [Parameter] public string Label { get; set; }
+
+        private string Id { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            if (string.IsNullOrWhiteSpace(Id))
+            {
+                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 3)}".ToLower();
+            }
+        }
 
         protected override string BuildClassString()
         {

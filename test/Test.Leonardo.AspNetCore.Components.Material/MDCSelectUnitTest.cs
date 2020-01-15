@@ -7,6 +7,7 @@ using Shouldly;
 using System.Reflection;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material

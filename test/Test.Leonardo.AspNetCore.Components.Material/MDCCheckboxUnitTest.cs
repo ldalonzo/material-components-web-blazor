@@ -2,6 +2,7 @@
 using Leonardo.AspNetCore.Components.Material.Checkbox;
 using Shouldly;
 using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
@@ -20,10 +21,35 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void Label_IsRendered(string label)
         {
             var sut = AddComponent(("Label", label));
+            sut.ShouldHaveLabelNode().InnerText.ShouldBe(label);
+        }
 
-            var labelNode = sut.Find("div").SelectSingleNode("label");
-            labelNode.ShouldNotBeNull();
-            labelNode.InnerText.ShouldBe(label);
+        [Fact]
+        public void Label_IsLinkedToInput()
+        {
+            var sut = AddComponent();
+
+            var inputNode = sut.Find("div").SelectSingleNode("div/input");
+            inputNode.ShouldNotBeNull();
+            var inputId = inputNode.Attributes["id"].Value;
+            inputId.ShouldNotBeNullOrEmpty();
+
+            var targetId = sut.ShouldHaveLabelNode().Attributes["for"].Value;
+            targetId.ShouldNotBeNullOrEmpty();
+
+            inputId.ShouldBe(targetId);
+        }
+
+        [Fact]
+        public void DifferentComponentHaveDifferentIds()
+        {
+            var sut1 = AddComponent();
+            var sut2 = AddComponent();
+
+            var id1 = sut1.ShouldHaveInputNode().Attributes["id"].Value;
+            var id2 = sut2.ShouldHaveInputNode().Attributes["id"].Value;
+
+            id1.ShouldNotBe(id2);
         }
     }
 }

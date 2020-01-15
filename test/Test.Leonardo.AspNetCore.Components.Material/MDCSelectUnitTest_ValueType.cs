@@ -2,7 +2,7 @@
 using Moq;
 using Shouldly;
 using System.Collections.Generic;
-using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_ValueType;
 
