@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.Checkbox
@@ -8,6 +9,8 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
     /// <seealso href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox"/>
     public partial class MDCCheckbox : MaterialComponent
     {
+        [Parameter] public string Label { get; set; }
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();
