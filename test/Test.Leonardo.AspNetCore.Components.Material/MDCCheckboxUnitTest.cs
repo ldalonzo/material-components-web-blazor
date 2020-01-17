@@ -1,8 +1,11 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Checkbox;
+using Microsoft.AspNetCore.Components;
 using Shouldly;
+using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
+using Microsoft.AspNetCore.Components.Testing;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
@@ -50,6 +53,22 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var id2 = sut2.ShouldHaveInputNode().Attributes["id"].Value;
 
             id1.ShouldNotBe(id2);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChainedBind_ToggleValue(bool value)
+        {
+            var spy = new ValueSpy<bool>(value);
+
+            var sut = AddComponent(
+                ("Value", value),
+                ("ValueChanged", EventCallback.Factory.Create<bool>(this, spy.SetValue)));
+
+            await sut.Find("input").InputAsync(!value);
+
+            spy.Value.ShouldBe(!value);
         }
     }
 }

@@ -1,15 +1,25 @@
 ﻿@page "/component/checkbox"
 <ComponentCatalogPanel Title="Checkbox">
     <HeroComponent>
-        <MDCCheckbox></MDCCheckbox>
+        <MDCCheckbox @bind-Value="@Value" />
     </HeroComponent>
     <HeroComponentOptions>
-       
+        <li class="mdc-list-item catalog-tf-list-item">
+            <div>
+                <MDCCheckbox @bind-Value="@Value" />
+            </div>
+        </li>
     </HeroComponentOptions>
     <Demos>
+        <ComponentDemo Title="Unchecked">
+            <MDCCheckbox Value="false" />
+        </ComponentDemo>
+        <ComponentDemo Title="Checked">
+            <MDCCheckbox Value="true" />
+        </ComponentDemo>
     </Demos>
 </ComponentCatalogPanel>
 
 @code {
-    
+    private bool Value { get; set; }
 }

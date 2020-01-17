@@ -3,7 +3,9 @@
     <div class="@ClassString">
         <input type="checkbox"
                class="mdc-checkbox__native-control"
-               id="@Id" />
+               id="@Id"
+               value="@Value"
+               @oninput="OnValueChanged" />
         <div class="mdc-checkbox__background">
             <svg class="mdc-checkbox__checkmark"
                  viewBox="0 0 24 24">

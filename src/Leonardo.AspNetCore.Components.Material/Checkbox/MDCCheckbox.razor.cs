@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Checkbox
 {
@@ -11,6 +12,22 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
     public partial class MDCCheckbox : MaterialComponent
     {
         [Parameter] public string Label { get; set; }
+
+        [Parameter] public bool Value { get; set; }
+
+        [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+
+        private Task OnValueChanged(ChangeEventArgs e)
+        {
+            var value = (bool)e.Value;
+            if (value != Value)
+            {
+                Value = value;
+                return ValueChanged.InvokeAsync(Value);
+            }
+
+            return Task.CompletedTask;
+        }
 
         private string Id { get; set; }
 
