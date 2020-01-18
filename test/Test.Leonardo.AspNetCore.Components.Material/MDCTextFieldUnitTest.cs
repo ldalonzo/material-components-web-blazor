@@ -35,6 +35,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
             sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field");
+            sut.ShouldHaveInputNode().Attributes["disabled"].ShouldBeNull();
         }
 
         [Fact]
