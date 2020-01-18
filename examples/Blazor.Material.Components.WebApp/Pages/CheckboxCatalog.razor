@@ -1,9 +1,14 @@
 ﻿@page "/component/checkbox"
 <ComponentCatalogPanel Title="Checkbox">
     <HeroComponent>
-        <MDCCheckbox @bind-Value="@Value" />
+        <MDCCheckbox @bind-Value="@Value" Label="@Label" />
     </HeroComponent>
     <HeroComponentOptions>
+        <li class="mdc-list-item catalog-tf-list-item">
+            <div>
+                <MDCTextField Label="Label" Variant="MDCTextFieldStyle.Outlined" @bind-Value="@Label" />
+            </div>
+        </li>
         <li class="mdc-list-item catalog-tf-list-item">
             <div>
                 <MDCCheckbox @bind-Value="@Value" />
@@ -22,4 +27,5 @@
 
 @code {
     private bool Value { get; set; }
+    private string Label { get; set; } = "Checkbox";
 }
