@@ -1,0 +1,31 @@
+﻿@page "/component/checkbox"
+<ComponentCatalogPanel Title="Checkbox">
+    <HeroComponent>
+        <MDCCheckbox @bind-Value="@Value" Label="@Label" />
+    </HeroComponent>
+    <HeroComponentOptions>
+        <li class="mdc-list-item catalog-tf-list-item">
+            <div>
+                <MDCTextField Label="Label" Variant="MDCTextFieldStyle.Outlined" @bind-Value="@Label" />
+            </div>
+        </li>
+        <li class="mdc-list-item catalog-tf-list-item">
+            <div>
+                <MDCCheckbox @bind-Value="@Value" Label="Current Value" Disabled="true"/>
+            </div>
+        </li>
+    </HeroComponentOptions>
+    <Demos>
+        <ComponentDemo Title="Unchecked">
+            <MDCCheckbox Value="false" />
+        </ComponentDemo>
+        <ComponentDemo Title="Checked">
+            <MDCCheckbox Value="true" />
+        </ComponentDemo>
+    </Demos>
+</ComponentCatalogPanel>
+
+@code {
+    private bool Value { get; set; }
+    private string Label { get; set; } = "Checkbox";
+}
