@@ -18,6 +18,8 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         [Parameter] public EventCallback<bool> ValueChanged { get; set; }
 
+        [Parameter] public bool Disabled { get; set; }
+
         [Inject] public IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference mdcCheckboxElement;
@@ -52,6 +54,11 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
             var sb = new StringBuilder();
 
             sb.Append("mdc-checkbox");
+
+            if (Disabled)
+            {
+                sb.Append($" mdc-checkbox--disabled");
+            }
 
             if (!string.IsNullOrWhiteSpace(Class))
             {

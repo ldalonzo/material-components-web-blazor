@@ -46,6 +46,25 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
+        public void HasMandatoryCssClasses_Disabled()
+        {
+            var sut = AddComponent(("Disabled", true));
+
+            sut.ShouldHaveMdcCheckboxNode().ShouldContainCssClasses("mdc-checkbox", "mdc-checkbox--disabled");
+        }
+
+        [Fact]
+        public void Disabled()
+        {
+            var sut = AddComponent(("Disabled", true));
+
+            sut.ShouldHaveMdcCheckboxNode().ShouldContainCssClasses("mdc-checkbox", "mdc-checkbox--disabled");
+
+            var inputNode = sut.ShouldHaveInputNode();
+            inputNode.Attributes["disabled"].ShouldNotBeNull();
+        }
+
+        [Fact]
         public void HasId()
         {
             var sut = AddComponent();
@@ -65,8 +84,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent();
 
-            var inputNode = sut.Find("div").SelectSingleNode("div/input");
-            inputNode.ShouldNotBeNull();
+            var inputNode = sut.ShouldHaveInputNode();
             var inputId = inputNode.Attributes["id"].Value;
             inputId.ShouldNotBeNullOrEmpty();
 
