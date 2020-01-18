@@ -1,9 +1,9 @@
 @inherits MaterialComponent
 <div class="mdc-form-field">
-    <div class="@ClassString">
+    <div class="@ClassString" id="@Id" @ref="mdcCheckboxElement">
         <input type="checkbox"
                class="mdc-checkbox__native-control"
-               id="@Id"
+               id="@LabelId"
                value="@Value"
                @oninput="OnValueChanged" />
         <div class="mdc-checkbox__background">
@@ -17,5 +17,5 @@
         </div>
         <div class="mdc-checkbox__ripple"></div>
     </div>
-    <label for="@Id">@Label</label>
+    <label for="@LabelId">@Label</label>
 </div>

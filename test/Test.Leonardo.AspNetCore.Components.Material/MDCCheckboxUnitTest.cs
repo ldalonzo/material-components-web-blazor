@@ -7,16 +7,49 @@ using Test.Blazor.Material.Components;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Microsoft.AspNetCore.Components.Testing;
 using Xunit;
+using Moq;
+using Microsoft.JSInterop;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCCheckboxUnitTest : MaterialComponentUnitTest<MDCCheckbox>
     {
+        public MDCCheckboxUnitTest()
+        {
+            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
+
+            jsMock
+                .Setup(r => r.InvokeAsync<object>(
+                    It.Is<string>(identifier => identifier == "MDCCheckboxComponent.attachTo"),
+                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
+                .Returns(new ValueTask<object>())
+                .Verifiable();
+
+            jsMock
+                .Setup(r => r.InvokeAsync<object>(
+                    It.Is<string>(i => i == "MDCCheckboxComponent.setChecked"),
+                    It.Is<object[]>(a => MatchArgs_SetChecked(a))))
+                .Returns(new ValueTask<object>())
+                .Verifiable();
+
+            host.AddService(jsMock.Object);
+        }
+
+        private readonly Mock<IJSRuntime> jsMock;
+
         [Fact]
-        public void Style_HasMandatoryCssClasses()
+        public void HasMandatoryCssClasses()
         {
             var sut = AddComponent();
-            sut.Find("div").SelectSingleNode("div").ShouldContainCssClasses("mdc-checkbox");
+
+            sut.ShouldHaveMdcCheckboxNode().ShouldContainCssClasses("mdc-checkbox");
+        }
+
+        [Fact]
+        public void HasId()
+        {
+            var sut = AddComponent();
+            sut.ShouldHaveMdcCheckboxNode().Attributes["id"].Value.ShouldNotBeNullOrEmpty();
         }
 
         [Theory]
@@ -69,6 +102,71 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             await sut.Find("input").InputAsync(!value);
 
             spy.Value.ShouldBe(!value);
+        }
+
+        [Fact]
+        public void JavaScriptInstantiation_AttachTo()
+        {
+            var sut = AddComponent();
+
+            jsMock.Verify(
+                r => r.InvokeAsync<object>("MDCCheckboxComponent.attachTo", It.IsAny<object[]>()),
+                Times.Once);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void JavaScriptInstantiation_SetChecked(bool value)
+        {
+            var sut = AddComponent(
+                ("Value", value));
+
+            jsMock.Verify(
+                r => r.InvokeAsync<object>("MDCCheckboxComponent.setChecked", It.Is<object[]>(a => a.Length == 2 && Equals(a[1], value))),
+                Times.Once);
+        }
+
+        private static bool MatchArgs_AttachTo(object[] args)
+        {
+            if (args.Length != 1)
+            {
+                return false;
+            }
+
+            if (args[0].GetType() != typeof(ElementReference))
+            {
+                return false;
+            }
+
+            var elementReference = (ElementReference)args[0];
+            if (string.IsNullOrEmpty(elementReference.Id))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool MatchArgs_SetChecked(object[] args)
+        {
+            if (args.Length != 2)
+            {
+                return false;
+            }
+
+            if (args[0].GetType() != typeof(ElementReference))
+            {
+                return false;
+            }
+
+            var elementReference = (ElementReference)args[0];
+            if (string.IsNullOrEmpty(elementReference.Id))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

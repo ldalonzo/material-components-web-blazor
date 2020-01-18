@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,10 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         [Parameter] public EventCallback<bool> ValueChanged { get; set; }
 
+        [Inject] public IJSRuntime JSRuntime { get; set; }
+
+        protected ElementReference mdcCheckboxElement;
+
         private Task OnValueChanged(ChangeEventArgs e)
         {
             var value = (bool)e.Value;
@@ -30,6 +35,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
         }
 
         private string Id { get; set; }
+        private string LabelId => $"{Id}-label";
 
         protected override void OnParametersSet()
         {
@@ -37,7 +43,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
             if (string.IsNullOrWhiteSpace(Id))
             {
-                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 3)}".ToLower();
+                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
             }
         }
 
@@ -54,5 +60,23 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
             return sb.ToString();
         }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                await Attach();
+            }
+
+            await SetChecked();
+        }
+
+        private async Task Attach()
+            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.attachTo", mdcCheckboxElement);
+
+        private async Task SetChecked()
+            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.setChecked", mdcCheckboxElement, Value);
     }
 }

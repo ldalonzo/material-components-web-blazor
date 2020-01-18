@@ -21,7 +21,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock
                 .Setup(r => r.InvokeAsync<object>(
                     It.Is<string>(identifier => identifier == "MDCSelectComponent.attachTo"),
-                    It.Is<object[]>(args => MatchAttachToArguments(args))))
+                    It.Is<object[]>(args => MatchArgs_Attach(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -87,7 +87,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             return (Task)targetMethod.Invoke(target.Value, args);
         }
 
-        private static bool MatchAttachToArguments(object[] args)
+        private static bool MatchArgs_Attach(object[] args)
         {
             if (args.Length != 2)
             {

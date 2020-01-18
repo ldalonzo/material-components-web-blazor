@@ -7,6 +7,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Shouldly
 {
     public static class ShouldBeMDCCheckboxExtensions
     {
+        public static HtmlNode ShouldHaveMdcCheckboxNode(this RenderedComponent<MDCCheckbox> sut)
+            => sut.Find("div").SelectSingleNode("div");
+
         public static HtmlNode ShouldHaveLabelNode(this RenderedComponent<MDCCheckbox> sut)
         {
             var labelNode = sut.Find("div").SelectSingleNode("label");
