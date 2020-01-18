@@ -4,16 +4,11 @@
         <MDCSelect Label="@Label" DataSource="@Fruits" @bind-Value="@SelectedItem" />
     </HeroComponent>
     <HeroComponentOptions>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <MDCTextField Label="Selected" Variant="MDCTextFieldStyle.Outlined" Value="@SelectedItem" />
-            </div>
-        </li>
+        <ComponentOption>
+            <MDCTextField Label="Selected" Variant="MDCTextFieldStyle.Outlined" Value="@SelectedItem" Disabled="true"/>
+        </ComponentOption>
     </HeroComponentOptions>
     <Demos>
-        <div>
-
-        </div>
     </Demos>
 </ComponentCatalogPanel>
 

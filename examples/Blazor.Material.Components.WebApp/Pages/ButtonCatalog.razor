@@ -4,16 +4,12 @@
         <MDCButton Variant="@Variant">@ButtonText</MDCButton>
     </HeroComponent>
     <HeroComponentOptions>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
-            </div>
-        </li>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText" />
-            </div>
-        </li>
+        <ComponentOption>
+            <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText" />
+        </ComponentOption>
     </HeroComponentOptions>
     <Demos>
         <ComponentDemo Title="Raised Button">

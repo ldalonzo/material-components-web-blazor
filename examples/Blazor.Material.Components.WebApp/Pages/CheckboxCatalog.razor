@@ -4,16 +4,12 @@
         <MDCCheckbox @bind-Value="@Value" Label="@Label" />
     </HeroComponent>
     <HeroComponentOptions>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <MDCTextField Label="Label" Variant="MDCTextFieldStyle.Outlined" @bind-Value="@Label" />
-            </div>
-        </li>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <MDCCheckbox @bind-Value="@Value" Label="Current Value" Disabled="true"/>
-            </div>
-        </li>
+        <ComponentOption>
+            <MDCTextField Label="Label" Variant="MDCTextFieldStyle.Outlined" @bind-Value="@Label" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCCheckbox @bind-Value="@Value" Label="Current Value" Disabled="true" />
+        </ComponentOption>
     </HeroComponentOptions>
     <Demos>
         <ComponentDemo Title="Unchecked">

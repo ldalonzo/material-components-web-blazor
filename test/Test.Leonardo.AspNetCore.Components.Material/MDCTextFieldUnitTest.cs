@@ -7,6 +7,7 @@ using Moq;
 using Shouldly;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
@@ -32,15 +33,15 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [Fact]
         public void Style_Filled_HasMandatoryCssClasses()
         {
-            var textField = AddComponent(("Variant", MDCTextFieldStyle.Filled));
-            textField.Find("div").ShouldContainCssClasses("mdc-text-field");
+            var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
+            sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field");
         }
 
         [Fact]
         public void Style_Outlined_HasMandatoryCssClasses()
         {
-            var textField = AddComponent(("Variant", MDCTextFieldStyle.Outlined));
-            textField.Find("div").ShouldContainCssClasses("mdc-text-field", "mdc-text-field--outlined");
+            var sut = AddComponent(("Variant", MDCTextFieldStyle.Outlined));
+            sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field", "mdc-text-field--outlined");
         }
 
         [Theory]
@@ -89,10 +90,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [InlineData(MDCTextFieldStyle.Outlined)]
         public void Label_IsLinkedToInputElement(MDCTextFieldStyle variant)
         {
-            var textField = AddComponent(("Variant", variant));
+            var sut = AddComponent(("Variant", variant));
 
-            var inputElement = textField.Find("input");
-            var labelElement = textField.Find("label");
+            var inputElement = sut.ShouldHaveInputNode();
+            var labelElement = sut.Find("label");
 
             var inputId = inputElement.Attributes["id"];
             inputId.ShouldNotBeNull();
@@ -113,8 +114,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var textField1 = AddComponent(("Variant", variant));
             var textField2 = AddComponent(("Variant", variant));
 
-            var id1 = textField1.Find("input").Attributes["id"];
-            var id2 = textField2.Find("input").Attributes["id"];
+            var id1 = textField1.ShouldHaveInputNode().Attributes["id"];
+            var id2 = textField2.ShouldHaveInputNode().Attributes["id"];
 
             id1.Value.ShouldNotBe(id2.Value);
         }
@@ -128,7 +129,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("Value", value),
                 ("Variant", variant));
 
-            textField.Find("input").Attributes["value"].Value.ShouldBe(value);
+            textField.ShouldHaveInputNode().Attributes["value"].Value.ShouldBe(value);
         }
 
         [Theory]
@@ -138,14 +139,15 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var spy = new ValueSpy<string>();
 
-            var textField = AddComponent(
+            var sut = AddComponent(
                 ("Variant", variant),
                 ("ValueChanged", EventCallback.Factory.Create<string>(this, spy.SetValue)));
 
-            textField.Find("input").Attributes["value"].ShouldBeNull();
+            var inputNode = sut.ShouldHaveInputNode();
+            inputNode.Attributes["value"].ShouldBeNull();
 
-            await textField.Find("input").InputAsync(value);
-            textField.Find("input").Attributes["value"].Value.ShouldBe(value);
+            await inputNode.InputAsync(value);
+            sut.ShouldHaveInputNode().Attributes["value"].Value.ShouldBe(value);
             spy.Value.ShouldBe(value);
         }
 
@@ -154,11 +156,20 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [InlineData(MDCTextFieldStyle.Outlined)]
         public void JavaScriptInstantiation(MDCTextFieldStyle variant)
         {
-            var textField = AddComponent(("Variant", variant));
+            var sut = AddComponent(("Variant", variant));
 
             jsMock.Verify(
                 r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()),
                 Times.Once);
+        }
+
+        [Fact]
+        public void Disabled()
+        {
+            var sut = AddComponent(("Disabled", true));
+
+            sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field", "mdc-text-field--disabled");
+            sut.ShouldHaveInputNode().Attributes["disabled"].ShouldNotBeNull();
         }
 
         public static bool MatchAttachToArguments(object[] args)

@@ -1,19 +1,21 @@
 ﻿@page "/component/text-field"
 <ComponentCatalogPanel Title="Text Field">
     <HeroComponent>
-        <MDCTextField Variant="@Variant" Label="@Label" @bind-Value="@Value" />
+        <MDCTextField Variant="@Variant" Label="@Label" @bind-Value="@Value" Disabled="@Disabled" />
     </HeroComponent>
     <HeroComponentOptions>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
-            </div>
-        </li>
-        <li class="mdc-list-item catalog-tf-list-item">
-            <div>
-                <p>@Value</p>
-            </div>
-        </li>
+        <ComponentOption>
+            <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCTextField Variant="MDCTextFieldStyle.Outlined" Label="Label" @bind-Value="@Label" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCTextField Variant="MDCTextFieldStyle.Outlined" Label="Current Value" Value="@Value" Disabled="true" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCCheckbox @bind-Value="@Disabled" Label="Disabled" />
+        </ComponentOption>
     </HeroComponentOptions>
     <Demos>
         <ComponentDemo Title="Filled">
@@ -28,6 +30,7 @@
 @code {
     private string Label { get; set; } = "Name";
     private string Value { get; set; } = "";
+    private bool Disabled { get; set; }
     private IEnumerable<MDCTextFieldStyle> VariantItems => Enum.GetValues(typeof(MDCTextFieldStyle)).OfType<MDCTextFieldStyle>();
     private MDCTextFieldStyle Variant { get; set; } = MDCTextFieldStyle.Filled;
 }

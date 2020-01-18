@@ -14,6 +14,8 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
     {
         [Parameter] public string Label { get; set; }
 
+        [Parameter] public bool Disabled { get; set; }
+
         [Parameter] public string Value { get; set; }
 
         [Parameter] public EventCallback<string> ValueChanged { get; set; }
@@ -30,7 +32,7 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
         protected ElementReference mdcTextFieldElement;
 
-        protected string Id { get; set; } = $"text-field-{Guid.NewGuid().ToString().Substring(0, 3).ToLower()}";
+        private string Id { get; set; }
 
         protected override string BuildClassString()
         {
@@ -48,6 +50,11 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
                 sb.Append($" {Class}");
             }
 
+            if (Disabled)
+            {
+                sb.Append(" mdc-text-field--disabled");
+            }
+
             return sb.ToString();
         }
 
@@ -59,6 +66,11 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
             LabelClassString = BuildLabelClassString();
             NotchedOutlineClassString = BuildNotchedOutlineClassString();
+
+            if (string.IsNullOrWhiteSpace(Id))
+            {
+                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
+            }
         }
 
         private string BuildLabelClassString()
