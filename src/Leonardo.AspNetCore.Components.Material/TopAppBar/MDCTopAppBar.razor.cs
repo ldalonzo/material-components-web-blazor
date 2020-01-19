@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.TopAppBar
@@ -8,6 +9,8 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
     /// <seealso href="https://material.io/develop/web/components/top-app-bar/"/>
     public partial class MDCTopAppBar : MaterialComponent
     {
+        [Parameter] public string Title { get; set; }
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder("mdc-top-app-bar");

@@ -1,13 +1,17 @@
 ﻿@page "/component/top-app-bar"
 <ComponentCatalogPanel Title="Top App Bar">
     <HeroComponent>
-        <MDCTopAppBar />
+        <MDCTopAppBar Title="@Title" />
     </HeroComponent>
     <HeroComponentOptions>
+        <ComponentOption>
+            <MDCTextField Variant="MDCTextFieldStyle.Outlined" Label="Title" @bind-Value="@Title" />
+        </ComponentOption>
     </HeroComponentOptions>
     <Demos>
     </Demos>
 </ComponentCatalogPanel>
 
 @code {
+    private string Title { get; set; } = "San Francisco, CA";
 }
