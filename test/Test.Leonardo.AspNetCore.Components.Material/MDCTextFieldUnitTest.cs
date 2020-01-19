@@ -21,7 +21,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock
                 .Setup(r => r.InvokeAsync<object>(
                     It.Is<string>(identifier => identifier == "MDCTextFieldComponent.attachTo"),
-                    It.Is<object[]>(args => MatchAttachToArguments(args))))
+                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -173,7 +173,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             sut.ShouldHaveInputNode().Attributes["disabled"].ShouldNotBeNull();
         }
 
-        public static bool MatchAttachToArguments(object[] args)
+        private static bool MatchArgs_AttachTo(object[] args)
         {
             if (args.Length != 1)
             {

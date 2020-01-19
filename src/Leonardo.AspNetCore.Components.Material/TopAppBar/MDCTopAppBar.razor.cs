@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 {
@@ -11,6 +14,12 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
     {
         [Parameter] public string Title { get; set; }
 
+        [Inject] protected IJSRuntime JSRuntime { get; set; }
+
+        protected ElementReference mdcTopAppBarElement;
+
+        private string Id { get; set; }
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder("mdc-top-app-bar");
@@ -21,6 +30,26 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
             }
 
             return sb.ToString();
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            if (string.IsNullOrWhiteSpace(Id))
+            {
+                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
+            }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.attachTo", mdcTopAppBarElement);
+            }
         }
     }
 }

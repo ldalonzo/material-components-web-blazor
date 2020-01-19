@@ -3,11 +3,11 @@ import { MDCTopAppBar } from '@material/top-app-bar'
 var MDCTopAppBarComponent = /** @class */ (function () {
   function MDCTopAppBarComponent () {
     var _this = this
+    this.componentsById = {}
 
     this.attachTo = (domElement) => {
-      _this.topAppBar = MDCTopAppBar.attachTo(domElement)
-
-      return true
+      const topAppBar = MDCTopAppBar.attachTo(domElement)
+      _this.componentsById[domElement.id] = topAppBar
     }
 
     this.setScrollTarget = (target) => {
