@@ -89,6 +89,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
+            esModule: false,
             name (file) {
               return '[name].[ext]'
             }
