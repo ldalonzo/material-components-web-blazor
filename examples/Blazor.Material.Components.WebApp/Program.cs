@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
-using System;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Blazor.Hosting;
 
 namespace Blazor.Material.Components.WebApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var assemblyName = typeof(Program).Assembly.GetName();
             Console.WriteLine($"Starting {assemblyName.Name} {assemblyName.Version}");
-            CreateHostBuilder(args).Build().Run();
-        }
 
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.RootComponents.Add<App>("app");
+
+            var host = builder.Build();
+
+            await host.RunAsync();
+        }
     }
 }

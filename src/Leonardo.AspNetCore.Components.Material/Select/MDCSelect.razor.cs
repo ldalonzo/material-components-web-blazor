@@ -21,8 +21,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
         protected ElementReference mdcSelectElement;
 
-        protected string Id { get; set; } = $"select-{Guid.NewGuid().ToString().Substring(0, 4).ToLower()}";
-
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();
@@ -69,13 +67,51 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
     public partial class MDCSelect<T> : MDCSelect
     {
-        private readonly IDictionary<string, T> optionsByDataValue = new Dictionary<string, T>();
-
         [Parameter] public IEnumerable<T> DataSource { get; set; }
 
         [Parameter] public T Value { get; set; }
 
         [Parameter] public EventCallback<T> ValueChanged { get; set; }
+
+        [Parameter] public string DataValueMember { get; set; }
+
+        [Parameter] public string DisplayTextMember { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            if (DataSource == null)
+            {
+                DataSource = Enumerable.Empty<T>();
+            }
+
+            IncludeEmptyItem = !typeof(T).IsValueType;
+            LabelClassString = BuildLabelClassString();
+            SelectedText = GetItemDisplayText(Value);
+
+            InitializeOptionsItems();
+        }
+
+        private string LabelClassString { get; set; }
+
+        private string BuildLabelClassString()
+        {
+            var sb = new StringBuilder("mdc-floating-label");
+
+            if (!Equals(Value, default))
+            {
+                sb.Append(" mdc-floating-label--float-above");
+            }
+
+            return sb.ToString();
+        }
+
+        private string SelectedText { get; set; }
+
+        private bool IncludeEmptyItem { get; set; }
+
+        private readonly IDictionary<string, T> optionsByDataValue = new Dictionary<string, T>();
 
         private Task OnValueChanged(T value)
         {
@@ -97,20 +133,16 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         private T GetDataSourceItemFrom(string dataValue)
             => optionsByDataValue.TryGetValue(dataValue, out var value) ? value : (default);
 
-        [Parameter] public string DataValueMember { get; set; }
-
-        [Parameter] public string DisplayTextMember { get; set; }
-
-        protected override async Task OnParametersSetAsync()
+        private string BuildItemClassString(T item = default)
         {
-            await base.OnParametersSetAsync();
+            var sb = new StringBuilder("mdc-list-item");
 
-            if (DataSource == null)
+            if (Equals(item, Value))
             {
-                DataSource = Enumerable.Empty<T>();
+                sb.Append(" mdc-list-item--selected");
             }
 
-            InitializeOptionsItems();
+            return sb.ToString();
         }
 
         private void InitializeOptionsItems()
@@ -118,7 +150,7 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             optionsByDataValue.Clear();
             foreach (var option in DataSource)
             {
-                optionsByDataValue.Add(GetDataValue(option), option);
+                optionsByDataValue.Add(GetItemDataValue(option), option);
             }
         }
 
@@ -128,7 +160,7 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             if (firstRender)
             {
-                await SetSelectedIndex(GetSelectedItem());
+                await SetSelectedIndex(GetSelectedItemIndex());
             }
         }
 
@@ -147,9 +179,9 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             return -1;
         }
 
-        private int GetSelectedItem()
+        private int GetSelectedItemIndex()
         {
-            var indexOfValue = GetIndexOf(Value, 1);
+            var indexOfValue = GetIndexOf(Value, IncludeEmptyItem ? 1 : 0);
             if (indexOfValue == -1)
             {
                 return 0;
@@ -160,12 +192,19 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             }
         }
 
-        private string GetDataValue(T item) => GetPropertyValueOrDefault(item, DataValueMember);
+        private string GetItemDataValue(T item)
+            => GetPropertyValueOrDefault(item, DataValueMember);
 
-        private string GetDisplayText(T item) => GetPropertyValueOrDefault(item, DisplayTextMember);
+        private string GetItemDisplayText(T item)
+            => GetPropertyValueOrDefault(item, DisplayTextMember);
 
         private static string GetPropertyValueOrDefault(T item, string propertyName)
         {
+            if (item == null)
+            {
+                return string.Empty;
+            }
+
             if (!string.IsNullOrWhiteSpace(propertyName))
             {
                 var propertyInfo = typeof(T).GetProperty(propertyName);

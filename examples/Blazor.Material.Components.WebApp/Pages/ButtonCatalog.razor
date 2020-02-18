@@ -1,60 +1,34 @@
 ﻿@page "/component/button"
-
-<section class="component-catalog-panel">
-    <div class="component-catalog-panel__hero-area">
-        <div class="component-catalog-panel__header">
-            <h1 class="component-catalog-panel__header-elements mdc-typography--headline3">
-                Button
-            </h1>
-            <div class="hero-component">
-                <MDCButton Variant="@Variant">@ButtonText</MDCButton>
-            </div>
-            <div class="hero-options component-catalog-panel__header-elements component-catalog-panel__header__hero-options">
-                <ul class="mdc-list mdc-list--non-interactive">
-                    <li class="mdc-list-item">
-                        <span class="mdc-typography--overline">Options</span>
-                    </li>
-                    <li class="mdc-list-item catalog-tf-list-item">
-                        <div>
-                            <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
-                        </div>
-                    </li>
-                    <li class="mdc-list-item catalog-tf-list-item">
-                        <div>
-                            <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText"/>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <h2 class="demo-title">Demos</h2>
-    <div>
-        <div>
-            <h3 class="mdc-typography--subtitle1">Text Button</h3>
-            <MDCButton>Default</MDCButton>
-            <MDCButton LeadingIcon="favorite">Icon</MDCButton>
-        </div>
-        <div>
-            <h3 class="mdc-typography--subtitle1">Raised Button</h3>
+<ComponentCatalogPanel Title="Button">
+    <HeroComponent>
+        <MDCButton Variant="@Variant">@ButtonText</MDCButton>
+    </HeroComponent>
+    <HeroComponentOptions>
+        <ComponentOption>
+            <MDCSelect Label="Variant" DataSource="@VariantItems" @bind-Value="@Variant" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText" />
+        </ComponentOption>
+    </HeroComponentOptions>
+    <Demos>
+        <ComponentDemo Title="Raised Button">
             <MDCButton Variant="@MDCButtonStyle.Raised">Default</MDCButton>
             <MDCButton Variant="@MDCButtonStyle.Raised"
                        LeadingIcon="favorite">Icon</MDCButton>
-        </div>
-        <div>
-            <h3 class="mdc-typography--subtitle1">Unelevated Button</h3>
+        </ComponentDemo>
+        <ComponentDemo Title="Unelevated Button">
             <MDCButton Variant="@MDCButtonStyle.Unelevated">Default</MDCButton>
             <MDCButton Variant="@MDCButtonStyle.Unelevated"
                        LeadingIcon="favorite">Icon</MDCButton>
-        </div>
-        <div>
-            <h3 class="mdc-typography--subtitle1">Outlined Button</h3>
+        </ComponentDemo>
+        <ComponentDemo Title="Outlined Button">
             <MDCButton Variant="@MDCButtonStyle.Outlined">Default</MDCButton>
             <MDCButton Variant="@MDCButtonStyle.Outlined"
                        LeadingIcon="favorite">Icon</MDCButton>
-        </div>
-    </div>
-</section>
+        </ComponentDemo>
+    </Demos>
+</ComponentCatalogPanel>
 
 @code {
     private string ButtonText { get; set; } = "Learn More";

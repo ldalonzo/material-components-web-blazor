@@ -7,6 +7,7 @@ using Shouldly;
 using System.Reflection;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
@@ -20,7 +21,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock
                 .Setup(r => r.InvokeAsync<object>(
                     It.Is<string>(identifier => identifier == "MDCSelectComponent.attachTo"),
-                    It.Is<object[]>(args => MatchAttachToArguments(args))))
+                    It.Is<object[]>(args => MatchArgs_Attach(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -39,8 +40,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void Style_HasMandatoryCssClasses()
         {
             var select = AddComponent();
-
-            select.GetCssClassesForElement("div").ShouldBe(new[] { "mdc-select" });
+            select.Find("div").ShouldContainCssClasses("mdc-select");
         }
 
         [Theory]
@@ -53,7 +53,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             select.GetMarkup().ShouldContain(label);
 
             // ASSERT the label is in the right place.
-            var floatingLabelNode = select.Find("div").SelectSingleNode("div/span");
+            var floatingLabelNode = select.FindFloatingLabelNode();
             floatingLabelNode.ShouldNotBeNull();
             floatingLabelNode.ChildNodes.ShouldNotBeEmpty();
             floatingLabelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
@@ -65,18 +65,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var select = AddComponent();
 
             var selectListNode = select.Find("div").SelectSingleNode("div/ul");
-            selectListNode.Attributes["class"].Value.Split().ShouldBe(new[] { "mdc-list" });
-        }
-
-        [Fact]
-        public void DropDown_HasEmptyItem()
-        {
-            var select = AddComponent();
-
-            var selectListItems = select.GetListItems();
-
-            var emptyItemNode = selectListItems.ShouldHaveSingleItem();
-            emptyItemNode.Attributes["data-value"].Value.ShouldBeNullOrEmpty();
+            selectListNode.ShouldContainCssClasses("mdc-list");
         }
 
         [Fact]
@@ -98,7 +87,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             return (Task)targetMethod.Invoke(target.Value, args);
         }
 
-        private static bool MatchAttachToArguments(object[] args)
+        private static bool MatchArgs_Attach(object[] args)
         {
             if (args.Length != 2)
             {

@@ -1,0 +1,30 @@
+﻿<section class="component-catalog-panel">
+    <div class="component-catalog-panel__hero-area">
+        <div class="component-catalog-panel__header">
+            <h1 class="component-catalog-panel__header-elements mdc-typography--headline3">
+                @Title
+            </h1>
+            <div class="hero-component">
+                <div class="mdc-tab-bar catalog-hero-tab-bar" role="tablist">
+                </div>
+                <div class="tab-container">
+                    <div class="tab-content">
+                        @HeroComponent
+                    </div>
+                </div>
+            </div>
+            <div class="hero-options component-catalog-panel__header-elements component-catalog-panel__header__hero-options">
+                <ul class="mdc-list mdc-list--non-interactive">
+                    <li class="mdc-list-item">
+                        <span class="mdc-typography--overline">Options</span>
+                    </li>
+                    @HeroComponentOptions
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h2 class="demo-title mdc-typography--headline6">Demos</h2>
+    <div>
+        @Demos
+    </div>
+</section>

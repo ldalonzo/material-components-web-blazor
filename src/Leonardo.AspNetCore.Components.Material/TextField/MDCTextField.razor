@@ -1,6 +1,6 @@
 @inherits MaterialComponent
 <div class="@ClassString" @ref="mdcTextFieldElement">
-    <input type="text" id="@Id" class="mdc-text-field__input" value="@Value" @oninput="OnValueChanged" />
+    <input type="text" id="@Id" class="mdc-text-field__input" value="@Value" @oninput="@OnValueChanged" disabled="@Disabled" />
 
     @if (Variant == MDCTextFieldStyle.Filled)
     {

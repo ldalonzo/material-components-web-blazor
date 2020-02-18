@@ -1,0 +1,9 @@
+﻿<li class="mdc-list-item catalog-tf-list-item">
+    <div>
+        @ChildContent
+    </div>
+</li>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

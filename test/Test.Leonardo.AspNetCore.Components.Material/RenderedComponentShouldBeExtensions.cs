@@ -1,5 +1,4 @@
-﻿using Leonardo.AspNetCore.Components.Material;
-using Microsoft.AspNetCore.Components.Testing;
+﻿using HtmlAgilityPack;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +7,10 @@ namespace Test.Blazor.Material.Components
 {
     public static class RenderedComponentShouldBeExtensions
     {
-        public static IEnumerable<string> GetCssClassesForElement<T>(this RenderedComponent<T> target, string targetElement)
-            where T : MaterialComponent
-        {
-            var divElement = target.Find(targetElement);
-            divElement.ShouldNotBeNull();
+        public static IEnumerable<string> GetCssClasses(this HtmlNode target)
+            => target.Attributes["class"].Value.Split();
 
-            return divElement.Attributes.Where(a => a.Name == "class").ShouldHaveSingleItem().Value.Split();
-        }
+        public static void ShouldContainCssClasses(this HtmlNode target, params string[] expected)
+            => target.GetCssClasses().ShouldBe(expected.AsEnumerable(), ignoreOrder: true);
     }
 }
