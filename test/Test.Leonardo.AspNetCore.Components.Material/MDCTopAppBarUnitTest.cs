@@ -54,5 +54,19 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             observer.Verify(o => o.Call(), Times.Once);
         }
+
+        [Theory]
+        [AutoData]
+        public void ActionItems_AreRendered(string item)
+        {
+            var sut = AddComponent(("ActionItems", (RenderFragment)(b => b.AddContent(0, item))));
+
+            var actionItemsSection = sut.Find("header").SelectNodes("div/section").Last();
+            actionItemsSection.ShouldContainCssClasses("mdc-top-app-bar__section", "mdc-top-app-bar__section--align-end");
+
+            var roleAttribute = actionItemsSection.Attributes["role"];
+            roleAttribute.ShouldNotBeNull();
+            roleAttribute.Value.ShouldBe("toolbar");
+        }
     }
 }

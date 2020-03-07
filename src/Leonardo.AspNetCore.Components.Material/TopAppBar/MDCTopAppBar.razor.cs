@@ -16,6 +16,8 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 
         [Parameter] public EventCallback OnNav { get; set; }
 
+        [Parameter] public RenderFragment ActionItems { get; set; }
+
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference mdcTopAppBarElement;

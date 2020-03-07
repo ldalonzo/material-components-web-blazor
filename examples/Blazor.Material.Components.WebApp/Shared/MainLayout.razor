@@ -1,11 +1,14 @@
 ﻿@inherits LayoutComponentBase
 <div class="top-app-bar__frame">
-    <MDCTopAppBar Title="Material Blazor Components" OnNav="@ToggleNavMenu" />
-    <!--
-    <div class="top-row px-4">
-        <a href="https://github.com/ldalonzo/material-components-web-blazor" target="_blank" class="ml-md-auto">About</a>
-    </div>
-        -->
+    <MDCTopAppBar Title="Material Blazor Components"
+                  OnNav="@ToggleNavMenu">
+        <ActionItems>
+            <a class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+               aria-label="Bookmark this page"
+               href="https://github.com/ldalonzo/material-components-web-blazor"
+               target="_blank">code</a>
+        </ActionItems>
+    </MDCTopAppBar>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="demo-frame">
             <div class="sidebar">
