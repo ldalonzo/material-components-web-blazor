@@ -14,11 +14,15 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
     {
         [Parameter] public string Title { get; set; }
 
+        [Parameter] public EventCallback OnNav { get; set; }
+
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference mdcTopAppBarElement;
 
-        private string Id { get; set; }
+        public string Id { get; private set; }
+
+        public string ElementId => mdcTopAppBarElement.Id;
 
         protected override string BuildClassString()
         {
@@ -49,7 +53,11 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
             if (firstRender)
             {
                 await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.attachTo", mdcTopAppBarElement);
+                await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.listenToNav", mdcTopAppBarElement, DotNetObjectReference.Create(this));
             }
         }
+
+        [JSInvokable(nameof(OnMDCTopAppBarNav))]
+        public Task OnMDCTopAppBarNav() => OnNav.InvokeAsync(this);
     }
 }

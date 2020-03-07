@@ -16,12 +16,11 @@ var MDCTopAppBarComponent = /** @class */ (function () {
       return true
     }
 
-    this.listenToNav = (dotnetHelper) => {
-      _this.topAppBar.listen('MDCTopAppBar:nav', () => {
+    this.listenToNav = (domElement, dotnetHelper) => {
+      const topAppBar = _this.componentsById[domElement.id]
+      topAppBar.listen('MDCTopAppBar:nav', () => {
         dotnetHelper.invokeMethodAsync('OnMDCTopAppBarNav')
       })
-
-      return true
     }
   }
 

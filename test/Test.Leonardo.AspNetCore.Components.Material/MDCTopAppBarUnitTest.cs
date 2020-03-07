@@ -7,6 +7,7 @@ using Shouldly;
 using System.Linq;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
@@ -15,19 +16,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCTopAppBarUnitTest()
         {
-            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCTopAppBarComponent.attachTo"),
-                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            host.AddService(jsMock.Object);
+            jsInterop = new MDCTopAppBarJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(jsInterop));
         }
 
-        private readonly Mock<IJSRuntime> jsMock;
+        private readonly MDCTopAppBarJsInteropFake jsInterop;
 
         [Fact]
         public void HasMandatoryCssClasses()
@@ -51,34 +44,15 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void JavaScriptInstantiation()
+        public async Task OnNav_IsCalled()
         {
-            var textField = AddComponent();
+            var observer = new Mock<Spy>();
+            var sut = AddComponent(("OnNav", EventCallback.Factory.Create(this, observer.Object.Call)));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCTopAppBarComponent.attachTo", It.IsAny<object[]>()),
-                Times.Once);
-        }
+            var jsComponent = jsInterop.FindComponentById(sut.Instance.ElementId);
+            await jsComponent.Emit("MDCTopAppBar:nav");
 
-        public static bool MatchArgs_AttachTo(object[] args)
-        {
-            if (args.Length != 1)
-            {
-                return false;
-            }
-
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            return true;
+            observer.Verify(o => o.Call(), Times.Once);
         }
     }
 }
