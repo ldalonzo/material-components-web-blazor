@@ -17,6 +17,7 @@
     "@material/drawer": "^4.0.0",
     "@material/tab-bar": "^4.0.0",
     "@material/typography": "^4.0.0",
+    "@microsoft/applicationinsights-web": "^2.5.1",
     "autoprefixer": "^9.7.4",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
