@@ -1,15 +1,30 @@
 ﻿@inherits LayoutComponentBase
-
-<div class="sidebar">
-    <NavMenu />
-</div>
-
-<div class="main">
+<div class="top-app-bar__frame">
+    <MDCTopAppBar Title="Material Blazor Components" OnNav="@ToggleNavMenu" />
+    <!--
     <div class="top-row px-4">
         <a href="https://github.com/ldalonzo/material-components-web-blazor" target="_blank" class="ml-md-auto">About</a>
     </div>
-
-    <div class="content px-4">
-        @Body
+        -->
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="demo-frame">
+            <div class="sidebar">
+                <NavMenu CollapseNavMenu="@collapseNavMenu" />
+            </div>
+            <div class="main">
+                <div class="content px-4">
+                    @Body
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+@code {
+    private bool collapseNavMenu;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
