@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Testing;
 using Xunit;
 using Moq;
 using Microsoft.JSInterop;
+using Test.Leonardo.AspNetCore.Components.Material.Framework;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {

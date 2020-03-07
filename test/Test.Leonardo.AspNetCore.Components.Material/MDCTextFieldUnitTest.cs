@@ -7,6 +7,7 @@ using Moq;
 using Shouldly;
 using System.Threading.Tasks;
 using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -21,7 +22,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock
                 .Setup(r => r.InvokeAsync<object>(
                     It.Is<string>(identifier => identifier == "MDCTextFieldComponent.attachTo"),
-                    It.Is<object[]>(args => MatchAttachToArguments(args))))
+                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -35,6 +36,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
             sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field");
+            sut.ShouldHaveInputNode().Attributes["disabled"].ShouldBeNull();
         }
 
         [Fact]
@@ -172,7 +174,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             sut.ShouldHaveInputNode().Attributes["disabled"].ShouldNotBeNull();
         }
 
-        public static bool MatchAttachToArguments(object[] args)
+        private static bool MatchArgs_AttachTo(object[] args)
         {
             if (args.Length != 1)
             {

@@ -1,4 +1,4 @@
-﻿namespace Test.Leonardo.AspNetCore.Components.Material
+﻿namespace Test.Leonardo.AspNetCore.Components.Material.Framework
 {
     public class ValueSpy<T>
     {
