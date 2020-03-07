@@ -1,0 +1,3 @@
+[submodule "submodules/material-components-web-catalog"]
+	path = submodules/material-components-web-catalog
+	url = https://github.com/material-components/material-components-web-catalog.git
