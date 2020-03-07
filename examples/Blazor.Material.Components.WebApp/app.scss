@@ -1,0 +1,11 @@
+@import "@material/typography/mdc-typography";
+
+@import '../../submodules/material-components-web-catalog/src/styles/CatalogPage.scss';
+@import '../../submodules/material-components-web-catalog/src/styles/ComponentCatalogPanel.scss';
+@import '../../submodules/material-components-web-catalog/src/styles/ComponentPage.scss';
+@import '../../submodules/material-components-web-catalog/src/styles/HeroComponent.scss';
+@import '../../submodules/material-components-web-catalog/src/styles/TopAppBarCatalog.scss';
+
+.demo-frame {
+  display: flex;
+}
