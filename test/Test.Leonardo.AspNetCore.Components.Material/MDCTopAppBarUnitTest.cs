@@ -6,8 +6,8 @@ using Moq;
 using Shouldly;
 using System.Linq;
 using System.Threading.Tasks;
-using Test.Blazor.Material.Components;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
+using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material

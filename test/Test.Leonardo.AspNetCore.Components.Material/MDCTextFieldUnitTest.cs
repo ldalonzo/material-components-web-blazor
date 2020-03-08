@@ -6,7 +6,6 @@ using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
 using System.Threading.Tasks;
-using Test.Blazor.Material.Components;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;

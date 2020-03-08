@@ -3,7 +3,6 @@ using Leonardo.AspNetCore.Components.Material.Checkbox;
 using Microsoft.AspNetCore.Components;
 using Shouldly;
 using System.Threading.Tasks;
-using Test.Blazor.Material.Components;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Microsoft.AspNetCore.Components.Testing;
 using Xunit;

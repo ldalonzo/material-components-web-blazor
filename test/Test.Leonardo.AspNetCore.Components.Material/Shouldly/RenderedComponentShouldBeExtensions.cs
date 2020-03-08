@@ -3,7 +3,7 @@ using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Test.Blazor.Material.Components
+namespace Test.Leonardo.AspNetCore.Components.Material.Shouldly
 {
     public static class RenderedComponentShouldBeExtensions
     {

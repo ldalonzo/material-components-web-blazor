@@ -1,35 +1,33 @@
 ﻿using Microsoft.JSInterop;
+using Shouldly;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Test.Leonardo.AspNetCore.Components.Material.Framework;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class JSRuntimeFake : IJSRuntime
     {
-        public JSRuntimeFake(MDCTopAppBarJsInteropFake jsComponent)
-        {
-            this.jsComponent = jsComponent;
-        }
+        private readonly IDictionary<string, Func<object[], Task>> functionsByIdentifiers = new Dictionary<string, Func<object[], Task>>();
 
-        private readonly MDCTopAppBarJsInteropFake jsComponent;
+        public JSRuntimeFake(params IJSInteropComponent[] jsComponents)
+        {
+            foreach(var jsComponent in jsComponents)
+            {
+                foreach (var (identifier, func) in jsComponent.GetFunctionsDefinitions())
+                {
+                    functionsByIdentifiers.Add(identifier, func);
+                }
+            }
+        }
 
         public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, object[] args)
         {
-            switch (identifier)
-            {
-                case MDCTopAppBarJsInteropFake.attachTo:
-                    await jsComponent.AttachTo(args);
-                    return default;
+            functionsByIdentifiers.ShouldContainKey(identifier);
+            await functionsByIdentifiers[identifier](args);
 
-                case MDCTopAppBarJsInteropFake.listenToNav:
-                    await jsComponent.ListenToNav(args);
-                    return default;
-
-                default:
-                    throw new InvalidOperationException();
-            }
+            return default;
         }
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object[] args) => throw new NotImplementedException();

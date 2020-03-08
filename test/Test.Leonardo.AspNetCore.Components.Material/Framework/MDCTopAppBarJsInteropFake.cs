@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework
 {
-    public class MDCTopAppBarJsInteropFake
-    {
-        public const string attachTo = "MDCTopAppBarComponent.attachTo";
-        public const string listenToNav = "MDCTopAppBarComponent.listenToNav";
 
+    public class MDCTopAppBarJsInteropFake : IJSInteropComponent
+    {
         private readonly IDictionary<string, MDCTopAppBarJsFake> componentsById = new Dictionary<string, MDCTopAppBarJsFake>();
 
         public Task AttachTo(object[] args)
@@ -62,5 +60,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework
 
             return default;
         }
+
+        public IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
+            {
+                { "MDCTopAppBarComponent.attachTo", AttachTo },
+                { "MDCTopAppBarComponent.listenToNav", ListenToNav }
+            };
     }
 }

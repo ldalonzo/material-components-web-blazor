@@ -6,7 +6,6 @@ using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Test.Blazor.Material.Components;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_ReferenceType;
