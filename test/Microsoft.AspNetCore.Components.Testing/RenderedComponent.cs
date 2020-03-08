@@ -47,12 +47,17 @@ namespace Microsoft.AspNetCore.Components.Testing
             // The most awkward part of this will be handling Markup frames, since
             // they are HTML strings so would need to be parsed, or perhaps you can
             // pass through those calls into Fizzler.Systems.HtmlAgilityPack.
+            return GetDocumentNode().QuerySelectorAll(selector).ToList();
+        }
 
+        public HtmlNode GetDocumentNode()
+        {
             var markup = GetMarkup();
             var html = new TestHtmlDocument(_renderer);
 
             html.LoadHtml(markup);
-            return html.DocumentNode.QuerySelectorAll(selector).ToList();
+
+            return html.DocumentNode;
         }
     }
 }
