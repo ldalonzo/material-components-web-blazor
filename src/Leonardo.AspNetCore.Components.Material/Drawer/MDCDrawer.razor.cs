@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.Drawer
 {
@@ -10,9 +10,6 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
     /// <see href="https://material.io/develop/web/components/drawers/"/>
     public partial class MDCDrawer : MaterialComponent
     {
-        private const string MDCDrawerComponent_AttachTo = "MDCDrawerComponent.attachTo";
-        private const string MDCDrawerComponent_ToggleOpen = "MDCDrawerComponent.toggleOpen";
-
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
@@ -21,19 +18,15 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         protected override string BuildClassString()
         {
-            return "mdc-drawer";
-        }
+            var sb = new StringBuilder(CSSClasses.MDCDrawer);
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
+            if (!string.IsNullOrWhiteSpace(Class))
             {
-                await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_AttachTo, _MDCDrawer);
+                sb.Append($" {Class}");
             }
-        }
 
-        public async Task ToggleOpen()
-            => await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
+            return sb.ToString();
+        }
 
         public static class CSSClasses
         {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
+
     public class JSRuntimeFake : IJSRuntime
     {
         private readonly IDictionary<string, Func<object[], Task>> functionsByIdentifiers = new Dictionary<string, Func<object[], Task>>();
