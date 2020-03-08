@@ -3,7 +3,6 @@ using Leonardo.AspNetCore.Components.Material.Button;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
@@ -15,7 +14,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     public class MDCButtonUnitTest : MaterialComponentUnitTest<MDCButton>
     {
         public MDCButtonUnitTest()
-            : base(new ServiceCollection().AddSingleton(new Mock<IJSRuntime>().Object))
+            : base(h => h.AddService(new Mock<IJSRuntime>().Object))
         {
         }
 

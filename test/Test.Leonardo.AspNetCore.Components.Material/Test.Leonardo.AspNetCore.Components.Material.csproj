@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Leonardo.AspNetCore.Components.Material\Leonardo.AspNetCore.Components.Material.csproj" />
-    <ProjectReference Include="..\Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj" />
+    <ProjectReference Include="..\..\submodules\BlazorUnitTestingPrototype\Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj" />
   </ItemGroup>
 
 </Project>

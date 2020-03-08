@@ -1,8 +1,8 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material;
 using Microsoft.AspNetCore.Components.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
+using System;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
@@ -10,9 +10,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     public abstract class MaterialComponentUnitTest<T>
         where T : MaterialComponent
     {
-        public MaterialComponentUnitTest(IServiceCollection services = null)
+        public MaterialComponentUnitTest(Action<TestHost> initialize = null)
         {
-            host = new TestHost(services);
+            host = new TestHost();
+            initialize?.Invoke(host);
         }
 
         protected readonly TestHost host;
