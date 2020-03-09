@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Leonardo.AspNetCore.Components.Material.List;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Drawer
 {
@@ -16,6 +18,10 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         protected ElementReference _MDCDrawer;
 
+        protected ElementReference _MDCList;
+
+        public string MDCListId => _MDCList.Id;
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder(CSSClasses.MDCDrawer);
@@ -26,6 +32,17 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
             }
 
             return sb.ToString();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
+                await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
+            }
         }
 
         public static class CSSClasses

@@ -5,10 +5,10 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework
 {
-
     public class MDCTopAppBarJsInteropFake : IJSInteropComponent
     {
         private readonly IDictionary<string, MDCTopAppBarJsFake> componentsById = new Dictionary<string, MDCTopAppBarJsFake>();

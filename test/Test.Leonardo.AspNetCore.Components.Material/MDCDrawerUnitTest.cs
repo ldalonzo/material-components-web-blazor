@@ -2,6 +2,7 @@
 using Leonardo.AspNetCore.Components.Material.Drawer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using Shouldly;
 using System.Collections.Generic;
@@ -16,9 +17,12 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCDrawerUnitTest()
         {
-            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(new MDCDrawerJsInteropFake()));
+            mdcListJsInterop = new MDCListJsIteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(new MDCDrawerJsInteropFake(), mdcListJsInterop));
             host.AddService<NavigationManager>(new FakeNavigationManager());
         }
+
+        private readonly MDCListJsIteropFake mdcListJsInterop;
 
         [Fact]
         public void HtmlStructure_MdcDrawer()
@@ -118,6 +122,18 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             itemsNode.Count.ShouldBe(items.Count());
         }
 
+        [Theory]
+        [AutoData]
+        public void PermanentlyVisibleDrawer_JavaScriptInstantiation_List(IEnumerable<MDCDrawerNavLinkData> items)
+        {
+            var sut = AddComponent(
+                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
+
+            var jsComponent = mdcListJsInterop.FindComponentById(sut.Instance.MDCListId);
+            jsComponent.ShouldNotBeNull();
+            jsComponent.WrapFocus.ShouldBeTrue();
+        }
+
         private static void BuildMDCDrawerNavLinkRenderFragment(RenderTreeBuilder b, params MDCDrawerNavLinkData[] navLinks)
         {
             int c = 0;
@@ -127,6 +143,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 b.AddAttribute(c++, "Text", item.Text);
                 b.AddAttribute(c++, "Icon", item.Icon);
                 b.AddAttribute(c++, "Href", item.Href);
+                b.AddAttribute(c++, "Match", item.Match);
                 b.CloseComponent();
             }
         }
@@ -136,6 +153,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             public string Text { get; set; }
             public string Icon { get; set; }
             public string Href { get; set; }
+            public NavLinkMatch Match { get; set; }
         }
     }
 }
