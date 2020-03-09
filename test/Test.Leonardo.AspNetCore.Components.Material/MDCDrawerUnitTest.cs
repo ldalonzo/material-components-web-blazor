@@ -1,6 +1,11 @@
-﻿using Leonardo.AspNetCore.Components.Material.Drawer;
+﻿using AutoFixture.Xunit2;
+using Leonardo.AspNetCore.Components.Material.Drawer;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
@@ -11,8 +16,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCDrawerUnitTest()
         {
-            var jsInterop = new MDCDrawerJsInteropFake();
-            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(jsInterop));
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(new MDCDrawerJsInteropFake()));
+            host.AddService<NavigationManager>(new FakeNavigationManager());
         }
 
         [Fact]
@@ -43,6 +48,94 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var rootNode = sut.GetDocumentNode();
             var asideElement = rootNode.SelectNodes("//aside/div/nav").ShouldHaveSingleItem();
             asideElement.ShouldContainCssClasses("mdc-list");
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_SingleItem_CssClasses(MDCDrawerNavLinkData item)
+        {
+            var sut = AddComponent(
+                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+
+            var rootNode = sut.GetDocumentNode();
+            var itemNode = rootNode.SelectNodes("//aside/div/nav/a").ShouldHaveSingleItem();
+            itemNode.ShouldContainCssClasses("mdc-list-item");
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_SingleItem_Href(MDCDrawerNavLinkData item)
+        {
+            var sut = AddComponent(
+                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+
+            var rootNode = sut.GetDocumentNode();
+            var itemNode = rootNode.SelectNodes("//aside/div/nav/a").ShouldHaveSingleItem();
+            var hrefAttribute = itemNode.Attributes["href"];
+            hrefAttribute.ShouldNotBeNull();
+            hrefAttribute.Value.ShouldBe(item.Href);
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_SingleItem_Icon(MDCDrawerNavLinkData item)
+        {
+            var sut = AddComponent(
+                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+
+            var rootNode = sut.GetDocumentNode();
+            var itemNode = rootNode.SelectNodes("//aside/div/nav/a/i").ShouldHaveSingleItem();
+            itemNode.ShouldContainCssClasses("material-icons", "mdc-list-item__graphic");
+            itemNode.InnerText.ShouldBe(item.Icon);
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_SingleItem_Text(MDCDrawerNavLinkData item)
+        {
+            var sut = AddComponent(
+                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+
+            var rootNode = sut.GetDocumentNode();
+            var itemsNode = rootNode.SelectNodes("//aside/div/nav/a/span").ShouldHaveSingleItem();
+
+            itemsNode.ShouldContainCssClasses("mdc-list-item__text");
+            itemsNode.InnerText.ShouldBe(item.Text);
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_MultipleItems(IEnumerable<MDCDrawerNavLinkData> items)
+        {
+            items.ShouldNotBeEmpty();
+
+            var sut = AddComponent(
+                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
+
+            var rootNode = sut.GetDocumentNode();
+            var itemsNode = rootNode.SelectNodes("//aside/div/nav/a");
+
+            itemsNode.Count.ShouldBe(items.Count());
+        }
+
+        private static void BuildMDCDrawerNavLinkRenderFragment(RenderTreeBuilder b, params MDCDrawerNavLinkData[] navLinks)
+        {
+            int c = 0;
+            foreach (var item in navLinks)
+            {
+                b.OpenComponent<MDCDrawerNavLink>(c++);
+                b.AddAttribute(c++, "Text", item.Text);
+                b.AddAttribute(c++, "Icon", item.Icon);
+                b.AddAttribute(c++, "Href", item.Href);
+                b.CloseComponent();
+            }
+        }
+
+        public class MDCDrawerNavLinkData
+        {
+            public string Text { get; set; }
+            public string Icon { get; set; }
+            public string Href { get; set; }
         }
     }
 }

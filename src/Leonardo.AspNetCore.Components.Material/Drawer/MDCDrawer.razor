@@ -2,8 +2,10 @@
 <aside @ref="_MDCDrawer"
        class="@ClassString">
     <div class="mdc-drawer__content">
-        <nav class="mdc-list">
-            @ChildContent
-        </nav>
+        <CascadingValue Value=this>
+            <nav class="mdc-list">
+                @ChildContent
+            </nav>
+        </CascadingValue>
     </div>
 </aside>
