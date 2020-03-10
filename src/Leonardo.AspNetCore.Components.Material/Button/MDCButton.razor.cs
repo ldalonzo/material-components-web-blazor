@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Leonardo.AspNetCore.Components.Material.Ripple;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System.Text;
@@ -57,7 +58,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
         {
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCRippleComponent.attachTo", mdcButtonElement);
+                await MDCRippleJSRuntime.AttachTo(JSRuntime, mdcButtonElement);
             }
         }
     }

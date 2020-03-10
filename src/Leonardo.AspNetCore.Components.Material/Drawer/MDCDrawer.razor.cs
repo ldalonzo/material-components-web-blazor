@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Leonardo.AspNetCore.Components.Material.List;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Drawer
@@ -10,8 +12,9 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
     /// <see href="https://material.io/develop/web/components/drawers/"/>
     public partial class MDCDrawer : MaterialComponent
     {
-        private const string MDCDrawerComponent_AttachTo = "MDCDrawerComponent.attachTo";
-        private const string MDCDrawerComponent_ToggleOpen = "MDCDrawerComponent.toggleOpen";
+        [Parameter] public string Title { get; set; }
+
+        [Parameter] public string Subtitle { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -19,21 +22,32 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         protected ElementReference _MDCDrawer;
 
+        protected ElementReference _MDCList;
+
+        public string MDCListId => _MDCList.Id;
+
         protected override string BuildClassString()
         {
-            return "mdc-drawer";
+            var sb = new StringBuilder(CSSClasses.MDCDrawer);
+
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
+            return sb.ToString();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await base.OnAfterRenderAsync(firstRender);
+
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_AttachTo, _MDCDrawer);
+                // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
+                await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
             }
         }
-
-        public async Task ToggleOpen()
-            => await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
 
         public static class CSSClasses
         {

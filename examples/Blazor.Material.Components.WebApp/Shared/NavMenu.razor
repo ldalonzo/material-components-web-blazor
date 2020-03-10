@@ -1,38 +1,11 @@
-﻿<div class="@(CollapseNavMenu ? "collapse" : "")">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="component/button">Button</NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="component/checkbox">Checkbox</NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="component/select">Select</NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="component/text-field">Text Field</NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="component/top-app-bar">Top App Bar</NavLink>
-        </li>
-    </ul>
-</div>
-
-@code {
-    [Parameter] public bool CollapseNavMenu { get; set; }
-}
+﻿<MDCDrawer>
+    <MDCDrawerNavLink Text="Home" Href="" Match="NavLinkMatch.All" />
+    <MDCDrawerNavLink Text="Counter" Href="counter" />
+    <MDCDrawerNavLink Text="Fetch data" Href="fetchdata" />
+    <MDCDrawerNavLink Text="Button" Href="component/button" />
+    <MDCDrawerNavLink Text="Checkbox" Href="component/checkbox" />
+    <MDCDrawerNavLink Text="Drawer" Href="component/drawer" Match="NavLinkMatch.Prefix" />
+    <MDCDrawerNavLink Text="Select" Href="component/select" />
+    <MDCDrawerNavLink Text="Text Field" Href="component/text-field" />
+    <MDCDrawerNavLink Text="Top App Bar" Href="component/top-app-bar" />
+</MDCDrawer>

@@ -1,5 +1,26 @@
 @inherits MaterialComponent
 <aside @ref="_MDCDrawer"
        class="@ClassString">
-    @ChildContent
+
+    @if (!string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Subtitle))
+    {
+        <div class="mdc-drawer__header">
+            @if (!string.IsNullOrWhiteSpace(Title))
+            {
+                <h3 class="mdc-drawer__title">@Title</h3>
+            }
+            @if (!string.IsNullOrWhiteSpace(Subtitle))
+            {
+                <h6 class="mdc-drawer__subtitle">@Subtitle</h6>
+            }
+        </div>
+    }
+
+    <div class="mdc-drawer__content">
+        <CascadingValue Value=this>
+            <nav class="mdc-list" @ref="_MDCList">
+                @ChildContent
+            </nav>
+        </CascadingValue>
+    </div>
 </aside>
