@@ -134,6 +134,34 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsComponent.WrapFocus.ShouldBeTrue();
         }
 
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_Title(string title)
+        {
+            var sut = AddComponent(("Title", title));
+
+            var rootNode = sut.GetDocumentNode();
+            var headerNode = rootNode.SelectNodes("//aside/div[1]").ShouldHaveSingleItem();
+            headerNode.ShouldContainCssClasses("mdc-drawer__header");
+
+            var titleNode = rootNode.SelectNodes("//aside/div[1]/h3").ShouldHaveSingleItem();
+            titleNode.InnerText.ShouldBe(title);
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_Subtitle(string subtitle)
+        {
+            var sut = AddComponent(("Subtitle", subtitle));
+
+            var rootNode = sut.GetDocumentNode();
+            var headerNode = rootNode.SelectNodes("//aside/div[1]").ShouldHaveSingleItem();
+            headerNode.ShouldContainCssClasses("mdc-drawer__header");
+
+            var subtitleNode = rootNode.SelectNodes("//aside/div[1]/h6").ShouldHaveSingleItem();
+            subtitleNode.InnerText.ShouldBe(subtitle);
+        }
+
         private static void BuildMDCDrawerNavLinkRenderFragment(RenderTreeBuilder b, params MDCDrawerNavLinkData[] navLinks)
         {
             int c = 0;

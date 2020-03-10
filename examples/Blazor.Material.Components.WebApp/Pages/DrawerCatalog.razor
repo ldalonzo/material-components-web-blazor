@@ -2,16 +2,25 @@
 @page "/component/drawer/options/{selected}"
 <ComponentCatalogPanel Title="Drawer">
     <HeroComponent>
-        <MDCDrawer>
+        <MDCDrawer Title="@Title" Subtitle="@Subtitle">
             <MDCDrawerNavLink Text="Inbox" Icon="inbox"   Href="/component/drawer/options/inbox" />
             <MDCDrawerNavLink Text="Outgoing" Icon="send" Href="/component/drawer/options/send" />
             <MDCDrawerNavLink Text="Drafts" Icon="drafts" Href="/component/drawer/options/drafts" />
         </MDCDrawer>
     </HeroComponent>
     <HeroComponentOptions>
+        <ComponentOption>
+            <MDCTextField Label="Title" Variant="MDCTextFieldStyle.Outlined" @bind-Value="Title" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCTextField Label="Subtitle" Variant="MDCTextFieldStyle.Outlined" @bind-Value="Subtitle" />
+        </ComponentOption>
     </HeroComponentOptions>
 </ComponentCatalogPanel>
 
 @code {
     [Parameter] public string Selected { get; set; }
+
+    private string Title { get; set; } = "Title";
+    private string Subtitle { get; set; } = "Subtitle";
 }

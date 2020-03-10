@@ -12,6 +12,10 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
     /// <see href="https://material.io/develop/web/components/drawers/"/>
     public partial class MDCDrawer : MaterialComponent
     {
+        [Parameter] public string Title { get; set; }
+
+        [Parameter] public string Subtitle { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
