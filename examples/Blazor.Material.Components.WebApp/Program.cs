@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazor.Material.Components.WebApp
 {
@@ -14,9 +15,9 @@ namespace Blazor.Material.Components.WebApp
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            var host = builder.Build();
+            builder.Services.AddBaseAddressHttpClient();
 
-            await host.RunAsync();
+            await builder.Build().RunAsync();
         }
     }
 }
