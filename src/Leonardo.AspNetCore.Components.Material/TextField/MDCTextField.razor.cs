@@ -32,8 +32,6 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
         protected ElementReference mdcTextFieldElement;
 
-        private string Id { get; set; }
-
         private string LabelId { get; set; }
 
         protected override string BuildClassString()
@@ -69,11 +67,6 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
             LabelClassString = BuildLabelClassString();
             NotchedOutlineClassString = BuildNotchedOutlineClassString();
-
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
-            }
 
             if (string.IsNullOrWhiteSpace(LabelId))
             {

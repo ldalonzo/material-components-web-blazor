@@ -22,8 +22,6 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 
         protected ElementReference mdcTopAppBarElement;
 
-        public string Id { get; private set; }
-
         public string ElementId => mdcTopAppBarElement.Id;
 
         protected override string BuildClassString()
@@ -36,16 +34,6 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
             }
 
             return sb.ToString();
-        }
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
-            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

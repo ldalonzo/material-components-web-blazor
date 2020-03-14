@@ -55,8 +55,18 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
             if (firstRender)
             {
-                // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
-                await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
+                switch(Variant)
+                {
+                    case MDCDrawerVariant.Default:
+
+                        // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
+                        await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
+                        break;
+
+                    case MDCDrawerVariant.Dismissible:
+                        await JSRuntime.InvokeVoidAsync("MDCDrawerComponent.attachTo", _MDCDrawer);
+                        break;
+                }
             }
         }
 

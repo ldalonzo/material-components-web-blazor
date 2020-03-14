@@ -3,19 +3,15 @@ import { MDCDrawer } from '@material/drawer'
 var MDCDrawerComponent = /** @class */ (function () {
   function MDCDrawerComponent () {
     var _this = this
-    this.drawers = {}
+    this.componentsById = {}
 
     this.attachTo = (domElement) => {
-      _this.drawers[domElement] = MDCDrawer.attachTo(domElement)
-
-      return true
+      _this.componentsById[domElement.id] = MDCDrawer.attachTo(domElement)
     }
 
     this.toggleOpen = (domElement) => {
-      const drawer = this.drawers[domElement]
+      const drawer = _this.componentsById[domElement.id]
       drawer.open = !drawer.open
-
-      return drawer.open
     }
   }
 

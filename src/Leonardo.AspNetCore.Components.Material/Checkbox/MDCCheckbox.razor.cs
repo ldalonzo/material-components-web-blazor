@@ -36,18 +36,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
             return Task.CompletedTask;
         }
 
-        private string Id { get; set; }
         private string LabelId => $"{Id}-label";
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
-            }
-        }
 
         protected override string BuildClassString()
         {
