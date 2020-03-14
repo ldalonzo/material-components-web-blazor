@@ -16,7 +16,9 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         [Parameter] public string Subtitle { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment DrawerContent { get; set; }
+
+        [Parameter] public MDCDrawerVariant Variant { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
@@ -29,6 +31,15 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
         protected override string BuildClassString()
         {
             var sb = new StringBuilder(CSSClasses.MDCDrawer);
+
+            if (Variant == MDCDrawerVariant.Dismissible)
+            {
+                sb.Append(" ");
+                sb.Append(CSSClasses.MDCDrawerDismissible);
+
+                sb.Append(" ");
+                sb.Append(CSSClasses.MDCDrawerOpen);
+            }
 
             if (!string.IsNullOrWhiteSpace(Class))
             {
@@ -49,7 +60,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
             }
         }
 
-        public static class CSSClasses
+        private static class CSSClasses
         {
             public const string MDCDrawer = "mdc-drawer";
 

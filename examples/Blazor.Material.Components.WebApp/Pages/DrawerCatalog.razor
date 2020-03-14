@@ -3,9 +3,11 @@
 <ComponentCatalogPanel Title="Drawer">
     <HeroComponent>
         <MDCDrawer Title="@Title" Subtitle="@Subtitle">
-            <MDCDrawerNavLink Text="Inbox" Icon="inbox"   Href="/component/drawer/options/inbox" />
-            <MDCDrawerNavLink Text="Outgoing" Icon="send" Href="/component/drawer/options/send" />
-            <MDCDrawerNavLink Text="Drafts" Icon="drafts" Href="/component/drawer/options/drafts" />
+            <DrawerContent>
+                <MDCDrawerNavLink Text="Inbox" Icon="inbox" Href="/component/drawer/options/inbox" />
+                <MDCDrawerNavLink Text="Outgoing" Icon="send" Href="/component/drawer/options/send" />
+                <MDCDrawerNavLink Text="Drafts" Icon="drafts" Href="/component/drawer/options/drafts" />
+            </DrawerContent>
         </MDCDrawer>
     </HeroComponent>
     <HeroComponentOptions>

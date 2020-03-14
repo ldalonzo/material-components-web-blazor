@@ -35,19 +35,33 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void HtmlStructure_MdcDrawerContent()
+        public void HtmlStructure_MdcDrawer_Dismissable()
         {
-            var sut = AddComponent();
+            var sut = AddComponent(("Variant", MDCDrawerVariant.Dismissible));
+
+            var rootNode = sut.GetDocumentNode();
+            var asideElement = rootNode.SelectNodes("//aside").ShouldHaveSingleItem();
+            asideElement.ShouldContainCssClasses("mdc-drawer", "mdc-drawer--dismissible", "mdc-drawer--open");
+        }
+
+        [Theory]
+        [InlineData(MDCDrawerVariant.Default)]
+        [InlineData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_MdcDrawerContent(MDCDrawerVariant variant)
+        {
+            var sut = AddComponent(("Variant", variant));
 
             var rootNode = sut.GetDocumentNode();
             var asideElement = rootNode.SelectNodes("//aside/div").ShouldHaveSingleItem();
             asideElement.ShouldContainCssClasses("mdc-drawer__content");
         }
 
-        [Fact]
-        public void HtmlStructure_Nav()
+        [Theory]
+        [InlineData(MDCDrawerVariant.Default)]
+        [InlineData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_Nav(MDCDrawerVariant variant)
         {
-            var sut = AddComponent();
+            var sut = AddComponent(("Variant", variant));
 
             var rootNode = sut.GetDocumentNode();
             var asideElement = rootNode.SelectNodes("//aside/div/nav").ShouldHaveSingleItem();
@@ -55,11 +69,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
-        [AutoData]
-        public void HtmlStructure_SingleItem_CssClasses(MDCDrawerNavLinkData item)
+        [InlineAutoData(MDCDrawerVariant.Default)]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_SingleItem_CssClasses(MDCDrawerVariant variant, MDCDrawerNavLinkData item)
         {
             var sut = AddComponent(
-                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+                ("Variant", variant),
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
             var itemNode = rootNode.SelectNodes("//aside/div/nav/a").ShouldHaveSingleItem();
@@ -67,11 +83,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
-        [AutoData]
-        public void HtmlStructure_SingleItem_Href(MDCDrawerNavLinkData item)
+        [InlineAutoData(MDCDrawerVariant.Default)]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_SingleItem_Href(MDCDrawerVariant variant, MDCDrawerNavLinkData item)
         {
             var sut = AddComponent(
-                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+                ("Variant", variant),
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
             var itemNode = rootNode.SelectNodes("//aside/div/nav/a").ShouldHaveSingleItem();
@@ -81,11 +99,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
-        [AutoData]
-        public void HtmlStructure_SingleItem_Icon(MDCDrawerNavLinkData item)
+        [InlineAutoData(MDCDrawerVariant.Default)]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_SingleItem_Icon(MDCDrawerVariant variant, MDCDrawerNavLinkData item)
         {
             var sut = AddComponent(
-                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+                ("Variant", variant),
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
             var itemNode = rootNode.SelectNodes("//aside/div/nav/a/i").ShouldHaveSingleItem();
@@ -94,11 +114,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
-        [AutoData]
-        public void HtmlStructure_SingleItem_Text(MDCDrawerNavLinkData item)
+        [InlineAutoData(MDCDrawerVariant.Default)]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_SingleItem_Text(MDCDrawerVariant variant, MDCDrawerNavLinkData item)
         {
             var sut = AddComponent(
-                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
+                ("Variant", variant),
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
             var itemsNode = rootNode.SelectNodes("//aside/div/nav/a/span").ShouldHaveSingleItem();
@@ -114,7 +136,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             items.ShouldNotBeEmpty();
 
             var sut = AddComponent(
-                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
 
             var rootNode = sut.GetDocumentNode();
             var itemsNode = rootNode.SelectNodes("//aside/div/nav/a");
@@ -127,7 +149,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void PermanentlyVisibleDrawer_JavaScriptInstantiation_List(IEnumerable<MDCDrawerNavLinkData> items)
         {
             var sut = AddComponent(
-                ("ChildContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
 
             var jsComponent = mdcListJsInterop.FindComponentById(sut.Instance.MDCListId);
             jsComponent.ShouldNotBeNull();
@@ -136,9 +158,24 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         [Theory]
         [AutoData]
-        public void HtmlStructure_Title(string title)
+        public void PermanentlyVisibleDrawer_JavaScriptInstantiation_List2(IEnumerable<MDCDrawerNavLinkData> items)
         {
-            var sut = AddComponent(("Title", title));
+            var sut = AddComponent(
+                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
+
+            var jsComponent = mdcListJsInterop.FindComponentById(sut.Instance.MDCListId);
+            jsComponent.ShouldNotBeNull();
+            jsComponent.WrapFocus.ShouldBeTrue();
+        }
+
+        [Theory]
+        [InlineAutoData(MDCDrawerVariant.Default)]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_Title(MDCDrawerVariant variant, string title)
+        {
+            var sut = AddComponent(
+                ("Variant", variant),
+                ("Title", title));
 
             var rootNode = sut.GetDocumentNode();
             var headerNode = rootNode.SelectNodes("//aside/div[1]").ShouldHaveSingleItem();
@@ -149,10 +186,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
-        [AutoData]
-        public void HtmlStructure_Subtitle(string subtitle)
+        [InlineAutoData(MDCDrawerVariant.Default)]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public void HtmlStructure_Subtitle(MDCDrawerVariant variant, string subtitle)
         {
-            var sut = AddComponent(("Subtitle", subtitle));
+            var sut = AddComponent(
+                ("Variant", variant),
+                ("Subtitle", subtitle));
 
             var rootNode = sut.GetDocumentNode();
             var headerNode = rootNode.SelectNodes("//aside/div[1]").ShouldHaveSingleItem();
