@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +21,7 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 
         protected ElementReference mdcTopAppBarElement;
 
-        public string ElementId => mdcTopAppBarElement.Id;
+        public string MdcTopAppBarElementId => mdcTopAppBarElement.Id;
 
         protected override string BuildClassString()
         {

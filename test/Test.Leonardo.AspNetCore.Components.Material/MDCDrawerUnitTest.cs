@@ -7,6 +7,7 @@ using Microsoft.JSInterop;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
@@ -18,11 +19,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public MDCDrawerUnitTest()
         {
             mdcListJsInterop = new MDCListJsIteropFake();
-            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(new MDCDrawerJsInteropFake(), mdcListJsInterop));
+            mdcDrawerJsInterop = new MDCDrawerJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(mdcDrawerJsInterop, mdcListJsInterop));
             host.AddService<NavigationManager>(new FakeNavigationManager());
         }
 
         private readonly MDCListJsIteropFake mdcListJsInterop;
+        private readonly MDCDrawerJsInteropFake mdcDrawerJsInterop;
 
         [Fact]
         public void HtmlStructure_MdcDrawer()
@@ -200,6 +203,19 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var subtitleNode = rootNode.SelectNodes("//aside/div[1]/h6").ShouldHaveSingleItem();
             subtitleNode.InnerText.ShouldBe(subtitle);
+        }
+
+        [Theory]
+        [InlineAutoData(MDCDrawerVariant.Dismissible)]
+        public async Task DismissableDrawerToggleOpen(MDCDrawerVariant variant)
+        {
+            var sut = AddComponent(("Variant", variant));
+
+            var component = mdcDrawerJsInterop.FindComponentById(sut.Instance.MDCDrawerElementId);
+            component.Open.ShouldBeFalse();
+
+            await sut.Instance.ToggleOpen();
+            component.Open.ShouldBeTrue();
         }
 
         private static void BuildMDCDrawerNavLinkRenderFragment(RenderTreeBuilder b, params MDCDrawerNavLinkData[] navLinks)

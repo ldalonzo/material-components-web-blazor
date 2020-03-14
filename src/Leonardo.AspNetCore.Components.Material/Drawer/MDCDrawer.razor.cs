@@ -23,6 +23,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCDrawer;
+        public string MDCDrawerElementId => _MDCDrawer.Id;
 
         protected ElementReference _MDCList;
 
@@ -55,7 +56,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
             if (firstRender)
             {
-                switch(Variant)
+                switch (Variant)
                 {
                     case MDCDrawerVariant.Default:
 
@@ -69,6 +70,9 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
                 }
             }
         }
+
+        public ValueTask ToggleOpen()
+            => JSRuntime.InvokeVoidAsync("MDCDrawerComponent.toggleOpen", _MDCDrawer);
 
         private static class CSSClasses
         {
