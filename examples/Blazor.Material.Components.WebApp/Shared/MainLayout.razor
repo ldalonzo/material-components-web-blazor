@@ -1,8 +1,12 @@
 ﻿@inherits LayoutComponentBase
-
 <div class="drawer-frame-root">
-    <NavMenu />
-    <div class="drawer-frame-app-content">
+    <MDCDrawer Variant="MDCDrawerVariant.Dismissible"
+               @ref="_drawerElementRef">
+        <DrawerContent>
+            <NavMenu />
+        </DrawerContent>
+    </MDCDrawer>
+    <div class="mdc-drawer-app-content mdc-drawer-app-content--full-width">
         <MDCTopAppBar Class="drawer-top-app-bar"
                       Title="Material Blazor Components"
                       OnNav="@ToggleNavMenu">
@@ -14,20 +18,17 @@
             </ActionItems>
         </MDCTopAppBar>
         <div class="drawer-main-content">
-            <div class="mdc-top-app-bar--fixed-adjust">
-            </div>
-            <div>
-                @Body
-            </div>
+            <div class="mdc-top-app-bar--fixed-adjust" >
+                </div>
+
+            @Body
         </div>
     </div>
 </div>
 
 @code {
-    private bool collapseNavMenu;
+    private MDCDrawer _drawerElementRef;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+    private async Task ToggleNavMenu()
+        => await _drawerElementRef.ToggleOpen();
 }

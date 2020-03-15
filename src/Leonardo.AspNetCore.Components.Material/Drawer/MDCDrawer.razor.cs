@@ -16,11 +16,14 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         [Parameter] public string Subtitle { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment DrawerContent { get; set; }
+
+        [Parameter] public MDCDrawerVariant Variant { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCDrawer;
+        public string MDCDrawerElementId => _MDCDrawer.Id;
 
         protected ElementReference _MDCList;
 
@@ -29,6 +32,15 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
         protected override string BuildClassString()
         {
             var sb = new StringBuilder(CSSClasses.MDCDrawer);
+
+            if (Variant == MDCDrawerVariant.Dismissible)
+            {
+                sb.Append(" ");
+                sb.Append(CSSClasses.MDCDrawerDismissible);
+
+                sb.Append(" ");
+                sb.Append(CSSClasses.MDCDrawerOpen);
+            }
 
             if (!string.IsNullOrWhiteSpace(Class))
             {
@@ -44,12 +56,25 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
             if (firstRender)
             {
-                // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
-                await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
+                switch (Variant)
+                {
+                    case MDCDrawerVariant.Default:
+
+                        // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
+                        await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
+                        break;
+
+                    case MDCDrawerVariant.Dismissible:
+                        await JSRuntime.InvokeVoidAsync("MDCDrawerComponent.attachTo", _MDCDrawer);
+                        break;
+                }
             }
         }
 
-        public static class CSSClasses
+        public ValueTask ToggleOpen()
+            => JSRuntime.InvokeVoidAsync("MDCDrawerComponent.toggleOpen", _MDCDrawer);
+
+        private static class CSSClasses
         {
             public const string MDCDrawer = "mdc-drawer";
 

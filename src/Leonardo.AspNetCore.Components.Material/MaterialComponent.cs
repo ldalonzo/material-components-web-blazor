@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 
 namespace Leonardo.AspNetCore.Components.Material
 {
@@ -8,9 +9,16 @@ namespace Leonardo.AspNetCore.Components.Material
 
         protected string ClassString { get; private set; }
 
+        protected string Id { get; set; }
+
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
+
+            if (string.IsNullOrWhiteSpace(Id))
+            {
+                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
+            }
 
             ClassString = BuildClassString();
         }

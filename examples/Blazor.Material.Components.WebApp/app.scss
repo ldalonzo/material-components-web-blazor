@@ -11,9 +11,10 @@ body {
   margin: 0;
 }
 
-.drawer-frame-app-content {
-  position: relative;
-  width: 100%;
+.mdc-drawer-app-content {
+  &--full-width {
+    width: 100%;
+  }
 }
 
 #blazor-error-ui {
