@@ -1,10 +1,30 @@
 @inherits MDCDataTable
 @typeparam TItem
+
+<CascadingValue Value=this>
+    @ChildContent
+</CascadingValue>
+
 <div class="@ClassString">
     <table class="mdc-data-table__table" aria-label="@Label">
         <thead>
+            <tr class="mdc-data-table__header-row">
+                @foreach (var column in Columns)
+                {
+                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col">@column.Header</th>
+                }
+            </tr>
         </thead>
         <tbody class="mdc-data-table__content">
+            @foreach (var item in DataSource)
+            {
+                <tr class="mdc-data-table__row">
+                    @foreach (var column in Columns)
+                    {
+                        <td></td>
+                    }
+                </tr>
+            }
         </tbody>
     </table>
 </div>
