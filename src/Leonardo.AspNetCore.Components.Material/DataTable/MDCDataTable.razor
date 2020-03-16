@@ -21,7 +21,7 @@
                 <tr class="mdc-data-table__row">
                     @foreach (var column in Columns)
                     {
-                        <td></td>
+                        <td class="mdc-data-table__cell">@GetItemDisplayText(item, column.DataMember)</td>
                     }
                 </tr>
             }

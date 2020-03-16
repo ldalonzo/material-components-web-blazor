@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.DataTable
@@ -35,6 +36,35 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
         {
             columns.Add(column);
             StateHasChanged();
+        }
+
+        protected string GetItemDisplayText<TItem>(TItem item, string dataMember)
+        {
+            if (item == null)
+            {
+                return string.Empty;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dataMember))
+            {
+                var dataMemberProperty = typeof(TItem).GetProperty(dataMember);
+                if (dataMemberProperty != null)
+                {
+                    var value = dataMemberProperty.GetValue(item);
+
+                    if (value != null)
+                    {
+                        if (value is string stringValue)
+                        {
+                            return stringValue;
+                        }
+
+                        return value.ToString();
+                    }
+                }
+            }
+
+            return string.Empty;
         }
     }
 

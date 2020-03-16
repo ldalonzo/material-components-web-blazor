@@ -7,9 +7,9 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
 
         [Parameter] public string Header { get; set; }
 
+        [Parameter] public string DataMember { get; set; }
+
         protected override void OnInitialized()
-        {
-            DataTable.AddColumn(this);
-        }
+            => DataTable.AddColumn(this);
     }
 }

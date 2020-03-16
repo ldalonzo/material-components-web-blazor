@@ -1,6 +1,62 @@
 ﻿@page "/component/data-table"
 <ComponentCatalogPanel Title="Data Table">
     <HeroComponent>
-        <MDCDataTable />
+        <MDCDataTable Label="Dessert calories" DataSource="@dessertCalories">
+            <MDCDataTableColumn Header="Dessert" DataMember="@nameof(DessertCalories.Dessert)" />
+            <MDCDataTableColumn Header="Calories" DataMember="@nameof(DessertCalories.Calories)" />
+            <MDCDataTableColumn Header="Fat" DataMember="@nameof(DessertCalories.Fat)" />
+            <MDCDataTableColumn Header="Carbs" DataMember="@nameof(DessertCalories.Carbs)" />
+            <MDCDataTableColumn Header="Protein (g)" DataMember="@nameof(DessertCalories.Protein)" />
+        </MDCDataTable>
     </HeroComponent>
 </ComponentCatalogPanel>
+
+@code{
+    private List<DessertCalories> dessertCalories;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        dessertCalories = new List<DessertCalories>
+        {
+            new DessertCalories
+            {
+                Dessert = "Frozen yogurt",
+                Calories = 159,
+                Fat = 6,
+                Carbs = 24,
+                Protein = 4
+            },
+            new DessertCalories
+            {
+                Dessert = "Ice cream sandwich",
+                Calories = 237,
+                Fat = 9,
+                Carbs = 37,
+                Protein = 4.3m
+            },
+            new DessertCalories
+            {
+                Dessert = "Eclair",
+                Calories = 262,
+                Fat = 16,
+                Carbs = 24,
+                Protein = 6
+            }
+        };
+    }
+
+    public class DessertCalories
+    {
+        public string Dessert { get; set; }
+
+        public int Calories { get; set; }
+
+        public int Fat { get; set; }
+
+        public int Carbs { get; set; }
+
+        public decimal Protein { get; set; }
+    }
+}

@@ -7,31 +7,38 @@
 
 @if (forecasts == null)
 {
-    <p><em>Loading...</em></p>
+<p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
+<MDCDataTable Label="Weather forecast" DataSource="@forecasts">
+    <MDCDataTableColumn Header="Date" DataMember="@nameof(WeatherForecast.Date)" />
+    <MDCDataTableColumn Header="Temp. (C)" DataMember="@nameof(WeatherForecast.TemperatureC)" />
+    <MDCDataTableColumn Header="Temp. (F)" DataMember="@nameof(WeatherForecast.TemperatureF)" />
+    <MDCDataTableColumn Header="Summary" DataMember="@nameof(WeatherForecast.Summary)" />
+</MDCDataTable>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var forecast in forecasts)
             {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
+        <tr>
+            <td>@forecast.Date.ToShortDateString()</td>
+            <td>@forecast.TemperatureC</td>
+            <td>@forecast.TemperatureF</td>
+            <td>@forecast.Summary</td>
+        </tr>
             }
-        </tbody>
-    </table>
+    </tbody>
+</table>
 }
 
 @code {
