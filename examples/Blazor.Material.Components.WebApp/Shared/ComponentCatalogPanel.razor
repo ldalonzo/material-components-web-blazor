@@ -23,8 +23,11 @@
             </div>
         </div>
     </div>
-    <h2 class="demo-title mdc-typography--headline6">Demos</h2>
-    <div>
-        @Demos
-    </div>
+    @if (Demos != null)
+    {
+        <h2 class="demo-title mdc-typography--headline6">Demos</h2>
+        <div>
+            @Demos
+        </div>
+    }
 </section>

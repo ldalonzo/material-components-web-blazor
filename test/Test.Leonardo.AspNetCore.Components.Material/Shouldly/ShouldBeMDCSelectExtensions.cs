@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.Testing;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
-using Test.Blazor.Material.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Shouldly
 {

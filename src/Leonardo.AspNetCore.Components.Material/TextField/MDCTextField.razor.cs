@@ -32,17 +32,18 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
         protected ElementReference mdcTextFieldElement;
 
-        private string Id { get; set; }
+        private string LabelId { get; set; }
 
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();
 
-            sb.Append("mdc-text-field");
+            sb.Append(CssClasses.MDCTextField);
 
             if (Variant == MDCTextFieldStyle.Outlined)
             {
-                sb.Append(" mdc-text-field--outlined");
+                sb.Append(" ");
+                sb.Append(CssClasses.MDCTextFieldOutlined);
             }
 
             if (!string.IsNullOrWhiteSpace(Class))
@@ -67,9 +68,9 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             LabelClassString = BuildLabelClassString();
             NotchedOutlineClassString = BuildNotchedOutlineClassString();
 
-            if (string.IsNullOrWhiteSpace(Id))
+            if (string.IsNullOrWhiteSpace(LabelId))
             {
-                Id = $"{GetType().Name}-{Guid.NewGuid().ToString().Substring(0, 4)}".ToLower();
+                LabelId = $"{Id}-label";
             }
         }
 
@@ -112,6 +113,15 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
             {
                 await JSRuntime.InvokeVoidAsync("MDCTextFieldComponent.attachTo", mdcTextFieldElement);
             }
+        }
+
+        private static class CssClasses
+        {
+            /// <summary>Mandatory</summary>
+            public static string MDCTextField = "mdc-text-field";
+
+            /// <summary>Styles the text field as an outlined text field.</summary>
+            public static string MDCTextFieldOutlined = "mdc-text-field--outlined";
         }
     }
 }

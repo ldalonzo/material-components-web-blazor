@@ -6,7 +6,7 @@ using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
 using System.Threading.Tasks;
-using Test.Blazor.Material.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -21,7 +21,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             jsMock
                 .Setup(r => r.InvokeAsync<object>(
                     It.Is<string>(identifier => identifier == "MDCTextFieldComponent.attachTo"),
-                    It.Is<object[]>(args => MatchAttachToArguments(args))))
+                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
                 .Returns(new ValueTask<object>())
                 .Verifiable();
 
@@ -34,7 +34,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public void Style_Filled_HasMandatoryCssClasses()
         {
             var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
+
             sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field");
+            sut.ShouldHaveInputNode().Attributes["disabled"].ShouldBeNull();
         }
 
         [Fact]
@@ -44,17 +46,34 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field", "mdc-text-field--outlined");
         }
 
+        [Fact]
+        public void Filled_RippleNode_Leading()
+        {
+            var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
+
+            var root = sut.GetDocumentNode();
+            root.SelectNodes("//label/span[1]").ShouldHaveSingleItem().ShouldContainCssClasses("mdc-text-field__ripple");
+        }
+
+        [Fact]
+        public void Filled_RippleNode_Trailing()
+        {
+            var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
+
+            var root = sut.GetDocumentNode();
+            root.SelectNodes("//label/span[3]").ShouldHaveSingleItem().ShouldContainCssClasses("mdc-line-ripple");
+        }
+
         [Theory]
         [InlineAutoData(MDCTextFieldStyle.Filled)]
         [InlineAutoData(MDCTextFieldStyle.Outlined)]
         public void Label_IsRendered(MDCTextFieldStyle variant, string label)
         {
-            var textField = AddComponent(
+            var sut = AddComponent(
                 ("Variant", variant),
                 ("Label", label));
 
-            var labelNode = textField.Find("label");
-            labelNode.ShouldNotBeNull();
+            var labelNode = sut.ShouldHaveLabelNode(variant);
             labelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
         }
 
@@ -63,24 +82,25 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [InlineAutoData(MDCTextFieldStyle.Outlined)]
         public void GivenTextFieldIsPreFilled_WhenFirstRendered_ThenLabelFloatsAbove(MDCTextFieldStyle variant, string label, string value)
         {
-            var textField = AddComponent(
+            var sut = AddComponent(
                 ("Variant", variant),
                 ("Label", label),
                 ("Value", value));
 
-            textField.Find("label").ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
+            sut.ShouldHaveLabelNode(variant).ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
         }
 
         [Theory]
         [AutoData]
-        public void GivenTextFieldIsPreFilledAndOutlined_WhenFirstRendered_ThenNotchedOutlineShouldHostLabel(string label, string value)
+        public void Outlined_PreFilled_WhenFirstRendered_ThenNotchedOutlineShouldHostLabel(string label, string value)
         {
-            var textField = AddComponent(
+            var sut = AddComponent(
                 ("Variant", MDCTextFieldStyle.Outlined),
                 ("Label", label),
                 ("Value", value));
 
-            var notchedOutlineNode = textField.Find("div").ChildNodes[3];
+            var rootNode = sut.GetDocumentNode();
+            var notchedOutlineNode = rootNode.SelectNodes("//label/span[1]").ShouldHaveSingleItem();
             notchedOutlineNode.ShouldNotBeNull();
             notchedOutlineNode.ShouldContainCssClasses("mdc-notched-outline", "mdc-notched-outline--notched");
         }
@@ -88,22 +108,21 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [Theory]
         [InlineData(MDCTextFieldStyle.Filled)]
         [InlineData(MDCTextFieldStyle.Outlined)]
-        public void Label_IsLinkedToInputElement(MDCTextFieldStyle variant)
+        public void InputElement_HasAriaLabelledByAttribute(MDCTextFieldStyle variant)
         {
             var sut = AddComponent(("Variant", variant));
 
             var inputElement = sut.ShouldHaveInputNode();
-            var labelElement = sut.Find("label");
-
-            var inputId = inputElement.Attributes["id"];
+            var inputId = inputElement.Attributes["aria-labelledby"];
             inputId.ShouldNotBeNull();
             inputId.Value.ShouldNotBeNullOrEmpty();
 
-            var labelFor = labelElement.Attributes["for"];
-            labelFor.ShouldNotBeNull();
-            labelFor.Value.ShouldNotBeNullOrEmpty();
+            var labelElement = sut.ShouldHaveLabelNode(variant);
+            var labelElementId = labelElement.Attributes["id"];
+            labelElementId.ShouldNotBeNull();
+            labelElementId.Value.ShouldNotBeNullOrWhiteSpace();
 
-            inputId.Value.ShouldBe(labelFor.Value);
+            inputId.Value.ShouldBe(labelElementId.Value);
         }
 
         [Theory]
@@ -172,7 +191,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             sut.ShouldHaveInputNode().Attributes["disabled"].ShouldNotBeNull();
         }
 
-        public static bool MatchAttachToArguments(object[] args)
+        private static bool MatchArgs_AttachTo(object[] args)
         {
             if (args.Length != 1)
             {

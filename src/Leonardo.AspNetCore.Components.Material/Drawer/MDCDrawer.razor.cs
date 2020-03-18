@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Leonardo.AspNetCore.Components.Material.List;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Drawer
@@ -10,32 +12,69 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
     /// <see href="https://material.io/develop/web/components/drawers/"/>
     public partial class MDCDrawer : MaterialComponent
     {
-        private const string MDCDrawerComponent_AttachTo = "MDCDrawerComponent.attachTo";
-        private const string MDCDrawerComponent_ToggleOpen = "MDCDrawerComponent.toggleOpen";
+        [Parameter] public string Title { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public string Subtitle { get; set; }
+
+        [Parameter] public RenderFragment DrawerContent { get; set; }
+
+        [Parameter] public MDCDrawerVariant Variant { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCDrawer;
+        public string MDCDrawerElementId => _MDCDrawer.Id;
+
+        protected ElementReference _MDCList;
+
+        public string MDCListId => _MDCList.Id;
 
         protected override string BuildClassString()
         {
-            return "mdc-drawer";
+            var sb = new StringBuilder(CSSClasses.MDCDrawer);
+
+            if (Variant == MDCDrawerVariant.Dismissible)
+            {
+                sb.Append(" ");
+                sb.Append(CSSClasses.MDCDrawerDismissible);
+
+                sb.Append(" ");
+                sb.Append(CSSClasses.MDCDrawerOpen);
+            }
+
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                sb.Append($" {Class}");
+            }
+
+            return sb.ToString();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await base.OnAfterRenderAsync(firstRender);
+
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_AttachTo, _MDCDrawer);
+                switch (Variant)
+                {
+                    case MDCDrawerVariant.Default:
+
+                        // For permanently visible drawer, the list must be instantiated for appropriate keyboard interaction.
+                        await MDCListJSRuntime.AttachTo(JSRuntime, _MDCList, true);
+                        break;
+
+                    case MDCDrawerVariant.Dismissible:
+                        await JSRuntime.InvokeVoidAsync("MDCDrawerComponent.attachTo", _MDCDrawer);
+                        break;
+                }
             }
         }
 
-        public async Task ToggleOpen()
-            => await JSRuntime.InvokeVoidAsync(MDCDrawerComponent_ToggleOpen, _MDCDrawer);
+        public ValueTask ToggleOpen()
+            => JSRuntime.InvokeVoidAsync("MDCDrawerComponent.toggleOpen", _MDCDrawer);
 
-        public static class CSSClasses
+        private static class CSSClasses
         {
             public const string MDCDrawer = "mdc-drawer";
 

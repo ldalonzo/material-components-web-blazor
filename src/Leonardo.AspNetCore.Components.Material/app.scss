@@ -1,5 +1,8 @@
-@import './Button/MDCButton.razor.scss';
-@import './Checkbox/MDCCheckbox.razor.scss';
+@use './Button/MDCButton.razor.scss';
+@use './Checkbox/MDCCheckbox.razor.scss';
+@use './Drawer/MDCDrawer.razor.scss';
+@use './Select/MDCSelect.razor.scss';
+@use './TextField/MDCTextField.razor.scss';
+@use './TopAppBar/MDCTopAppBar.razor.scss';
+
 @import './Icons/mdcIcons';
-@import './Select/MDCSelect.razor.scss';
-@import './TextField/MDCTextField.razor.scss';

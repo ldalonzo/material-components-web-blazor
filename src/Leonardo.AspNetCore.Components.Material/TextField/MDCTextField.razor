@@ -1,20 +1,36 @@
 @inherits MaterialComponent
-<div class="@ClassString" @ref="mdcTextFieldElement">
-    <input type="text" id="@Id" class="mdc-text-field__input" value="@Value" @oninput="@OnValueChanged" disabled="@Disabled" />
-
+<label class="@ClassString" @ref="mdcTextFieldElement">
     @if (Variant == MDCTextFieldStyle.Filled)
     {
-        <label class="@LabelClassString" for="@Id">@Label</label>
-        <div class="mdc-line-ripple"></div>
+        <span class="mdc-text-field__ripple"></span>
+
+        <input type="text"
+               id="@Id"
+               aria-labelledby="@LabelId"
+               class="mdc-text-field__input"
+               value="@Value"
+               @oninput="@OnValueChanged"
+               disabled="@Disabled" />
+
+        <span class="@LabelClassString" id="@LabelId">@Label</span>
+        <span class="mdc-line-ripple"></span>
     }
     else if (Variant == MDCTextFieldStyle.Outlined)
     {
-        <div class="@NotchedOutlineClassString">
-            <div class="mdc-notched-outline__leading"></div>
-            <div class="mdc-notched-outline__notch">
-                <label class="@LabelClassString" for="@Id">@Label</label>
-            </div>
-            <div class="mdc-notched-outline__trailing"></div>
-        </div>
+        <input type="text"
+               id="@Id"
+               aria-labelledby="@LabelId"
+               class="mdc-text-field__input"
+               value="@Value"
+               @oninput="@OnValueChanged"
+               disabled="@Disabled" />
+
+        <span class="@NotchedOutlineClassString">
+            <span class="mdc-notched-outline__leading"></span>
+            <span class="mdc-notched-outline__notch">
+                <span class="@LabelClassString" id="@LabelId">@Label</span>
+            </span>
+            <span class="mdc-notched-outline__trailing"></span>
+        </span>
     }
-</div>
+</label>

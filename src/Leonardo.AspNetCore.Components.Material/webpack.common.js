@@ -3,10 +3,9 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: [
-    './app.js',
-    './app.scss'
-  ],
+  entry: {
+    app: './app.js'
+  },
   plugins: [
     new CleanWebpackPlugin()
   ],
@@ -50,7 +49,9 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               implementation: require('sass'),
-              includePaths: ['./node_modules']
+              sassOptions: {
+                includePaths: ['./node_modules']
+              }
             }
           }
         ]
