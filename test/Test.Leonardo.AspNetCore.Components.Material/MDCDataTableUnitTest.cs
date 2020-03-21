@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.DataTable;
+using Microsoft.AspNetCore.Components;
 using Shouldly;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
@@ -58,6 +59,24 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var rootNode = sut.GetDocumentNode();
             var bodyElement = rootNode.SelectNodes("//div/table/tbody").ShouldHaveSingleItem();
             bodyElement.ShouldContainCssClasses("mdc-data-table__content");
+        }
+
+        protected RenderFragment BuildMDCDataTableColumnsFragment(params MDCDataTableColumnData[] navLinks) => b =>
+        {
+            var sequence = 0;
+            foreach (var item in navLinks)
+            {
+                b.OpenComponent<MDCDataTableColumn<T>>(sequence++);
+                b.AddAttribute(sequence++, "Header", item.Header);
+                b.AddAttribute(sequence++, "DataMember", item.DataMember);
+                b.CloseComponent();
+            }
+        };
+
+        protected class MDCDataTableColumnData
+        {
+            public string Header { get; set; }
+            public string DataMember { get; set; }
         }
     }
 }

@@ -11,34 +11,16 @@
 }
 else
 {
-<MDCDataTable Label="Weather forecast" DataSource="@forecasts">
-    <MDCDataTableColumn Header="Date" DataMember="@nameof(WeatherForecast.Date)" />
-    <MDCDataTableColumn Header="Temp. (C)" DataMember="@nameof(WeatherForecast.TemperatureC)" />
-    <MDCDataTableColumn Header="Temp. (F)" DataMember="@nameof(WeatherForecast.TemperatureF)" />
-    <MDCDataTableColumn Header="Summary" DataMember="@nameof(WeatherForecast.Summary)" />
+<MDCDataTable Label="Weather forecast" DataSource="@forecasts" TItem="WeatherForecast">
+    <MDCDataTableColumn Header="Date" DataMember="@nameof(WeatherForecast.Date)" TItem="WeatherForecast">
+        <DataTemplate>
+            @context.Date.ToShortDateString()
+        </DataTemplate>
+    </MDCDataTableColumn>
+    <MDCDataTableColumn Header="Temp. (C)" DataMember="@nameof(WeatherForecast.TemperatureC)" TItem="WeatherForecast" />
+    <MDCDataTableColumn Header="Temp. (F)" DataMember="@nameof(WeatherForecast.TemperatureF)" TItem="WeatherForecast" />
+    <MDCDataTableColumn Header="Summary" DataMember="@nameof(WeatherForecast.Summary)" TItem="WeatherForecast" />
 </MDCDataTable>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var forecast in forecasts)
-            {
-        <tr>
-            <td>@forecast.Date.ToShortDateString()</td>
-            <td>@forecast.TemperatureC</td>
-            <td>@forecast.TemperatureF</td>
-            <td>@forecast.Summary</td>
-        </tr>
-            }
-    </tbody>
-</table>
 }
 
 @code {

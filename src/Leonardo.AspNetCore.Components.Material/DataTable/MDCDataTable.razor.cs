@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.DataTable
@@ -29,38 +27,20 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
             return sb.ToString();
         }
 
-        private readonly IList<MDCDataTableColumn> columns = new List<MDCDataTableColumn>();
-        protected IEnumerable<MDCDataTableColumn> Columns => columns;
-
-        internal void AddColumn(MDCDataTableColumn column)
-        {
-            columns.Add(column);
-            StateHasChanged();
-        }
-
         protected string GetItemDisplayText<TItem>(TItem item, string dataMember)
         {
-            if (item == null)
-            {
-                return string.Empty;
-            }
-
             if (!string.IsNullOrWhiteSpace(dataMember))
             {
                 var dataMemberProperty = typeof(TItem).GetProperty(dataMember);
-                if (dataMemberProperty != null)
+                var value = dataMemberProperty.GetValue(item);
+                if (value != null)
                 {
-                    var value = dataMemberProperty.GetValue(item);
-
-                    if (value != null)
+                    if (value is string stringValue)
                     {
-                        if (value is string stringValue)
-                        {
-                            return stringValue;
-                        }
-
-                        return value.ToString();
+                        return stringValue;
                     }
+
+                    return value.ToString();
                 }
             }
 
@@ -71,6 +51,15 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
     public partial class MDCDataTable<TItem> : MDCDataTable
     {
         [Parameter] public IReadOnlyList<TItem> DataSource { get; set; }
+
+        private readonly IList<MDCDataTableColumn<TItem>> columns = new List<MDCDataTableColumn<TItem>>();
+        protected IEnumerable<MDCDataTableColumn<TItem>> Columns => columns;
+
+        internal void AddColumn(MDCDataTableColumn<TItem> column)
+        {
+            columns.Add(column);
+            StateHasChanged();
+        }
 
         protected override void OnParametersSet()
         {

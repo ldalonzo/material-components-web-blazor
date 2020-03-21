@@ -1,0 +1,9 @@
+﻿<MDCDataTable Label="Weather forecast" DataSource="@Forecasts" TItem="WeatherForecast">
+    <MDCDataTableColumn Header="Date" DataMember="@nameof(WeatherForecast.Date)" TItem="WeatherForecast">
+        <DataTemplate>@context.Date.ToShortDateString()</DataTemplate>
+    </MDCDataTableColumn>
+</MDCDataTable>
+
+@code {
+    [Parameter] public WeatherForecast[] Forecasts { get; set; }
+}
