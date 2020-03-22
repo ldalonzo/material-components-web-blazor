@@ -2,6 +2,7 @@
     <MDCDataTableColumn Header="Date" DataMember="@nameof(WeatherForecast.Date)" TItem="WeatherForecast">
         <DataTemplate>@context.Date.ToShortDateString()</DataTemplate>
     </MDCDataTableColumn>
+    <MDCDataTableColumn Header="Temp. (C)" DataMember="@nameof(WeatherForecast.TemperatureC)" Numeric="true" TItem="WeatherForecast" />
 </MDCDataTable>
 
 @code {

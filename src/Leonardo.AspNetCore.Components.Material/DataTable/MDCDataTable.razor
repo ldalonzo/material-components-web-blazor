@@ -8,7 +8,7 @@
                 <tr class="mdc-data-table__header-row">
                     @foreach (var column in Columns)
                     {
-                        <th class="mdc-data-table__header-cell" role="columnheader" scope="col">@column.Header</th>
+                        <th class="@column.GetHeaderCssClass()" role="columnheader" scope="col">@column.Header</th>
                     }
                 </tr>
             </thead>
@@ -20,11 +20,11 @@
                         {
                             @if (column.DataTemplate != null)
                             {
-                                <td class="mdc-data-table__cell">@column.DataTemplate(item)</td>
+                                <td class="@column.GetCellCssClass()">@column.DataTemplate(item)</td>
                             }
                             else
                             {
-                                <td class="mdc-data-table__cell">@GetItemDisplayText(item, column.DataMember)</td>
+                                <td class="@column.GetCellCssClass()">@GetItemDisplayText(item, column.DataMember)</td>
                             }
                         }
                     </tr>

@@ -2,11 +2,11 @@
 <ComponentCatalogPanel Title="Data Table">
     <HeroComponent>
         <MDCDataTable Label="Dessert calories" DataSource="@dessertCalories" TItem="DessertCalories">
-            <MDCDataTableColumn Header="Dessert" DataMember="@nameof(DessertCalories.Dessert)" TItem="DessertCalories" />
-            <MDCDataTableColumn Header="Calories" DataMember="@nameof(DessertCalories.Calories)" TItem="DessertCalories" />
-            <MDCDataTableColumn Header="Fat" DataMember="@nameof(DessertCalories.Fat)" TItem="DessertCalories" />
-            <MDCDataTableColumn Header="Carbs" DataMember="@nameof(DessertCalories.Carbs)" TItem="DessertCalories" />
-            <MDCDataTableColumn Header="Protein (g)" DataMember="@nameof(DessertCalories.Protein)" TItem="DessertCalories" />
+            <MDCDataTableColumn Header="Dessert"     DataMember="@nameof(DessertCalories.Dessert)"  TItem="DessertCalories" />
+            <MDCDataTableColumn Header="Fat"         DataMember="@nameof(DessertCalories.Fat)"      TItem="DessertCalories" Numeric="true" />
+            <MDCDataTableColumn Header="Carbs"       DataMember="@nameof(DessertCalories.Carbs)"    TItem="DessertCalories" Numeric="true" />
+            <MDCDataTableColumn Header="Protein (g)" DataMember="@nameof(DessertCalories.Protein)"  TItem="DessertCalories" Numeric="true" />
+            <MDCDataTableColumn Header="Calories"    DataMember="@nameof(DessertCalories.Calories)" TItem="DessertCalories" Numeric="true" />
         </MDCDataTable>
     </HeroComponent>
 </ComponentCatalogPanel>

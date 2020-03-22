@@ -17,8 +17,8 @@ else
             @context.Date.ToShortDateString()
         </DataTemplate>
     </MDCDataTableColumn>
-    <MDCDataTableColumn Header="Temp. (C)" DataMember="@nameof(WeatherForecast.TemperatureC)" TItem="WeatherForecast" />
-    <MDCDataTableColumn Header="Temp. (F)" DataMember="@nameof(WeatherForecast.TemperatureF)" TItem="WeatherForecast" />
+    <MDCDataTableColumn Header="Temp. (C)" DataMember="@nameof(WeatherForecast.TemperatureC)" Numeric="true" TItem="WeatherForecast" />
+    <MDCDataTableColumn Header="Temp. (F)" DataMember="@nameof(WeatherForecast.TemperatureF)" Numeric="true" TItem="WeatherForecast" />
     <MDCDataTableColumn Header="Summary" DataMember="@nameof(WeatherForecast.Summary)" TItem="WeatherForecast" />
 </MDCDataTable>
 }
