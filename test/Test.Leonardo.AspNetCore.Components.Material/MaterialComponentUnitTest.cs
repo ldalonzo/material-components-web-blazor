@@ -1,5 +1,5 @@
 ﻿using AutoFixture.Xunit2;
-using Leonardo.AspNetCore.Components.Material;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Shouldly;
 using System;
@@ -7,8 +7,8 @@ using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
-    public abstract class MaterialComponentUnitTest<T>
-        where T : MaterialComponent
+    public abstract class MaterialComponentUnitTest<TComponent>
+        where TComponent : IComponent
     {
         public MaterialComponentUnitTest(Action<TestHost> initialize = null)
         {
@@ -18,12 +18,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         protected readonly TestHost host;
 
-        protected RenderedComponent<T> AddComponent(params (string, object)[] parameters)
-        {
-            var component = host.AddComponent<T>(parameters);
-
-            return component;
-        }
+        protected RenderedComponent<TComponent> AddComponent(params (string, object)[] parameters)
+            => host.AddComponent<TComponent>(parameters);
 
         [Fact]
         public void TestComponentLifecycle()
@@ -35,7 +31,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [Theory, AutoData]
         public void TestRenderCustomCssClass(string customCssClass)
         {
-            var component = AddComponent((nameof(MaterialComponent.Class), customCssClass));
+            var component = AddComponent(("class", customCssClass));
             component.GetMarkup().ShouldContain(customCssClass);
         }
     }

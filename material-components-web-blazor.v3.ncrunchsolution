@@ -1,6 +1,11 @@
 ﻿<SolutionConfiguration>
   <Settings>
     <AllowParallelTestExecution>True</AllowParallelTestExecution>
+    <MetricsExclusionList>
+      <Value>test\Leonardo.AspNetCore.Components.Material.Testing\Leonardo.AspNetCore.Components.Material.Testing.csproj</Value>
+      <Value>test\Test.Leonardo.AspNetCore.Components.Material\Test.Leonardo.AspNetCore.Components.Material.csproj</Value>
+      <Value>submodules\BlazorUnitTestingPrototype\Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj</Value>
+    </MetricsExclusionList>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>
 </SolutionConfiguration>

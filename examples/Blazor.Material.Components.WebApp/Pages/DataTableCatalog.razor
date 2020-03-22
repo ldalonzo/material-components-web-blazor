@@ -1,0 +1,71 @@
+﻿@page "/component/data-table"
+<ComponentCatalogPanel Title="Data Table">
+    <HeroComponent>
+        <MDCDataTable Label="Dessert calories" DataSource="@dessertCalories" TItem="DessertCalories" Density="@Density">
+            <MDCDataTableColumn Header="Dessert"     DataMember="@nameof(DessertCalories.Dessert)"  TItem="DessertCalories" />
+            <MDCDataTableColumn Header="Fat"         DataMember="@nameof(DessertCalories.Fat)"      TItem="DessertCalories" Numeric="true" />
+            <MDCDataTableColumn Header="Carbs"       DataMember="@nameof(DessertCalories.Carbs)"    TItem="DessertCalories" Numeric="true" />
+            <MDCDataTableColumn Header="Protein (g)" DataMember="@nameof(DessertCalories.Protein)"  TItem="DessertCalories" Numeric="true" />
+            <MDCDataTableColumn Header="Calories"    DataMember="@nameof(DessertCalories.Calories)" TItem="DessertCalories" Numeric="true" />
+        </MDCDataTable>
+    </HeroComponent>
+    <HeroComponentOptions>
+        <ComponentOption>
+            <MDCSelect Label="Density" DataSource="@DensityItems" @bind-Value="@Density" />
+        </ComponentOption>
+    </HeroComponentOptions>
+</ComponentCatalogPanel>
+
+@code{
+    private Density Density { get; set; } = Density.Normal;
+
+    private IEnumerable<Density> DensityItems => Enum.GetValues(typeof(Density)).OfType<Density>();
+
+    private List<DessertCalories> dessertCalories;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        dessertCalories = new List<DessertCalories>
+        {
+            new DessertCalories
+            {
+                Dessert = "Frozen yogurt",
+                Calories = 159,
+                Fat = 6,
+                Carbs = 24,
+                Protein = 4
+            },
+            new DessertCalories
+            {
+                Dessert = "Ice cream sandwich",
+                Calories = 237,
+                Fat = 9,
+                Carbs = 37,
+                Protein = 4.3m
+            },
+            new DessertCalories
+            {
+                Dessert = "Eclair",
+                Calories = 262,
+                Fat = 16,
+                Carbs = 24,
+                Protein = 6
+            }
+        };
+    }
+
+    public class DessertCalories
+    {
+        public string Dessert { get; set; }
+
+        public int Calories { get; set; }
+
+        public int Fat { get; set; }
+
+        public int Carbs { get; set; }
+
+        public decimal Protein { get; set; }
+    }
+}
