@@ -1,4 +1,5 @@
 ﻿using AutoFixture.Xunit2;
+using Leonardo.AspNetCore.Components.Material;
 using Leonardo.AspNetCore.Components.Material.DataTable;
 using Microsoft.AspNetCore.Components;
 using Shouldly;
@@ -17,6 +18,31 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var rootNode = sut.GetDocumentNode();
             var divElement = rootNode.SelectNodes("//div").ShouldHaveSingleItem();
             divElement.ShouldContainCssClasses("mdc-data-table");
+        }
+
+        [Theory]
+        [InlineData(Density.Normal)]
+        [InlineData(Density.Dense2)]
+        [InlineData(Density.Dense4)]
+        public void HtmlStructure_MdcDataTable_Density(Density density)
+        {
+            var sut = AddComponent(("Density", density));
+
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("//div").ShouldHaveSingleItem();
+
+            switch (density)
+            {
+                case Density.Normal:
+                    divElement.ShouldContainCssClasses("mdc-data-table");
+                    break;
+                case Density.Dense2:
+                    divElement.ShouldContainCssClasses("mdc-data-table", "mdc-data-table--density-2");
+                    break;
+                case Density.Dense4:
+                    divElement.ShouldContainCssClasses("mdc-data-table", "mdc-data-table--density-4");
+                    break;
+            }
         }
 
         [Fact]

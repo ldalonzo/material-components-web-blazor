@@ -13,11 +13,25 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        [Parameter] public Density Density { get; set; }
+
         protected override string BuildClassString()
         {
             var sb = new StringBuilder();
 
             sb.Append("mdc-data-table");
+
+            switch (Density)
+            {
+                case Density.Normal:
+                    break;
+                case Density.Dense2:
+                    sb.Append(" mdc-data-table--density-2");
+                    break;
+                case Density.Dense4:
+                    sb.Append(" mdc-data-table--density-4");
+                    break;
+            }
 
             if (!string.IsNullOrWhiteSpace(Class))
             {

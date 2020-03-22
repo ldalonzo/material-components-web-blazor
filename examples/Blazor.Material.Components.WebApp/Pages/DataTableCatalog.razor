@@ -1,7 +1,7 @@
 ﻿@page "/component/data-table"
 <ComponentCatalogPanel Title="Data Table">
     <HeroComponent>
-        <MDCDataTable Label="Dessert calories" DataSource="@dessertCalories" TItem="DessertCalories">
+        <MDCDataTable Label="Dessert calories" DataSource="@dessertCalories" TItem="DessertCalories" Density="@Density">
             <MDCDataTableColumn Header="Dessert"     DataMember="@nameof(DessertCalories.Dessert)"  TItem="DessertCalories" />
             <MDCDataTableColumn Header="Fat"         DataMember="@nameof(DessertCalories.Fat)"      TItem="DessertCalories" Numeric="true" />
             <MDCDataTableColumn Header="Carbs"       DataMember="@nameof(DessertCalories.Carbs)"    TItem="DessertCalories" Numeric="true" />
@@ -9,9 +9,18 @@
             <MDCDataTableColumn Header="Calories"    DataMember="@nameof(DessertCalories.Calories)" TItem="DessertCalories" Numeric="true" />
         </MDCDataTable>
     </HeroComponent>
+    <HeroComponentOptions>
+        <ComponentOption>
+            <MDCSelect Label="Density" DataSource="@DensityItems" @bind-Value="@Density" />
+        </ComponentOption>
+    </HeroComponentOptions>
 </ComponentCatalogPanel>
 
 @code{
+    private Density Density { get; set; } = Density.Normal;
+
+    private IEnumerable<Density> DensityItems => Enum.GetValues(typeof(Density)).OfType<Density>();
+
     private List<DessertCalories> dessertCalories;
 
     protected override void OnInitialized()
