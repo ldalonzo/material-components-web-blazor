@@ -15,10 +15,8 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
 
         [Parameter] public MDCDataTableDensity Density { get; set; }
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder();
-
             sb.Append("mdc-data-table");
 
             switch (Density)
@@ -33,12 +31,7 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
                     break;
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected string GetItemDisplayText<TItem>(TItem item, string dataMember)

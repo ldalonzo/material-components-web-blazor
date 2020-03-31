@@ -23,16 +23,11 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 
         public string MdcTopAppBarElementId => mdcTopAppBarElement.Id;
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder("mdc-top-app-bar");
+            sb.Append("mdc-top-app-bar");
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

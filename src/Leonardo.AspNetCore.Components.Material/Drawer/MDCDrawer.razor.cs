@@ -29,9 +29,9 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         public string MDCListId => _MDCList.Id;
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder(CSSClasses.MDCDrawer);
+            sb.Append(CSSClasses.MDCDrawer);
 
             if (Variant == MDCDrawerVariant.Dismissible)
             {
@@ -42,12 +42,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
                 sb.Append(CSSClasses.MDCDrawerOpen);
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

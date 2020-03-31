@@ -37,10 +37,8 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         private string LabelId => $"{Id}-label";
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder();
-
             sb.Append("mdc-checkbox");
 
             if (Disabled)
@@ -48,12 +46,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
                 sb.Append($" mdc-checkbox--disabled");
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

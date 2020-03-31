@@ -7,16 +7,5 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
     /// </summary>
     public partial class MDCSnackbar
     {
-        protected override string BuildClassString()
-        {
-            var sb = new StringBuilder();
-
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
-        }
     }
 }
