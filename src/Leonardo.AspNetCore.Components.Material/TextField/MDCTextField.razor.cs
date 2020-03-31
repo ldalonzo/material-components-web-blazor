@@ -10,7 +10,7 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
     /// Text fields allow users to input, edit, and select text.
     /// </summary>
     /// <seealso href="https://material.io/develop/web/components/input-controls/text-field/"/>
-    public partial class MDCTextField : MaterialComponent
+    public partial class MDCTextField
     {
         [Parameter] public string Label { get; set; }
 

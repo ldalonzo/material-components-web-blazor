@@ -9,7 +9,7 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
     /// MDC Top App Bar acts as a container for items such as application title, navigation icon, and action items.
     /// </summary>
     /// <seealso href="https://material.io/develop/web/components/top-app-bar/"/>
-    public partial class MDCTopAppBar : MaterialComponent
+    public partial class MDCTopAppBar
     {
         [Parameter] public string Title { get; set; }
 

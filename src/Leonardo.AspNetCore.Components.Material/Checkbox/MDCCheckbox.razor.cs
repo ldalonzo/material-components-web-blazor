@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +9,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
     /// Checkboxes allow the user to select one or more items from a set.
     /// </summary>
     /// <seealso href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox"/>
-    public partial class MDCCheckbox : MaterialComponent
+    public partial class MDCCheckbox
     {
         [Parameter] public string Label { get; set; }
 
