@@ -17,9 +17,9 @@
 </ComponentCatalogPanel>
 
 @code{
-    private Density Density { get; set; } = Density.Normal;
+    private MDCDataTableDensity Density { get; set; } = MDCDataTableDensity.Normal;
 
-    private IEnumerable<Density> DensityItems => Enum.GetValues(typeof(Density)).OfType<Density>();
+    private IEnumerable<MDCDataTableDensity> DensityItems => Enum.GetValues(typeof(MDCDataTableDensity)).OfType<MDCDataTableDensity>();
 
     private List<DessertCalories> dessertCalories;
 

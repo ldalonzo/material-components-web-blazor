@@ -21,10 +21,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
-        [InlineData(Density.Normal)]
-        [InlineData(Density.Dense2)]
-        [InlineData(Density.Dense4)]
-        public void HtmlStructure_MdcDataTable_Density(Density density)
+        [InlineData(MDCDataTableDensity.Normal)]
+        [InlineData(MDCDataTableDensity.Dense2)]
+        [InlineData(MDCDataTableDensity.Dense4)]
+        public void HtmlStructure_MdcDataTable_Density(MDCDataTableDensity density)
         {
             var sut = AddComponent(("Density", density));
 
@@ -33,13 +33,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             switch (density)
             {
-                case Density.Normal:
+                case MDCDataTableDensity.Normal:
                     divElement.ShouldContainCssClasses("mdc-data-table");
                     break;
-                case Density.Dense2:
+                case MDCDataTableDensity.Dense2:
                     divElement.ShouldContainCssClasses("mdc-data-table", "mdc-data-table--density-2");
                     break;
-                case Density.Dense4:
+                case MDCDataTableDensity.Dense4:
                     divElement.ShouldContainCssClasses("mdc-data-table", "mdc-data-table--density-4");
                     break;
             }

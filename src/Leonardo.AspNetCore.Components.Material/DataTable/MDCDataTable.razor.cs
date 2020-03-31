@@ -13,7 +13,7 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] public Density Density { get; set; }
+        [Parameter] public MDCDataTableDensity Density { get; set; }
 
         protected override string BuildClassString()
         {
@@ -23,12 +23,12 @@ namespace Leonardo.AspNetCore.Components.Material.DataTable
 
             switch (Density)
             {
-                case Density.Normal:
+                case MDCDataTableDensity.Normal:
                     break;
-                case Density.Dense2:
+                case MDCDataTableDensity.Dense2:
                     sb.Append(" mdc-data-table--density-2");
                     break;
-                case Density.Dense4:
+                case MDCDataTableDensity.Dense4:
                     sb.Append(" mdc-data-table--density-4");
                     break;
             }
