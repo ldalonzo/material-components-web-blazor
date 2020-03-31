@@ -1,29 +1,28 @@
 ﻿@inherits LayoutComponentBase
-<div class="drawer-frame-root">
-    <MDCDrawer Variant="MDCDrawerVariant.Dismissible"
-               @ref="_drawerElementRef">
-        <DrawerContent>
-            <NavMenu />
-        </DrawerContent>
-    </MDCDrawer>
-    <div class="mdc-drawer-app-content mdc-drawer-app-content--full-width">
-        <MDCTopAppBar Class="drawer-top-app-bar"
-                      Title="Material Blazor Components"
-                      OnNav="@ToggleNavMenu">
-            <ActionItems>
-                <a class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
-                   aria-label="Bookmark this page"
-                   href="https://github.com/ldalonzo/material-components-web-blazor"
-                   target="_blank">code</a>
-            </ActionItems>
-        </MDCTopAppBar>
-        <div class="drawer-main-content">
-            <div class="mdc-top-app-bar--fixed-adjust" >
-                </div>
 
-            @Body
-        </div>
-    </div>
+<MDCTopAppBar class="app-bar"
+              Title="Material Blazor Components"
+              OnNav="@ToggleNavMenu">
+    <ActionItems>
+        <a class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+           aria-label="Bookmark this page"
+           href="https://github.com/ldalonzo/material-components-web-blazor"
+           target="_blank">code</a>
+    </ActionItems>
+</MDCTopAppBar>
+
+<MDCDrawer class="mdc-top-app-bar--fixed-adjust"
+           Variant="MDCDrawerVariant.Dismissible"
+           @ref="_drawerElementRef">
+    <DrawerContent>
+        <NavMenu />
+    </DrawerContent>
+</MDCDrawer>
+
+<div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
+    <main class="main-content">
+        @Body
+    </main>
 </div>
 
 @code {
