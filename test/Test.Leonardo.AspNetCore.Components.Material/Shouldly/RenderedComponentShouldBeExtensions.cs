@@ -8,9 +8,16 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Shouldly
     public static class RenderedComponentShouldBeExtensions
     {
         public static IEnumerable<string> GetCssClasses(this HtmlNode target)
-            => target.Attributes["class"].Value.Split();
+        { 
+            var classAttribute = target.Attributes["class"];
+            classAttribute.ShouldNotBeNull();
+
+            return classAttribute.Value.Split();
+        }
 
         public static void ShouldContainCssClasses(this HtmlNode target, params string[] expected)
-            => target.GetCssClasses().ShouldBe(expected.AsEnumerable(), ignoreOrder: true);
+        { 
+            target.GetCssClasses().ShouldBe(expected.AsEnumerable(), ignoreOrder: true);
+        }
     }
 }

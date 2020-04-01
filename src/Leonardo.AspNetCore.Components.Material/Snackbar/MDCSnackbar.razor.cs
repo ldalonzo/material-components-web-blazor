@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.Snackbar
@@ -7,5 +8,15 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
     /// </summary>
     public partial class MDCSnackbar
     {
+        [Parameter] public string Text { get; set; }
+
+        [Parameter] public string ButtonLabel { get; set; }
+
+        protected override StringBuilder BuildClassString(StringBuilder sb)
+        {
+            sb.Append("mdc-snackbar");
+
+            return base.BuildClassString(sb);
+        }
     }
 }

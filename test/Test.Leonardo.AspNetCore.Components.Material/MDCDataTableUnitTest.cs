@@ -1,5 +1,4 @@
 ﻿using AutoFixture.Xunit2;
-using Leonardo.AspNetCore.Components.Material;
 using Leonardo.AspNetCore.Components.Material.DataTable;
 using Microsoft.AspNetCore.Components;
 using Shouldly;

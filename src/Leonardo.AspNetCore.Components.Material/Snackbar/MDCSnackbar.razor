@@ -1,3 +1,20 @@
 @inherits MaterialComponent
 <div class="@ClassString">
+    <div class="mdc-snackbar__surface">
+        <div class="mdc-snackbar__label"
+             role="status"
+             aria-live="polite">
+            @Text
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(ButtonLabel))
+        {
+            <div class="mdc-snackbar__actions">
+                <button type="button" class="mdc-button mdc-snackbar__action">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">@ButtonLabel</span>
+                </button>
+            </div>
+        }
+    </div>
 </div>

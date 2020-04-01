@@ -1,7 +1,19 @@
 ﻿@page "/component/snackbar"
 <ComponentCatalogPanel Title="Snackbar">
     <HeroComponent>
-        <MDCSnackbar>
-        </MDCSnackbar>
+        <div class="snackbar-hero">
+            <MDCSnackbar class="mdc-snackbar--open" Text="@Text" ButtonLabel="@ButtonLabel">
+            </MDCSnackbar>
+        </div>
     </HeroComponent>
+    <HeroComponentOptions>
+        <ComponentOption>
+            <MDCTextField Label="Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="Text" />
+        </ComponentOption>
+    </HeroComponentOptions>
 </ComponentCatalogPanel>
+
+@code {
+    private string Text { get; set; } = "Can't send photo. Retry in 5 seconds.";
+    private string ButtonLabel { get; set; } = "Retry";
+}
