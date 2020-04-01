@@ -1,6 +1,8 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Snackbar;
+using Microsoft.JSInterop;
 using Shouldly;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -8,6 +10,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCSnackbarUnitTest : MaterialComponentUnitTest<MDCSnackbar>
     {
+        public MDCSnackbarUnitTest()
+        {
+            host.AddService<IJSRuntime>(new JSRuntimeFake(new MDCSnackbarJsInteropFake()));
+        }
+
         [Fact]
         public void HtmlStructure_MdcSnackbar()
         {

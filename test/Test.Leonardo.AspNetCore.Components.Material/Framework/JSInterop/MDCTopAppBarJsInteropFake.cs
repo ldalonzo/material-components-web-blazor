@@ -1,25 +1,23 @@
-﻿using Leonardo.AspNetCore.Components.Material.TopAppBar;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Test.Leonardo.AspNetCore.Components.Material.Framework.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
-namespace Test.Leonardo.AspNetCore.Components.Material.Framework
+namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    public class MDCTopAppBarJsInteropFake : IJSInteropComponent
+    internal class MDCTopAppBarJsInteropFake : MDCComponentJsInterop<MDCTopAppBar>
     {
-        private readonly IDictionary<string, MDCTopAppBarJsFake> componentsById = new Dictionary<string, MDCTopAppBarJsFake>();
-
         public Task AttachTo(object[] args)
         {
             args.Length.ShouldBe(1);
             var elementRef = args[0].ShouldBeOfType<ElementReference>();
             elementRef.Id.ShouldNotBeNullOrWhiteSpace();
 
-            componentsById.Add(elementRef.Id, new MDCTopAppBarJsFake());
+            componentsById.Add(elementRef.Id, new MDCTopAppBar());
 
             return Task.CompletedTask;
         }
@@ -35,7 +33,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework
             var mdcComponent = componentsById[elementRef.Id];
 
             mdcComponent.Listen("MDCTopAppBar:nav", () => InvokeMethodAsync(
-                args[1].ShouldBeOfType<DotNetObjectReference<MDCTopAppBar>>(), "OnMDCTopAppBarNav"));
+                args[1].ShouldBeOfType<DotNetObjectReference<global::Leonardo.AspNetCore.Components.Material.TopAppBar.MDCTopAppBar>>(), "OnMDCTopAppBarNav"));
 
             static Task InvokeMethodAsync<T>(DotNetObjectReference<T> dotnetHelper, string methodName) where T : class
             {
@@ -51,17 +49,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework
             return Task.CompletedTask;
         }
 
-        public MDCTopAppBarJsFake FindComponentById(string id)
-        {
-            if (componentsById.TryGetValue(id, out var component))
-            {
-                return component;
-            }
-
-            return default;
-        }
-
-        public IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
+        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
             {
                 { "MDCTopAppBarComponent.attachTo", AttachTo },
                 { "MDCTopAppBarComponent.listenToNav", ListenToNav }

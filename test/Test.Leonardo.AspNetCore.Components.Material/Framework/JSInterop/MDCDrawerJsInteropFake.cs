@@ -3,21 +3,20 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Test.Leonardo.AspNetCore.Components.Material.Framework.Components;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
-namespace Test.Leonardo.AspNetCore.Components.Material.Framework
+namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    public class MDCDrawerJsInteropFake : IJSInteropComponent
+    internal class MDCDrawerJsInteropFake : MDCComponentJsInterop<MDCDrawer>
     {
-        private readonly IDictionary<string, MDCDismissibleDrawerFoundationFake> componentsById = new Dictionary<string, MDCDismissibleDrawerFoundationFake>();
-
         public Task AttachTo(object[] args)
         {
             args.Length.ShouldBe(1);
             var elementRef = args[0].ShouldBeOfType<ElementReference>();
             elementRef.Id.ShouldNotBeNullOrWhiteSpace();
 
-            componentsById.Add(elementRef.Id, new MDCDismissibleDrawerFoundationFake());
+            componentsById.Add(elementRef.Id, new MDCDrawer());
 
             return Task.CompletedTask;
         }
@@ -35,17 +34,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework
             return Task.CompletedTask;
         }
 
-        public MDCDismissibleDrawerFoundationFake FindComponentById(string id)
-        {
-            if (componentsById.TryGetValue(id, out var component))
-            {
-                return component;
-            }
-
-            return default;
-        }
-
-        public IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
+        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
             {
                 { "MDCDrawerComponent.attachTo", AttachTo },
                 { "MDCDrawerComponent.toggleOpen", ToggleOpen }
