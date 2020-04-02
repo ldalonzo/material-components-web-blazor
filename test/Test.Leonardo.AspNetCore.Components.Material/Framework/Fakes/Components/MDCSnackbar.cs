@@ -6,6 +6,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Component
     {
         public void Open()
         {
+            IsOpen = true;
         }
+
+        public bool IsOpen { get; private set; }
     }
 }

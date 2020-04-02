@@ -8,6 +8,10 @@ var MDCSnackbarComponent = /** @class */ (function () {
     this.attachTo = (domElement) => {
       _this.componentsById[domElement.id] = MDCSnackbar.attachTo(domElement)
     }
+
+    this.open = (domElement) => {
+      _this.componentsById[domElement.id].open()
+    }
   }
 
   return MDCSnackbarComponent

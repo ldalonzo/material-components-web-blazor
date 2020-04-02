@@ -2,6 +2,7 @@
 using Leonardo.AspNetCore.Components.Material.Snackbar;
 using Microsoft.JSInterop;
 using Shouldly;
+using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
@@ -12,8 +13,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCSnackbarUnitTest()
         {
-            host.AddService<IJSRuntime>(new JSRuntimeFake(new MDCSnackbarJsInteropFake()));
+            FakeComponents = new MDCSnackbarJsInteropFake();
+            host.AddService<IJSRuntime>(new JSRuntimeFake(FakeComponents));
         }
+
+        private readonly MDCSnackbarJsInteropFake FakeComponents;
 
         [Fact]
         public void HtmlStructure_MdcSnackbar()
@@ -128,6 +132,18 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var labelElement = rootNode.SelectNodes("/div/div/div[2]/button/span").ShouldHaveSingleItem();
             labelElement.ShouldContainCssClasses("mdc-button__label");
             labelElement.InnerText.Trim().ShouldBe(buttonLabel);
+        }
+
+        [Fact]
+        public async Task Open()
+        {
+            var sut = AddComponent();
+
+            await sut.Instance.Open();
+
+            var fake = FakeComponents.FindComponentById(sut.Instance.ElementReferenceId);
+            fake.ShouldNotBeNull();
+            fake.IsOpen.ShouldBeTrue();
         }
     }
 }

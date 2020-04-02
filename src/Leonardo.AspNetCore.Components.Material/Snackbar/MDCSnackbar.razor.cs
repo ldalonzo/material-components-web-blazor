@@ -18,6 +18,8 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
 
         protected ElementReference _MDCSnackbar;
 
+        public string ElementReferenceId => _MDCSnackbar.Id;
+
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
             sb.Append("mdc-snackbar");
@@ -34,5 +36,8 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
                 await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.attachTo", _MDCSnackbar);
             }
         }
+
+        public async Task Open()
+            => await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.open", _MDCSnackbar);
     }
 }

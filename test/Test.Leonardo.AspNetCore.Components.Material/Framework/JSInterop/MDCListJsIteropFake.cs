@@ -10,7 +10,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
     internal class MDCListJsIteropFake : MDCComponentJsInterop<MDCList>
     {
-        public Task AttachTo(object[] args)
+        public Task AttachToAndWrapFocus(object[] args)
         {
             args.Length.ShouldBe(2);
             var elementRef = args[0].ShouldBeOfType<ElementReference>();
@@ -25,7 +25,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 
         public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
             {
-                { "MDCListComponent.attachTo", AttachTo }
+                { "MDCListComponent.attachTo", AttachToAndWrapFocus }
             };
     }
 }

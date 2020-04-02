@@ -10,17 +10,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
     internal class MDCDrawerJsInteropFake : MDCComponentJsInterop<MDCDrawer>
     {
-        public Task AttachTo(object[] args)
-        {
-            args.Length.ShouldBe(1);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            componentsById.Add(elementRef.Id, new MDCDrawer());
-
-            return Task.CompletedTask;
-        }
-
         public Task ToggleOpen(object[] args)
         {
             args.Length.ShouldBe(1);

@@ -11,17 +11,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
     internal class MDCTopAppBarJsInteropFake : MDCComponentJsInterop<MDCTopAppBar>
     {
-        public Task AttachTo(object[] args)
-        {
-            args.Length.ShouldBe(1);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            componentsById.Add(elementRef.Id, new MDCTopAppBar());
-
-            return Task.CompletedTask;
-        }
-
         public Task ListenToNav(object[] args)
         {
             args.Length.ShouldBe(2);

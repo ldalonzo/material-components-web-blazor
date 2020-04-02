@@ -10,18 +10,22 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
     internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbar>
     {
-        public Task AttachTo(object[] args)
+        public Task Open(object[] args)
         {
             args.Length.ShouldBe(1);
             var elementRef = args[0].ShouldBeOfType<ElementReference>();
             elementRef.Id.ShouldNotBeNullOrWhiteSpace();
+
+            var component = FindComponentById(elementRef.Id);
+            component.Open();
 
             return Task.CompletedTask;
         }
 
         public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
         {
-            { "MDCSnackbarComponent.attachTo", AttachTo }
+            { "MDCSnackbarComponent.attachTo", AttachTo },
+            { "MDCSnackbarComponent.open", Open }
         };
     }
 }

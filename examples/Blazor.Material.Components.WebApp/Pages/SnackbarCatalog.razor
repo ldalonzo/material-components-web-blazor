@@ -2,8 +2,7 @@
 <ComponentCatalogPanel Title="Snackbar">
     <HeroComponent>
         <div class="snackbar-hero">
-            <MDCSnackbar class="mdc-snackbar--open" Text="@Text" ButtonLabel="@ButtonLabel">
-            </MDCSnackbar>
+            <MDCSnackbar class="mdc-snackbar--open" Text="@Text" ButtonLabel="@ButtonLabel" />
         </div>
     </HeroComponent>
     <HeroComponentOptions>
@@ -11,9 +10,15 @@
             <MDCTextField Label="Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="Text" />
         </ComponentOption>
     </HeroComponentOptions>
+    <Demos>
+        <MDCSnackbar @ref="_demo" Text="@Text" ButtonLabel="@ButtonLabel" />
+        <MDCButton Variant="@MDCButtonStyle.Raised" OnClick="@(_ => _demo.Open())">Baseline</MDCButton>
+    </Demos>
 </ComponentCatalogPanel>
 
 @code {
     private string Text { get; set; } = "Can't send photo. Retry in 5 seconds.";
     private string ButtonLabel { get; set; } = "Retry";
+
+    private MDCSnackbar _demo;
 }

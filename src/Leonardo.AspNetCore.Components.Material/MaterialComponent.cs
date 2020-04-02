@@ -7,12 +7,12 @@ namespace Leonardo.AspNetCore.Components.Material
 {
     public abstract class MaterialComponent : ComponentBase
     {
+        [Parameter] public string Id { get; set; }
+
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; }
 
         protected string ClassString { get; private set; }
-
-        protected string Id { get; set; }
 
         protected override void OnParametersSet()
         {
@@ -39,6 +39,5 @@ namespace Leonardo.AspNetCore.Components.Material
 
             return sb;
         }
-
     }
 }
