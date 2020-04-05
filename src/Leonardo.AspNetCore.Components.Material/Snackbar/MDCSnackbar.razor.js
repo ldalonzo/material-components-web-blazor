@@ -12,6 +12,10 @@ var MDCSnackbarComponent = /** @class */ (function () {
     this.open = (domElement) => {
       _this.componentsById[domElement.id].open()
     }
+
+    this.setLabelText = (domElement, labelText) => {
+      _this.componentsById[domElement.id].labelText = labelText
+    }
   }
 
   return MDCSnackbarComponent

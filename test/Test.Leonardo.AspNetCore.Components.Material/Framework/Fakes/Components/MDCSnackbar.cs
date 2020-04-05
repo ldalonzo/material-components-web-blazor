@@ -10,5 +10,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Component
         }
 
         public bool IsOpen { get; private set; }
+
+        public string LabelText { get; set; }
     }
 }

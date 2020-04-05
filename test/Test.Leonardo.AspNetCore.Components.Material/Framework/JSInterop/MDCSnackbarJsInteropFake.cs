@@ -22,10 +22,24 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
             return Task.CompletedTask;
         }
 
+        public Task SetLabelText(object[] args)
+        {
+            args.Length.ShouldBe(2);
+            var elementRef = args[0].ShouldBeOfType<ElementReference>();
+            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
+
+            var component = FindComponentById(elementRef.Id);
+            component.ShouldNotBeNull();
+            component.LabelText = args[1].ShouldBeOfType<string>();
+
+            return Task.CompletedTask;
+        }
+
         public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
         {
             { "MDCSnackbarComponent.attachTo", AttachTo },
-            { "MDCSnackbarComponent.open", Open }
+            { "MDCSnackbarComponent.open", Open },
+            { "MDCSnackbarComponent.setLabelText", SetLabelText}
         };
     }
 }

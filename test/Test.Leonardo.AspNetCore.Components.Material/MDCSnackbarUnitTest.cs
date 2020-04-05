@@ -60,11 +60,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             divElement.InnerText.Trim().ShouldBe(label);
         }
 
-        [Theory]
-        [AutoData]
-        public void HtmlStructure_MdcSnackbar_Label_Role(string label)
+        [Fact]
+        public void HtmlStructure_MdcSnackbar_Label_Role()
         {
-            var sut = AddComponent(("Label", label));
+            var sut = AddComponent();
 
             var rootNode = sut.GetDocumentNode();
             var divElement = rootNode.SelectNodes("/div/div[1]/div").ShouldHaveSingleItem();
@@ -73,11 +72,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             roleAttribute.Value.ShouldBe("status");
         }
 
-        [Theory]
-        [AutoData]
-        public void HtmlStructure_MdcSnackbar_Label_Aria(string label)
+        [Fact]
+        public void HtmlStructure_MdcSnackbar_Label_Aria()
         {
-            var sut = AddComponent(("Label", label));
+            var sut = AddComponent();
 
             var rootNode = sut.GetDocumentNode();
             var divElement = rootNode.SelectNodes("/div/div[1]/div").ShouldHaveSingleItem();
@@ -144,6 +142,17 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var fake = FakeComponents.FindComponentById(sut.Instance.ElementReferenceId);
             fake.ShouldNotBeNull();
             fake.IsOpen.ShouldBeTrue();
+        }
+
+        [Theory]
+        [AutoData]
+        public void LabelTextHasTheMostUpToDateValue(string text)
+        {
+            var sut = AddComponent(("Text", text));
+
+            var fake = FakeComponents.FindComponentById(sut.Instance.ElementReferenceId);
+            fake.ShouldNotBeNull();
+            fake.LabelText.ShouldBe(text);
         }
     }
 }
