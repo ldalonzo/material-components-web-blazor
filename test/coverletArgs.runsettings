@@ -5,8 +5,11 @@
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
           <Format>opencover</Format>
-		  <Exclude>[Microsoft.AspNetCore.Components.Testing]*</Exclude>
-		  <Include>[Blazor.Material.Components.*]</Include>
+          <Exclude>[Microsoft.AspNetCore.Components.Testing]*,[Leonardo.AspNetCore.Components.Material.Testing]*</Exclude>
+          <Include>[Leonardo.AspNetCore.Components.*]</Include>
+          <SingleHit>false</SingleHit>
+          <UseSourceLink>true</UseSourceLink>
+          <IncludeTestAssembly>false</IncludeTestAssembly>
         </Configuration>
       </DataCollector>
     </DataCollectors>
