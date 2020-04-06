@@ -11,7 +11,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
     /// Buttons allow users to take actions, and make choices, with a single tap.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/buttons/"/>
-    public partial class MDCButton : MaterialComponent
+    public partial class MDCButton
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -25,10 +25,8 @@ namespace Leonardo.AspNetCore.Components.Material.Button
 
         protected ElementReference mdcButtonElement;
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder();
-
             sb.Append("mdc-button");
 
             switch (Variant)
@@ -46,12 +44,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
                     break;
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

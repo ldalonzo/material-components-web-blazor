@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +9,7 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
     /// Text fields allow users to input, edit, and select text.
     /// </summary>
     /// <seealso href="https://material.io/develop/web/components/input-controls/text-field/"/>
-    public partial class MDCTextField : MaterialComponent
+    public partial class MDCTextField
     {
         [Parameter] public string Label { get; set; }
 
@@ -34,10 +33,8 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
         private string LabelId { get; set; }
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder();
-
             sb.Append(CssClasses.MDCTextField);
 
             if (Variant == MDCTextFieldStyle.Outlined)
@@ -46,17 +43,12 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
                 sb.Append(CssClasses.MDCTextFieldOutlined);
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
             if (Disabled)
             {
                 sb.Append(" mdc-text-field--disabled");
             }
 
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected string LabelClassString { get; private set; }

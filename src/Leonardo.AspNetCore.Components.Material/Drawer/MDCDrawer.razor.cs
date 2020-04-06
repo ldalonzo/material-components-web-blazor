@@ -10,7 +10,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
     /// The MDC Navigation Drawer is used to organize access to destinations and other functionality on an app.
     /// </summary>
     /// <see href="https://material.io/develop/web/components/drawers/"/>
-    public partial class MDCDrawer : MaterialComponent
+    public partial class MDCDrawer
     {
         [Parameter] public string Title { get; set; }
 
@@ -29,9 +29,9 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         public string MDCListId => _MDCList.Id;
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder(CSSClasses.MDCDrawer);
+            sb.Append(CSSClasses.MDCDrawer);
 
             if (Variant == MDCDrawerVariant.Dismissible)
             {
@@ -42,12 +42,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
                 sb.Append(CSSClasses.MDCDrawerOpen);
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
