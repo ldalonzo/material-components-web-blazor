@@ -7,13 +7,21 @@
             @Text
         </div>
 
-        @if (!string.IsNullOrWhiteSpace(ButtonLabel))
+        @if (HasActions)
         {
             <div class="mdc-snackbar__actions">
-                <button type="button" class="mdc-button mdc-snackbar__action">
-                    <div class="mdc-button__ripple"></div>
-                    <span class="mdc-button__label">@ButtonLabel</span>
-                </button>
+                @if (!string.IsNullOrWhiteSpace(ButtonLabel))
+                {
+                    <button type="button" class="mdc-button mdc-snackbar__action">
+                        <div class="mdc-button__ripple"></div>
+                        <span class="mdc-button__label">@ButtonLabel</span>
+                    </button>
+                }
+
+                @if (HasDismissIcon)
+                {
+                    <button class="mdc-icon-button mdc-snackbar__dismiss material-icons" title="Dismiss">close</button>
+                }
             </div>
         }
     </div>

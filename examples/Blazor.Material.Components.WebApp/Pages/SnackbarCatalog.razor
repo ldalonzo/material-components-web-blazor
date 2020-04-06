@@ -2,23 +2,33 @@
 <ComponentCatalogPanel Title="Snackbar">
     <HeroComponent>
         <div class="snackbar-hero">
-            <MDCSnackbar class="mdc-snackbar--open" Text="@Text" ButtonLabel="@ButtonLabel" />
+            <MDCSnackbar class="mdc-snackbar--open"
+                         ButtonLabel="@ButtonLabel"
+                         Text="@Text"
+                         HasDismissIcon="@HasDismissIcon" />
         </div>
     </HeroComponent>
     <HeroComponentOptions>
         <ComponentOption>
             <MDCTextField Label="Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="Text" />
         </ComponentOption>
+        <ComponentOption>
+            <MDCCheckbox @bind-Value="@HasDismissIcon" Label="Dismiss Icon" />
+        </ComponentOption>
     </HeroComponentOptions>
     <Demos>
-        <MDCSnackbar @ref="_demo" Text="@Text" ButtonLabel="@ButtonLabel" />
+        <MDCSnackbar @ref="_demo"
+                     ButtonLabel="@ButtonLabel"
+                     Text="@Text"
+                     HasDismissIcon="@HasDismissIcon" />
         <MDCButton Variant="@MDCButtonStyle.Raised" OnClick="@(_ => _demo.Open())">Baseline</MDCButton>
     </Demos>
 </ComponentCatalogPanel>
 
 @code {
-    private string Text { get; set; } = "Can't send photo. Retry in 5 seconds.";
     private string ButtonLabel { get; set; } = "Retry";
+    private bool HasDismissIcon { get; set; } = true;
+    private string Text { get; set; } = "Can't send photo. Retry in 5 seconds.";
 
     private MDCSnackbar _demo;
 }

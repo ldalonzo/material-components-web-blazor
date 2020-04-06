@@ -132,6 +132,35 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             labelElement.InnerText.Trim().ShouldBe(buttonLabel);
         }
 
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_MdcSnackbar_Actions_DismissIcon(string buttonLabel)
+        {
+            var sut = AddComponent(
+                ("ButtonLabel", buttonLabel),
+                ("HasDismissIcon", true));
+
+            var rootNode = sut.GetDocumentNode();
+            var dismissButton = rootNode.SelectNodes("/div/div/div[2]/button[2]").ShouldHaveSingleItem();
+            dismissButton.ShouldContainCssClasses("mdc-icon-button", "mdc-snackbar__dismiss", "material-icons");
+            dismissButton.InnerText.Trim().ShouldBe("close");
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_MdcSnackbar_Actions_DismissIcon_Title(string buttonLabel)
+        {
+            var sut = AddComponent(
+                ("ButtonLabel", buttonLabel),
+                ("HasDismissIcon", true));
+
+            var rootNode = sut.GetDocumentNode();
+            var dismissButton = rootNode.SelectNodes("/div/div/div[2]/button[2]").ShouldHaveSingleItem();
+            var titleAttribute = dismissButton.Attributes["title"];
+            titleAttribute.ShouldNotBeNull();
+            titleAttribute.Value.ShouldBe("Dismiss");
+        }
+
         [Fact]
         public async Task Open()
         {

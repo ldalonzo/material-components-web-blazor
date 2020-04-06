@@ -14,6 +14,8 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
 
         [Parameter] public string ButtonLabel { get; set; }
 
+        [Parameter] public bool HasDismissIcon { get; set; }
+
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCSnackbar;
@@ -48,6 +50,9 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
 
             await SetLabelText();
         }
+
+        private bool HasActions
+            => HasDismissIcon || !string.IsNullOrWhiteSpace(ButtonLabel);
 
         /// <summary>
         /// Opens the snackbar.
