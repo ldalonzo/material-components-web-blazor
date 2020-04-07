@@ -34,6 +34,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent(("class", customCssClass));
 
             var rootNode = sut.GetDocumentNode().FirstChild;
+            rootNode.ShouldNotBeNull();
+
             var classAttribute = rootNode.Attributes["class"];
             classAttribute.ShouldNotBeNull();
 

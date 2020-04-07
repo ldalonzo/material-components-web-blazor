@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Leonardo.AspNetCore.Components.Material.TabBar
@@ -8,11 +9,23 @@ namespace Leonardo.AspNetCore.Components.Material.TabBar
     /// </summary>
     public partial class MDCTabBar
     {
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
             sb.Append("mdc-tab-bar");
 
             return base.BuildClassString(sb);
+        }
+
+        internal void AddTab(MDCTab tab)
+        {
+
+        }
+
+        internal bool IsActive(MDCTab tab)
+        {
+            return true;
         }
     }
 }
