@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Leonardo.AspNetCore.Components.Material.TabBar
 {
     /// <summary>
@@ -6,6 +8,11 @@ namespace Leonardo.AspNetCore.Components.Material.TabBar
     /// </summary>
     public partial class MDCTabBar
     {
+        protected override StringBuilder BuildClassString(StringBuilder sb)
+        {
+            sb.Append("mdc-tab-bar");
 
+            return base.BuildClassString(sb);
+        }
     }
 }
