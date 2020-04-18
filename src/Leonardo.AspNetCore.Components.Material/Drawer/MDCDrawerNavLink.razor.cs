@@ -5,8 +5,6 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 {
     public partial class MDCDrawerNavLink
     {
-        [CascadingParameter] public MDCDrawer Drawer { get; set; }
-
         [Parameter] public string Text { get; set; }
 
         [Parameter] public string Icon { get; set; }
