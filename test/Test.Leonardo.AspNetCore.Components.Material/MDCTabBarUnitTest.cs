@@ -1,5 +1,7 @@
 ﻿using Leonardo.AspNetCore.Components.Material.TabBar;
+using Microsoft.JSInterop;
 using Shouldly;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -7,6 +9,14 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 {
     public class MDCTabBarUnitTest : MaterialComponentUnitTest<MDCTabBar>
     {
+        public MDCTabBarUnitTest()
+        {
+            mdTabBarJsInterop = new MDCTabBarJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(mdTabBarJsInterop));
+        }
+
+        private readonly MDCTabBarJsInteropFake mdTabBarJsInterop;
+
         [Fact]
         public void HtmlStructure_MdcTabBar()
         {
@@ -64,6 +74,15 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var tabScrollerContentClass = tabScrollerContent.Attributes["class"];
             tabScrollerContentClass.ShouldNotBeNull();
             tabScrollerContentClass.Value.ShouldBe("mdc-tab-scroller__scroll-content");
+        }
+
+        [Fact]
+        public void JavaScriptInstantiation()
+        {
+            var sut = AddComponent();
+
+            var jsComponent = mdTabBarJsInterop.FindComponentById(sut.Instance.MDCTabBarId);
+            jsComponent.ShouldNotBeNull();
         }
     }
 }

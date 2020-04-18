@@ -1,7 +1,9 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Testing.TabBar;
 using Microsoft.AspNetCore.Components.Testing;
+using Microsoft.JSInterop;
 using Shouldly;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -12,6 +14,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         public MDCTabBarWithSingleTabUnitTest()
         {
             host = new TestHost();
+
+            var mdTabBarJsInterop = new MDCTabBarJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(mdTabBarJsInterop));
         }
 
         private readonly TestHost host;

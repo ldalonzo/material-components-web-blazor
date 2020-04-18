@@ -11,6 +11,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
     internal class MDCTopAppBarJsInteropFake : MDCComponentJsInterop<MDCTopAppBar>
     {
+        protected override string ComponentIdentifier => "MDCTopAppBarComponent";
+
         public Task ListenToNav(object[] args)
         {
             args.Length.ShouldBe(2);
@@ -38,10 +40,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
             return Task.CompletedTask;
         }
 
-        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
-            {
-                { "MDCTopAppBarComponent.attachTo", AttachTo },
-                { "MDCTopAppBarComponent.listenToNav", ListenToNav }
-            };
+        protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
+        {
+            yield return ("listenToNav", ListenToNav);
+        }
     }
 }

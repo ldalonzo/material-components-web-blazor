@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shouldly;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
@@ -10,7 +8,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
     internal class MDCListJsIteropFake : MDCComponentJsInterop<MDCList>
     {
-        public Task AttachToAndWrapFocus(object[] args)
+        protected override string ComponentIdentifier => "MDCListComponent";
+
+        public override Task AttachTo(object[] args)
         {
             args.Length.ShouldBe(2);
             var elementRef = args[0].ShouldBeOfType<ElementReference>();
@@ -22,10 +22,5 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 
             return Task.CompletedTask;
         }
-
-        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
-            {
-                { "MDCListComponent.attachTo", AttachToAndWrapFocus }
-            };
     }
 }
