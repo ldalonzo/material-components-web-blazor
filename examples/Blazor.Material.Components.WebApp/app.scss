@@ -5,16 +5,40 @@
 @import '../../submodules/material-components-web-catalog/src/styles/ComponentPage.scss';
 @import '../../submodules/material-components-web-catalog/src/styles/DrawerFrameCatalog.scss';
 @import '../../submodules/material-components-web-catalog/src/styles/HeroComponent.scss';
+@import '../../submodules/material-components-web-catalog/src/styles/SnackbarCatalog.scss';
 @import '../../submodules/material-components-web-catalog/src/styles/TopAppBarCatalog.scss';
+
+app {
+  display: flex;
+  height: 100%;
+}
 
 body {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .mdc-drawer-app-content {
-  &--full-width {
-    width: 100%;
-  }
+  flex: auto;
+  overflow: auto;
+  position: relative;
+}
+
+.main-content {
+  overflow: auto;
+  height: 100%;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.app-bar {
+  position: absolute;
+}
+
+.mdc-top-app-bar {
+  z-index: 7;
 }
 
 #blazor-error-ui {

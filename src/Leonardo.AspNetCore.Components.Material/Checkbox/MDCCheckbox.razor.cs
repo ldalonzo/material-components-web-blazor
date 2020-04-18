@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +9,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
     /// Checkboxes allow the user to select one or more items from a set.
     /// </summary>
     /// <seealso href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox"/>
-    public partial class MDCCheckbox : MaterialComponent
+    public partial class MDCCheckbox
     {
         [Parameter] public string Label { get; set; }
 
@@ -38,10 +37,8 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         private string LabelId => $"{Id}-label";
 
-        protected override string BuildClassString()
+        protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            var sb = new StringBuilder();
-
             sb.Append("mdc-checkbox");
 
             if (Disabled)
@@ -49,12 +46,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
                 sb.Append($" mdc-checkbox--disabled");
             }
 
-            if (!string.IsNullOrWhiteSpace(Class))
-            {
-                sb.Append($" {Class}");
-            }
-
-            return sb.ToString();
+            return base.BuildClassString(sb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

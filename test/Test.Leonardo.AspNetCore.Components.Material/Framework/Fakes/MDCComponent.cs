@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Components
+namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
 {
-    public class MDCTopAppBarJsFake
+    internal abstract class MDCComponent
     {
         private readonly IDictionary<string, List<Func<Task>>> handlersByEventName = new Dictionary<string, List<Func<Task>>>();
 
@@ -23,5 +23,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Components
         public Task Emit(string eventName) => handlersByEventName.TryGetValue(eventName, out var handlersForEvent)
             ? Task.WhenAll(handlersForEvent.Select(handle => handle()))
             : Task.CompletedTask;
+    }
+
+    internal class MDCComponent<T> : MDCComponent
+        where T : MDCFoundation
+    {
     }
 }
