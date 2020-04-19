@@ -15,10 +15,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         public Task Open(object[] args)
         {
             args.Length.ShouldBe(1);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            var component = FindComponentById(elementRef.Id);
+            var id = args[0].ShouldBeOfType<string>();
+            var component = FindComponentById(id);
             component.Open();
 
             return Task.CompletedTask;
@@ -27,15 +25,16 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         public Task SetLabelText(object[] args)
         {
             args.Length.ShouldBe(2);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            var component = FindComponentById(elementRef.Id);
+            var id = args[0].ShouldBeOfType<string>();
+            var component = FindComponentById(id);
             component.ShouldNotBeNull();
             component.LabelText = args[1].ShouldBeOfType<string>();
 
             return Task.CompletedTask;
         }
+
+        public override Task AttachTo(object[] args)
+            => AttachToWithExplicitId(args);
 
         protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {

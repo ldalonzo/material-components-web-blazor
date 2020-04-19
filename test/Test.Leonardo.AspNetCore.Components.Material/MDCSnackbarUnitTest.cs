@@ -168,7 +168,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             await sut.Instance.Open();
 
-            var fake = FakeComponents.FindComponentById(sut.Instance.ElementReferenceId);
+            var fake = FakeComponents.FindComponentById(sut.Instance.Id);
             fake.ShouldNotBeNull();
             fake.IsOpen.ShouldBeTrue();
         }
@@ -179,7 +179,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent(("Text", text));
 
-            var fake = FakeComponents.FindComponentById(sut.Instance.ElementReferenceId);
+            var fake = FakeComponents.FindComponentById(sut.Instance.Id);
             fake.ShouldNotBeNull();
             fake.LabelText.ShouldBe(text);
         }

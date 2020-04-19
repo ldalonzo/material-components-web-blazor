@@ -5,16 +5,16 @@ var MDCSnackbarComponent = /** @class */ (function () {
     var _this = this
     this.componentsById = {}
 
-    this.attachTo = (domElement) => {
-      _this.componentsById[domElement.id] = MDCSnackbar.attachTo(domElement)
+    this.attachTo = (domElement, id) => {
+      _this.componentsById[id] = MDCSnackbar.attachTo(domElement)
     }
 
-    this.open = (domElement) => {
-      _this.componentsById[domElement.id].open()
+    this.open = (id) => {
+      _this.componentsById[id].open()
     }
 
-    this.setLabelText = (domElement, labelText) => {
-      _this.componentsById[domElement.id].labelText = labelText
+    this.setLabelText = (id, labelText) => {
+      _this.componentsById[id].labelText = labelText
     }
   }
 

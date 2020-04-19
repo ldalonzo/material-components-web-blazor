@@ -20,8 +20,6 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
 
         protected ElementReference _MDCSnackbar;
 
-        public string ElementReferenceId => _MDCSnackbar.Id;
-
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -45,7 +43,7 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
 
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.attachTo", _MDCSnackbar);
+                await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.attachTo", _MDCSnackbar, Id);
             }
 
             await SetLabelText();
@@ -58,12 +56,12 @@ namespace Leonardo.AspNetCore.Components.Material.Snackbar
         /// Opens the snackbar.
         /// </summary>
         public async Task Open()
-            => await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.open", _MDCSnackbar);
+            => await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.open", Id);
 
         /// <summary>
         /// Sets the textContent of the label element.
         /// </summary>
         public async Task SetLabelText()
-            => await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.setLabelText", _MDCSnackbar, Text);
+            => await JSRuntime.InvokeVoidAsync("MDCSnackbarComponent.setLabelText", Id, Text);
     }
 }
