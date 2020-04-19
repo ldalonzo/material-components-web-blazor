@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Shouldly;
+﻿using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,11 +14,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         public Task ToggleOpen(object[] args)
         {
             args.Length.ShouldBe(1);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
 
-            componentsById.ShouldContainKey(elementRef.Id);
-            var foundation = componentsById[elementRef.Id];
+            var foundation = FindComponentById(args[0]);
             foundation.Open = !foundation.Open;
 
             return Task.CompletedTask;

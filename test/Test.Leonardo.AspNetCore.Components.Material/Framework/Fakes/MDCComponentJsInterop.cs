@@ -33,20 +33,15 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
         }
 
         internal T FindComponentById(string id)
-            => componentsById.TryGetValue(id, out var component) ? component : (default);
-
-        public virtual Task AttachTo(object[] args)
         {
-            args.Length.ShouldBe(1);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            componentsById.Add(elementRef.Id, new T());
-
-            return Task.CompletedTask;
+            componentsById.ShouldContainKey(id);
+            return componentsById[id];
         }
 
-        public Task AttachToWithExplicitId(object[] args)
+        internal T FindComponentById(object arg)
+            => FindComponentById(arg.ShouldBeOfType<string>());
+
+        public virtual Task AttachTo(object[] args)
         {
             args.Length.ShouldBe(2);
             args[0].ShouldBeOfType<ElementReference>();

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Shouldly;
+﻿using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,9 +31,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 
             return Task.CompletedTask;
         }
-
-        public override Task AttachTo(object[] args)
-            => AttachToWithExplicitId(args);
 
         protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {

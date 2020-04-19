@@ -1,5 +1,4 @@
 ﻿using Leonardo.AspNetCore.Components.Material.TabBar;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Shouldly;
 using System;
@@ -18,9 +17,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         {
             args.Length.ShouldBe(2);
 
-            var id = args[0].ShouldBeOfType<string>();
-            componentsById.ShouldContainKey(id);
-            var component = componentsById[id];
+            var component = FindComponentById(args[0]);
 
             component.Listen("MDCTabBar:activated", e => InvokeMethodAsync(
                args[1].ShouldBeOfType<DotNetObjectReference<MDCTabBar>>(), "OnTabActivated", e));
@@ -32,8 +29,5 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         {
             yield return ("listenToActivated", ListenToActivated);
         }
-
-        public override Task AttachTo(object[] args)
-            => AttachToWithExplicitId(args);
     }
 }

@@ -199,7 +199,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent(("Variant", variant));
 
-            var component = mdcDrawerJsInterop.FindComponentById(sut.Instance.MDCDrawerElementId);
+            var component = mdcDrawerJsInterop.FindComponentById(sut.Instance.Id);
             component.Open.ShouldBeFalse();
 
             await sut.Instance.ToggleOpen();

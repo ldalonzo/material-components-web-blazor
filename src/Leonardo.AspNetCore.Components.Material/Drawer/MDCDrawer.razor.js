@@ -5,12 +5,12 @@ var MDCDrawerComponent = /** @class */ (function () {
     var _this = this
     this.componentsById = {}
 
-    this.attachTo = (domElement) => {
-      _this.componentsById[domElement.id] = MDCDrawer.attachTo(domElement)
+    this.attachTo = (domElement, id) => {
+      _this.componentsById[id] = MDCDrawer.attachTo(domElement)
     }
 
-    this.toggleOpen = (domElement) => {
-      const drawer = _this.componentsById[domElement.id]
+    this.toggleOpen = (id) => {
+      const drawer = _this.componentsById[id]
       drawer.open = !drawer.open
     }
   }

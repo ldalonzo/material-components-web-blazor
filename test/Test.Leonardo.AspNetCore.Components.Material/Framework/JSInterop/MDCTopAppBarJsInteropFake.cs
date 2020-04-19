@@ -1,5 +1,4 @@
 ﻿using Leonardo.AspNetCore.Components.Material.TopAppBar;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Shouldly;
 using System;
@@ -18,18 +17,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         {
             args.Length.ShouldBe(2);
 
-            var id = args[0].ShouldBeOfType<string>();
-            componentsById.ShouldContainKey(id);
-            var mdcComponent = componentsById[id];
+            var mdcComponent = FindComponentById(args[0]);
 
             mdcComponent.Listen("MDCTopAppBar:nav", _ => InvokeMethodAsync(
                 args[1].ShouldBeOfType<DotNetObjectReference<MDCTopAppBar>>(), "OnMDCTopAppBarNav"));
 
             return Task.CompletedTask;
         }
-
-        public override Task AttachTo(object[] args) 
-            => AttachToWithExplicitId(args);
 
         protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {
