@@ -18,17 +18,18 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         {
             args.Length.ShouldBe(2);
 
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            componentsById.ShouldContainKey(elementRef.Id);
-            var mdcComponent = componentsById[elementRef.Id];
+            var id = args[0].ShouldBeOfType<string>();
+            componentsById.ShouldContainKey(id);
+            var mdcComponent = componentsById[id];
 
             mdcComponent.Listen("MDCTopAppBar:nav", _ => InvokeMethodAsync(
                 args[1].ShouldBeOfType<DotNetObjectReference<MDCTopAppBar>>(), "OnMDCTopAppBarNav"));
 
             return Task.CompletedTask;
         }
+
+        public override Task AttachTo(object[] args) 
+            => AttachToWithExplicitId(args);
 
         protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {

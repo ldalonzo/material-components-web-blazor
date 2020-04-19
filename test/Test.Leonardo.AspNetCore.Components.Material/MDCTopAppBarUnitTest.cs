@@ -50,7 +50,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var spy = new Mock<Spy>();
             var sut = AddComponent(("OnNav", EventCallback.Factory.Create(this, spy.Object.Call)));
 
-            var jsComponent = jsInterop.FindComponentById(sut.Instance.MdcTopAppBarElementId);
+            var jsComponent = jsInterop.FindComponentById(sut.Instance.Id);
             await jsComponent.HandleNavigationClick();
 
             spy.Verify(o => o.Call(), Times.Once);
