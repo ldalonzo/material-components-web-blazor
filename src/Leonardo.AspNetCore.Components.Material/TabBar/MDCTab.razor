@@ -1,0 +1,14 @@
+@inherits MaterialComponent
+<button class="@ClassString" role="tab" aria-selected="@IsAriaSelected" tabindex="0">
+    <span class="mdc-tab__content">
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">@Icon</span>
+        }
+        <span class="mdc-tab__text-label">@Label</span>
+    </span>
+    <span class="@TabIndicatorClassString">
+        <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+    </span>
+    <span class="mdc-tab__ripple"></span>
+</button>

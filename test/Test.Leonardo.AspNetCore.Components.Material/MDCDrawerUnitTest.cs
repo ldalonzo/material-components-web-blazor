@@ -33,7 +33,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent();
 
             var rootNode = sut.GetDocumentNode();
-            var asideElement = rootNode.SelectNodes("//aside").ShouldHaveSingleItem();
+            var asideElement = rootNode.SelectNodes("/aside").ShouldHaveSingleItem();
             asideElement.ShouldContainCssClasses("mdc-drawer");
         }
 
@@ -43,7 +43,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent(("Variant", MDCDrawerVariant.Dismissible));
 
             var rootNode = sut.GetDocumentNode();
-            var asideElement = rootNode.SelectNodes("//aside").ShouldHaveSingleItem();
+            var asideElement = rootNode.SelectNodes("/aside").ShouldHaveSingleItem();
             asideElement.ShouldContainCssClasses("mdc-drawer", "mdc-drawer--dismissible", "mdc-drawer--open");
         }
 
@@ -55,7 +55,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent(("Variant", variant));
 
             var rootNode = sut.GetDocumentNode();
-            var asideElement = rootNode.SelectNodes("//aside/div").ShouldHaveSingleItem();
+            var asideElement = rootNode.SelectNodes("/aside/div").ShouldHaveSingleItem();
             asideElement.ShouldContainCssClasses("mdc-drawer__content");
         }
 
@@ -81,7 +81,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
-            var itemNode = rootNode.SelectNodes("//aside/div/nav/a").ShouldHaveSingleItem();
+            var itemNode = rootNode.SelectNodes("/aside/div/nav/a").ShouldHaveSingleItem();
             itemNode.ShouldContainCssClasses("mdc-list-item");
         }
 
@@ -95,7 +95,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
-            var itemNode = rootNode.SelectNodes("//aside/div/nav/a").ShouldHaveSingleItem();
+            var itemNode = rootNode.SelectNodes("/aside/div/nav/a").ShouldHaveSingleItem();
             var hrefAttribute = itemNode.Attributes["href"];
             hrefAttribute.ShouldNotBeNull();
             hrefAttribute.Value.ShouldBe(item.Href);
@@ -111,7 +111,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
-            var itemNode = rootNode.SelectNodes("//aside/div/nav/a/i").ShouldHaveSingleItem();
+            var itemNode = rootNode.SelectNodes("/aside/div/nav/a/i").ShouldHaveSingleItem();
             itemNode.ShouldContainCssClasses("material-icons", "mdc-list-item__graphic");
             itemNode.InnerText.ShouldBe(item.Icon);
         }
@@ -126,7 +126,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
-            var itemsNode = rootNode.SelectNodes("//aside/div/nav/a/span").ShouldHaveSingleItem();
+            var itemsNode = rootNode.SelectNodes("/aside/div/nav/a/span").ShouldHaveSingleItem();
 
             itemsNode.ShouldContainCssClasses("mdc-list-item__text");
             itemsNode.InnerText.ShouldBe(item.Text);
@@ -142,7 +142,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
 
             var rootNode = sut.GetDocumentNode();
-            var itemsNode = rootNode.SelectNodes("//aside/div/nav/a");
+            var itemsNode = rootNode.SelectNodes("/aside/div/nav/a");
 
             itemsNode.Count.ShouldBe(items.Count());
         }
@@ -150,18 +150,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [Theory]
         [AutoData]
         public void PermanentlyVisibleDrawer_JavaScriptInstantiation_List(IEnumerable<MDCDrawerNavLinkData> items)
-        {
-            var sut = AddComponent(
-                ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
-
-            var jsComponent = mdcListJsInterop.FindComponentById(sut.Instance.MDCListId);
-            jsComponent.ShouldNotBeNull();
-            jsComponent.WrapFocus.ShouldBeTrue();
-        }
-
-        [Theory]
-        [AutoData]
-        public void PermanentlyVisibleDrawer_JavaScriptInstantiation_List2(IEnumerable<MDCDrawerNavLinkData> items)
         {
             var sut = AddComponent(
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, items.ToArray()))));
@@ -181,10 +169,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("Title", title));
 
             var rootNode = sut.GetDocumentNode();
-            var headerNode = rootNode.SelectNodes("//aside/div[1]").ShouldHaveSingleItem();
+            var headerNode = rootNode.SelectNodes("/aside/div[1]").ShouldHaveSingleItem();
             headerNode.ShouldContainCssClasses("mdc-drawer__header");
 
-            var titleNode = rootNode.SelectNodes("//aside/div[1]/h3").ShouldHaveSingleItem();
+            var titleNode = rootNode.SelectNodes("/aside/div[1]/h3").ShouldHaveSingleItem();
             titleNode.InnerText.ShouldBe(title);
         }
 
@@ -198,10 +186,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("Subtitle", subtitle));
 
             var rootNode = sut.GetDocumentNode();
-            var headerNode = rootNode.SelectNodes("//aside/div[1]").ShouldHaveSingleItem();
+            var headerNode = rootNode.SelectNodes("/aside/div[1]").ShouldHaveSingleItem();
             headerNode.ShouldContainCssClasses("mdc-drawer__header");
 
-            var subtitleNode = rootNode.SelectNodes("//aside/div[1]/h6").ShouldHaveSingleItem();
+            var subtitleNode = rootNode.SelectNodes("/aside/div[1]/h6").ShouldHaveSingleItem();
             subtitleNode.InnerText.ShouldBe(subtitle);
         }
 

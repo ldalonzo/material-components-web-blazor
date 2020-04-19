@@ -8,8 +8,10 @@ using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    internal class MDCDrawerJsInteropFake : MDCComponentJsInterop<MDCDrawer>
+    internal class MDCDrawerJsInteropFake : MDCComponentJsInterop<MDCDrawerFake>
     {
+        protected override string ComponentIdentifier => "MDCDrawerComponent";
+
         public Task ToggleOpen(object[] args)
         {
             args.Length.ShouldBe(1);
@@ -23,10 +25,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
             return Task.CompletedTask;
         }
 
-        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
-            {
-                { "MDCDrawerComponent.attachTo", AttachTo },
-                { "MDCDrawerComponent.toggleOpen", ToggleOpen }
-            };
+        protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
+        {
+            yield return ("toggleOpen", ToggleOpen);
+        }
     }
 }

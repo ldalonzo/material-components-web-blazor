@@ -8,8 +8,10 @@ using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbar>
+    internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbarFake>
     {
+        protected override string ComponentIdentifier => "MDCSnackbarComponent";
+
         public Task Open(object[] args)
         {
             args.Length.ShouldBe(1);
@@ -35,11 +37,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
             return Task.CompletedTask;
         }
 
-        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
+        protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {
-            { "MDCSnackbarComponent.attachTo", AttachTo },
-            { "MDCSnackbarComponent.open", Open },
-            { "MDCSnackbarComponent.setLabelText", SetLabelText}
-        };
+            yield return ("open", Open);
+            yield return ("setLabelText", SetLabelText);
+        }
     }
 }

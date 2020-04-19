@@ -2,7 +2,7 @@
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components
 {
-    internal class MDCSnackbar : MDCComponent<MDCSnackbarFoundation>
+    internal class MDCSnackbarFake : MDCComponentFake<MDCSnackbarFoundation>
     {
         public void Open()
         {

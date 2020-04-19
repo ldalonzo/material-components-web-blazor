@@ -39,6 +39,17 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
+            sb.Append("mdc-form-field");
+
+            return base.BuildClassString(sb);
+        }
+
+        private string CheckboxCssClass { get; set; }
+
+        private string BuildCheckboxCssClass()
+        {
+            var sb = new StringBuilder();
+
             sb.Append("mdc-checkbox");
 
             if (Disabled)
@@ -46,7 +57,14 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
                 sb.Append($" mdc-checkbox--disabled");
             }
 
-            return base.BuildClassString(sb);
+            return sb.ToString();
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+
+            CheckboxCssClass = BuildCheckboxCssClass();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

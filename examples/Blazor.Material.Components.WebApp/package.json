@@ -18,7 +18,7 @@
     "@material/snackbar": "^4.0.0",
     "@material/tab-bar": "^4.0.0",
     "@material/typography": "^4.0.0",
-    "@microsoft/applicationinsights-web": "^2.5.2",
+    "@microsoft/applicationinsights-web": "^2.5.4",
     "autoprefixer": "^9.7.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.5.2",

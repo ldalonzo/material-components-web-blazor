@@ -20,7 +20,7 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         [Parameter] public MDCDrawerVariant Variant { get; set; }
 
-        [Inject] protected IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCDrawer;
         public string MDCDrawerElementId => _MDCDrawer.Id;

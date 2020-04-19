@@ -12,8 +12,6 @@ var MDCTopAppBarComponent = /** @class */ (function () {
 
     this.setScrollTarget = (target) => {
       _this.topAppBar.setScrollTarget(target)
-
-      return true
     }
 
     this.listenToNav = (domElement, dotnetHelper) => {
