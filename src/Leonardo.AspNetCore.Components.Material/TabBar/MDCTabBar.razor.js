@@ -5,8 +5,15 @@ var MDCTabBarComponent = /** @class */ (function () {
     var _this = this
     this.componentsById = {}
 
-    this.attachTo = (domElement) => {
-      _this.componentsById[domElement.id] = MDCTabBar.attachTo(domElement)
+    this.attachTo = (domElement, id) => {
+      _this.componentsById[id] = MDCTabBar.attachTo(domElement)
+    }
+
+    this.listenToActivated = (id, dotnetHelper) => {
+      const tabBar = _this.componentsById[id]
+      tabBar.listen('MDCTabBar:activated', evt => {
+        dotnetHelper.invokeMethodAsync('OnTabActivated', evt.detail)
+      })
     }
   }
 

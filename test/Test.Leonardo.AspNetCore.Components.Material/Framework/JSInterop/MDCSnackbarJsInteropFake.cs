@@ -8,7 +8,7 @@ using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbar>
+    internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbarFake>
     {
         protected override string ComponentIdentifier => "MDCSnackbarComponent";
 

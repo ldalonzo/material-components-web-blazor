@@ -23,7 +23,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent();
 
             var rootNode = sut.GetDocumentNode().FirstChild;
-            var divElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
+            var divElement = rootNode.SelectNodes("/div[1]").ShouldHaveSingleItem();
             divElement.ShouldContainCssClasses("mdc-tab-bar");
         }
 
@@ -33,7 +33,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent();
 
             var rootNode = sut.GetDocumentNode();
-            var divElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
+            var divElement = rootNode.SelectNodes("/div[1]").ShouldHaveSingleItem();
 
             var roleAttribute = divElement.Attributes["role"];
             roleAttribute.ShouldNotBeNull();
@@ -81,7 +81,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent();
 
-            var jsComponent = mdTabBarJsInterop.FindComponentById(sut.Instance.MDCTabBarId);
+            var jsComponent = mdTabBarJsInterop.FindComponentById(sut.Instance.Id);
             jsComponent.ShouldNotBeNull();
         }
     }

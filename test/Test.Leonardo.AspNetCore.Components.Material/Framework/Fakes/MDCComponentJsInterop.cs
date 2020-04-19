@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
 {
     internal abstract class MDCComponentJsInterop<T> : IJSInteropComponent
-        where T : MDCComponent, new()
+        where T : MDCComponentFake, new()
     {
         protected abstract string ComponentIdentifier { get; }
 
@@ -43,6 +44,29 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
             componentsById.Add(elementRef.Id, new T());
 
             return Task.CompletedTask;
+        }
+
+        public Task AttachToWithExplicitId(object[] args)
+        {
+            args.Length.ShouldBe(2);
+            args[0].ShouldBeOfType<ElementReference>();
+            var id = args[1].ShouldBeOfType<string>();
+
+            componentsById.Add(id, new T());
+
+            return Task.CompletedTask;
+        }
+
+        protected static Task InvokeMethodAsync<TComponent>(DotNetObjectReference<TComponent> dotnetHelper, string methodName, params object[] args)
+            where TComponent : class
+        {
+            var methodInfo = dotnetHelper.Value.GetType().GetMethod(methodName);
+            if (methodInfo == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return (Task)methodInfo.Invoke(dotnetHelper.Value, args);
         }
     }
 }

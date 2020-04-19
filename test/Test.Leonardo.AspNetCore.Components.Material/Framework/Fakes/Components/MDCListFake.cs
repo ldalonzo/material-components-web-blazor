@@ -2,7 +2,8 @@
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components
 {
-    internal class MDCTopAppBar : MDCComponent<MDCTopAppBarBaseFoundation>
+    internal class MDCListFake : MDCComponentFake<MDCListFoundation>
     {
+        public bool WrapFocus { get; set; }
     }
 }

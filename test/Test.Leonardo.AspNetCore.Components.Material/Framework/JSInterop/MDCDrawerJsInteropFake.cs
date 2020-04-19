@@ -8,7 +8,7 @@ using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    internal class MDCDrawerJsInteropFake : MDCComponentJsInterop<MDCDrawer>
+    internal class MDCDrawerJsInteropFake : MDCComponentJsInterop<MDCDrawerFake>
     {
         protected override string ComponentIdentifier => "MDCDrawerComponent";
 

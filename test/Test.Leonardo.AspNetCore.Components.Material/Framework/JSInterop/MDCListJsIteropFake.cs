@@ -6,7 +6,7 @@ using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    internal class MDCListJsIteropFake : MDCComponentJsInterop<MDCList>
+    internal class MDCListJsIteropFake : MDCComponentJsInterop<MDCListFake>
     {
         protected override string ComponentIdentifier => "MDCListComponent";
 
@@ -18,7 +18,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 
             var wrapFocus = args[1].ShouldBeOfType<bool>();
 
-            componentsById[elementRef.Id] = new MDCList { WrapFocus = wrapFocus };
+            componentsById[elementRef.Id] = new MDCListFake { WrapFocus = wrapFocus };
 
             return Task.CompletedTask;
         }

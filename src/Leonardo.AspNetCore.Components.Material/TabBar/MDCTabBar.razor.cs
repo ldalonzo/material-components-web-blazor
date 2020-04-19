@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Leonardo.AspNetCore.Components.Material.TabBar
 
         protected ElementReference _MDCTabBar;
 
-        public string MDCTabBarId => _MDCTabBar.Id;
+        private readonly List<MDCTab> tabs = new List<MDCTab>();
 
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
@@ -32,14 +33,24 @@ namespace Leonardo.AspNetCore.Components.Material.TabBar
 
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCTabBarComponent.attachTo", _MDCTabBar);
+                await JSRuntime.InvokeVoidAsync("MDCTabBarComponent.attachTo", _MDCTabBar, Id);
+                await JSRuntime.InvokeVoidAsync("MDCTabBarComponent.listenToActivated", Id, DotNetObjectReference.Create(this));
             }
         }
 
-        public MDCTab ActiveTab { get; private set; }
+        [JSInvokable]
+        public Task OnTabActivated(MDCTabBarActivatedEventDetail detail)
+        {
+            var activeTab = tabs[detail.Index];
+            return InvokeAsync(() => SetActivateTab(activeTab));
+        }
+
+        private MDCTab ActiveTab { get; set; }
 
         internal void AddTab(MDCTab tab)
         {
+            tabs.Add(tab);
+
             if (ActiveTab == null)
             {
                 SetActivateTab(tab);

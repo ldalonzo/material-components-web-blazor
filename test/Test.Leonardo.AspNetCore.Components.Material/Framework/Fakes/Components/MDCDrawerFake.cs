@@ -2,7 +2,8 @@
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components
 {
-    internal class MDCTabBar : MDCComponent<MDCTabBarFoundation>
+    internal class MDCDrawerFake : MDCComponentFake<MDCDismissibleDrawerFoundation>
     {
+        public bool Open { get; set; }
     }
 }

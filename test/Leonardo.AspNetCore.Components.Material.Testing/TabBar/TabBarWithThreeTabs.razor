@@ -1,5 +1,9 @@
-<MDCTabBar>
+<MDCTabBar Id="@Id">
     <MDCTab Label="Home" />
     <MDCTab Label="Merchandise" />
     <MDCTab Label="About us" />
 </MDCTabBar>
+
+@code {
+    [Parameter] public string Id { get; set; }
+}
