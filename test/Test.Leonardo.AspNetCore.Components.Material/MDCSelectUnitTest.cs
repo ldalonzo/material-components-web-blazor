@@ -1,11 +1,8 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Select;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Moq;
 using Shouldly;
-using System.Reflection;
-using System.Threading.Tasks;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -15,25 +12,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCSelectUnitTest()
         {
-            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCSelectComponent.attachTo"),
-                    It.Is<object[]>(args => MatchArgs_Attach(args))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCSelectComponent.setSelectedIndex"),
-                    It.Is<object[]>(args => true)))
-                .Returns(new ValueTask<object>());
-
-            host.AddService(jsMock.Object);
+            selectJsInterop = new MDCSelectJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(selectJsInterop));
         }
 
-        protected readonly Mock<IJSRuntime> jsMock;
+        protected readonly MDCSelectJsInteropFake selectJsInterop;
 
         [Fact]
         public void Style_HasMandatoryCssClasses()
@@ -67,50 +50,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             selectListNode.ShouldContainCssClasses("mdc-list");
         }
 
-        [Fact]
-        public void JavaScriptInstantiation()
+        [Theory]
+        [AutoData]
+        public void JavaScriptInstantiation(string id)
         {
-            var textField = AddComponent();
+            AddComponent(("Id", id));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCSelectComponent.attachTo", It.IsAny<object[]>()),
-                Times.Once);
-        }
-
-        protected static Task InvokeMethodAsync<TComponent>(DotNetObjectReference<TComponent> target, string methodName, params object[] args)
-            where TComponent : class
-        {
-            var targetMethod = typeof(TComponent).GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
-            targetMethod.ShouldNotBeNull();
-
-            return (Task)targetMethod.Invoke(target.Value, args);
-        }
-
-        private static bool MatchArgs_Attach(object[] args)
-        {
-            if (args.Length != 2)
-            {
-                return false;
-            }
-
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            var dotNetObjectRef = args[1] as DotNetObjectReference<MDCSelect>;
-            if (dotNetObjectRef == null)
-            {
-                return false;
-            }
-
-            return true;
+            selectJsInterop.FindComponentById(id).ShouldNotBeNull();
         }
     }
 }

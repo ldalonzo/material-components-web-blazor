@@ -44,9 +44,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         [Theory]
         [AutoData]
-        public void GivenDataSource_WhenFirstRendered_EmptyOptionIsSelected(List<FoodGroup> dataSource)
+        public void GivenDataSource_WhenFirstRendered_EmptyOptionIsSelected(string id, List<FoodGroup> dataSource)
         {
             var sut = AddComponent(
+                ("Id", id),
                 ("DataSource", dataSource),
                 ("DataValueMember", nameof(FoodGroup.Id)),
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
@@ -55,8 +56,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             sut.Instance.Value.ShouldBe(null);
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == 0)));
+            selectJsInterop.FindComponentById(id).SelectedIndex.ShouldBe(0);
 
             var labelNode = sut.FindFloatingLabelNode();
             labelNode.ShouldContainCssClasses("mdc-floating-label");
@@ -64,7 +64,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         [Theory]
         [AutoData]
-        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(List<FoodGroup> dataSource)
+        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(string id, List<FoodGroup> dataSource)
         {
             // GIVEN a select component that has a pre-selected value
             var fixture = new Fixture();
@@ -72,13 +72,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var preSelectedValue = dataSource[index];
 
             var sut = AddComponent(
+                ("Id", id),
                 ("DataSource", dataSource),
                 ("Value", preSelectedValue),
                 ("DataValueMember", nameof(FoodGroup.Id)),
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == index + 1)));
+            selectJsInterop.FindComponentById(id).SelectedIndex.ShouldBe(index + 1);
 
             sut.Instance.Value.ShouldBe(preSelectedValue);
 
@@ -90,9 +90,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
         [Theory]
         [AutoData]
-        public async Task GivenDataSource_WhenUserPicksItem_CurrentlySelectedOptionIsUpdated(List<FoodGroup> dataSource)
+        public async Task GivenDataSource_WhenUserPicksItem_CurrentlySelectedOptionIsUpdated(string id, List<FoodGroup> dataSource)
         {
-            var select = AddComponent(
+            var sut = AddComponent(
+                ("Id", id),
                 ("DataSource", dataSource),
                 ("DataValueMember", nameof(FoodGroup.Id)),
                 ("DisplayTextMember", nameof(FoodGroup.DisplayText)));
@@ -102,10 +103,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var expectedSelection = dataSource[index];
 
             // ACT Simulate the user selecting a single option from the drop-down menu.
-            await InvokeMethodAsync(DotNetObjectReference.Create(select.Instance), "OnChange", expectedSelection.Id, index);
+            var jsComponent = selectJsInterop.FindComponentById(id);
+            await jsComponent.SetSelectedIndex(index, expectedSelection.Id);
 
             // ASSERT the selected value exposed as a property is what they chose.
-            select.Instance.Value.ShouldBe(expectedSelection);
+            sut.Instance.Value.ShouldBe(expectedSelection);
         }
 
         public class FoodGroup

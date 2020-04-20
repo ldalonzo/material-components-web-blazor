@@ -12,15 +12,15 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         [Theory]
         [AutoData]
-        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(List<Season> dataSource)
+        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(string id, List<Season> dataSource)
         {
             var preSelectedValue = default(Season);
 
             var sut = AddComponent(
+                ("Id", id),
                 ("DataSource", dataSource));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == 0)));
+            selectJsInterop.FindComponentById(id).SelectedIndex.ShouldBe(0);
 
             sut.Instance.Value.ShouldBe(default);
 

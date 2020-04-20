@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
 {
-    internal abstract class MDCComponentJsInterop<T> : IJSInteropComponent
+    public abstract class MDCComponentJsInterop<T> : IJSInteropComponent
         where T : MDCComponentFake, new()
     {
         protected abstract string ComponentIdentifier { get; }

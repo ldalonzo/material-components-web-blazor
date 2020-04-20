@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
 {
-    internal abstract class MDCComponentFake
+    public abstract class MDCComponentFake
     {
         private readonly IDictionary<string, List<Func<object, Task>>> handlersByEventName = new Dictionary<string, List<Func<object, Task>>>();
 
@@ -25,7 +25,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes
             : Task.CompletedTask;
     }
 
-    internal class MDCComponentFake<T> : MDCComponentFake
+    public class MDCComponentFake<T> : MDCComponentFake
         where T : MDCFoundation
     {
     }

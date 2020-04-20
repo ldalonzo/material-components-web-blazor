@@ -11,11 +11,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCTabBarUnitTest()
         {
-            mdTabBarJsInterop = new MDCTabBarJsInteropFake();
-            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(mdTabBarJsInterop));
+            tabBarJsInterop = new MDCTabBarJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(tabBarJsInterop));
         }
 
-        private readonly MDCTabBarJsInteropFake mdTabBarJsInterop;
+        private readonly MDCTabBarJsInteropFake tabBarJsInterop;
 
         [Fact]
         public void HtmlStructure_MdcTabBar()
@@ -81,7 +81,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent();
 
-            var jsComponent = mdTabBarJsInterop.FindComponentById(sut.Instance.Id);
+            var jsComponent = tabBarJsInterop.FindComponentById(sut.Instance.Id);
             jsComponent.ShouldNotBeNull();
         }
     }
