@@ -5,14 +5,12 @@ var MDCCheckboxComponent = /** @class */ (function () {
     var _this = this
     this.componentsById = {}
 
-    this.attachTo = (checkboxElement, dotnetHelper) => {
-      const checkbox = new MDCCheckbox(checkboxElement)
-
-      _this.componentsById[checkboxElement.id] = checkbox
+    this.attachTo = (domElement, id) => {
+      _this.componentsById[id] = MDCCheckbox.attachTo(domElement)
     }
 
-    this.setChecked = (checkboxElement, value) => {
-      const checkbox = _this.componentsById[checkboxElement.id]
+    this.setChecked = (id, value) => {
+      const checkbox = _this.componentsById[id]
       checkbox.checked = value
     }
   }

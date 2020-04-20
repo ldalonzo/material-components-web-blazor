@@ -19,9 +19,9 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         [Parameter] public bool Disabled { get; set; }
 
-        [Inject] public IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        protected ElementReference mdcCheckboxElement;
+        protected ElementReference _MDCCheckbox;
 
         private Task OnValueChanged(ChangeEventArgs e)
         {
@@ -80,9 +80,9 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
         }
 
         private async Task Attach()
-            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.attachTo", mdcCheckboxElement);
+            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.attachTo", _MDCCheckbox, Id);
 
         private async Task SetChecked()
-            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.setChecked", mdcCheckboxElement, Value);
+            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.setChecked", Id, Value);
     }
 }

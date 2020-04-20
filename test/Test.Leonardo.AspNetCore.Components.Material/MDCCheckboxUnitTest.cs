@@ -9,6 +9,7 @@ using Xunit;
 using Moq;
 using Microsoft.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
@@ -16,26 +17,10 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCCheckboxUnitTest()
         {
-            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCCheckboxComponent.attachTo"),
-                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(i => i == "MDCCheckboxComponent.setChecked"),
-                    It.Is<object[]>(a => MatchArgs_SetChecked(a))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            host.AddService(jsMock.Object);
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(checkboxJsInterop));
         }
 
-        private readonly Mock<IJSRuntime> jsMock;
+        private readonly MDCCheckboxJsInteropFake checkboxJsInterop = new MDCCheckboxJsInteropFake();
 
         [Fact]
         public void HasMandatoryCssClasses()
@@ -122,69 +107,25 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             spy.Value.ShouldBe(!value);
         }
 
-        [Fact]
-        public void JavaScriptInstantiation_AttachTo()
+        [Theory]
+        [AutoData]
+        public void JavaScriptInstantiation_AttachTo(string id)
         {
-            var sut = AddComponent();
+            AddComponent(("Id", id));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCCheckboxComponent.attachTo", It.IsAny<object[]>()),
-                Times.Once);
+            checkboxJsInterop.FindComponentById(id).ShouldNotBeNull();
         }
 
         [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void JavaScriptInstantiation_SetChecked(bool value)
+        [InlineAutoData(true)]
+        [InlineAutoData(false)]
+        public void JavaScriptInstantiation_SetChecked(bool value, string id)
         {
-            var sut = AddComponent(
+            AddComponent(
+                ("Id", id),
                 ("Value", value));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCCheckboxComponent.setChecked", It.Is<object[]>(a => a.Length == 2 && Equals(a[1], value))),
-                Times.Once);
-        }
-
-        private static bool MatchArgs_AttachTo(object[] args)
-        {
-            if (args.Length != 1)
-            {
-                return false;
-            }
-
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private static bool MatchArgs_SetChecked(object[] args)
-        {
-            if (args.Length != 2)
-            {
-                return false;
-            }
-
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            return true;
+            checkboxJsInterop.FindComponentById(id).Checked.ShouldBe(value);
         }
     }
 }
