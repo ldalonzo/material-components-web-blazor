@@ -21,9 +21,20 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
             return Task.CompletedTask;
         }
 
+        public virtual Task SetIndeterminate(object[] args)
+        {
+            args.Length.ShouldBe(2);
+
+            var component = FindComponentById(args[0]);
+            component.Indeterminate = args[1].ShouldBeOfType<bool>();
+
+            return Task.CompletedTask;
+        }
+
         protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {
             yield return ("setChecked", SetChecked);
+            yield return ("setIndeterminate", SetIndeterminate);
         }
     }
 }

@@ -5,5 +5,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Component
     internal class MDCCheckboxFake : MDCComponentFake<MDCCheckboxFoundation>
     {
         public bool Checked { get; set; }
+        public bool Indeterminate { get; set; }
     }
 }

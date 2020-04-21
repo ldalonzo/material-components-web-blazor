@@ -13,6 +13,11 @@ var MDCCheckboxComponent = /** @class */ (function () {
       const checkbox = _this.componentsById[id]
       checkbox.checked = value
     }
+
+    this.setIndeterminate = (id, value) => {
+      const checkbox = _this.componentsById[id]
+      checkbox.indeterminate = value
+    }
   }
 
   return MDCCheckboxComponent

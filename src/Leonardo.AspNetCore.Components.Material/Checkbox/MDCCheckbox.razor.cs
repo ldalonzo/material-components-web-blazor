@@ -11,29 +11,41 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
     /// <seealso href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox"/>
     public partial class MDCCheckbox
     {
+        [Parameter] public bool Disabled { get; set; }
+
+        [Parameter] public bool Indeterminate { get; set; }
+
+        [Parameter] public EventCallback<bool> IndeterminateChanged { get; set; }
+
+        private Task OnIndeterminateChanged()
+        {
+            if (Indeterminate)
+            {
+                Indeterminate = false;
+            }
+
+            return IndeterminateChanged.InvokeAsync(Indeterminate);
+        }
+
         [Parameter] public string Label { get; set; }
 
         [Parameter] public bool Value { get; set; }
 
         [Parameter] public EventCallback<bool> ValueChanged { get; set; }
 
-        [Parameter] public bool Disabled { get; set; }
+        private async Task OnValueChanged(ChangeEventArgs e)
+        {
+            var value = (bool)e.Value;
+
+            Value = value;
+
+            await OnIndeterminateChanged();
+            await ValueChanged.InvokeAsync(Value);
+        }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCCheckbox;
-
-        private Task OnValueChanged(ChangeEventArgs e)
-        {
-            var value = (bool)e.Value;
-            if (value != Value)
-            {
-                Value = value;
-                return ValueChanged.InvokeAsync(Value);
-            }
-
-            return Task.CompletedTask;
-        }
 
         private string LabelId => $"{Id}-label";
 
@@ -77,6 +89,7 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
             }
 
             await SetChecked();
+            await SetIndeterminate();
         }
 
         private async Task Attach()
@@ -84,5 +97,8 @@ namespace Leonardo.AspNetCore.Components.Material.Checkbox
 
         private async Task SetChecked()
             => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.setChecked", Id, Value);
+
+        private async Task SetIndeterminate()
+            => await JSRuntime.InvokeVoidAsync("MDCCheckboxComponent.setIndeterminate", Id, Indeterminate);
     }
 }

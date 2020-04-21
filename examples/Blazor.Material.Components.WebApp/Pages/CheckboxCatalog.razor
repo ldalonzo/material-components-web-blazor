@@ -1,19 +1,32 @@
 ﻿@page "/component/checkbox"
 <ComponentCatalogPanel Title="Checkbox">
     <HeroComponent>
-        <MDCCheckbox @bind-Value="@Value" Label="@Label" />
+        <MDCCheckbox Label="@Label" 
+                     @bind-Value="@Value"
+                     @bind-Indeterminate="@Indeterminate" />
     </HeroComponent>
     <HeroComponentOptions>
         <ComponentOption>
             <MDCTextField Label="Label" Variant="MDCTextFieldStyle.Outlined" @bind-Value="@Label" />
         </ComponentOption>
         <ComponentOption>
-            <MDCCheckbox @bind-Value="@Value" Label="Current Value" Disabled="true" />
+            <MDCCheckbox Label="Current Value"
+                         Disabled="true"
+                         @bind-Value="@Value"
+                         @bind-Indeterminate="@Indeterminate" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCButton OnClick="@(_ => Indeterminate = true)">
+                Set Indeterminate
+            </MDCButton>
         </ComponentOption>
     </HeroComponentOptions>
     <Demos>
         <ComponentDemo Title="Unchecked">
             <MDCCheckbox Value="false" />
+        </ComponentDemo>
+        <ComponentDemo Title="Indeterminate">
+            <MDCCheckbox Indeterminate="true" />
         </ComponentDemo>
         <ComponentDemo Title="Checked">
             <MDCCheckbox Value="true" />
@@ -23,5 +36,6 @@
 
 @code {
     private bool Value { get; set; }
+    private bool Indeterminate { get; set; }
     private string Label { get; set; } = "Checkbox";
 }
