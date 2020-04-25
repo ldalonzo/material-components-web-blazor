@@ -19,26 +19,36 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         protected readonly MDCSelectJsInteropFake selectJsInterop;
 
         [Fact]
-        public void Style_HasMandatoryCssClasses()
+        public void MdcSelect_HasMandatoryCssClasses()
         {
-            var select = AddComponent();
-            select.Find("div").ShouldContainCssClasses("mdc-select");
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var rootElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
+            rootElement.ShouldContainCssClasses("mdc-select");
+        }
+
+        [Fact]
+        public void MdcSelect_Anchor_HasMandatoryCssClasses()
+        {
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var anchorElement = rootNode.SelectNodes("/div/div[1]").ShouldHaveSingleItem();
+            anchorElement.ShouldContainCssClasses("mdc-select__anchor");
         }
 
         [Theory]
         [AutoData]
-        public void Label_IsRendered(string label)
+        public void MdcSelect_Label(string label)
         {
-            var select = AddComponent(("Label", label));
+            var sut = AddComponent(("Label", label));
 
-            // ASSERT the label is present in the markup.
-            select.GetMarkup().ShouldContain(label);
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            labelElement.Attributes["class"].Value.Split(" ").ShouldContain("mdc-floating-label");
 
-            // ASSERT the label is in the right place.
-            var floatingLabelNode = select.FindFloatingLabelNode();
-            floatingLabelNode.ShouldNotBeNull();
-            floatingLabelNode.ChildNodes.ShouldNotBeEmpty();
-            floatingLabelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
+            labelElement.InnerText.ShouldBe(label);
         }
 
         [Fact]

@@ -85,7 +85,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             IncludeEmptyItem = !typeof(T).IsValueType;
             LabelClassString = BuildLabelClassString();
-            SelectedText = GetItemDisplayText(Value);
 
             InitializeOptionsItems();
         }
@@ -103,8 +102,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             return sb.ToString();
         }
-
-        private string SelectedText { get; set; }
 
         private bool IncludeEmptyItem { get; set; }
 

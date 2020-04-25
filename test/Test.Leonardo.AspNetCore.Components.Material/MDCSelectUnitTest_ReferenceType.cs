@@ -1,7 +1,5 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
-using Microsoft.JSInterop;
-using Moq;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,8 +56,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             selectJsInterop.FindComponentById(id).SelectedIndex.ShouldBe(0);
 
-            var labelNode = sut.FindFloatingLabelNode();
-            labelNode.ShouldContainCssClasses("mdc-floating-label");
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            labelElement.ShouldContainCssClasses("mdc-floating-label");
         }
 
         [Theory]
@@ -83,9 +82,11 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             sut.Instance.Value.ShouldBe(preSelectedValue);
 
             sut.DataValueAttributeShouldBePresentOnEachOption(dataSource, includeEmpty: true);
-            sut.LabelShouldFloatAbove();
-            sut.SelectedTextShouldBe(preSelectedValue.DisplayText);
             sut.DropdownShouldHaveSingleSelectedItem(preSelectedValue.Id);
+
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            labelElement.ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
         }
 
         [Theory]

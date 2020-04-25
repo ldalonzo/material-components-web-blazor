@@ -41,13 +41,6 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Shouldly
                 .Select(r => r.Attributes["data-value"].Value)
                 .ShouldBeUnique();
         }
-
-        public static void SelectedTextShouldBe<T>(this RenderedComponent<MDCSelect<T>> sut, string expectedDisplayText)
-        {
-            var selectedText = sut.FindSelectedTextNode();
-            selectedText.ShouldContainCssClasses("mdc-select__selected-text");
-            selectedText.InnerText.ShouldBe(expectedDisplayText);
-        }
     }
 }
 
