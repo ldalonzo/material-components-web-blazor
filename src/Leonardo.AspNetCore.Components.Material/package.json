@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.9.5",
     "@material/button": "^6.0.0",
     "@material/checkbox": "^6.0.0",
+    "@material/circular-progress": "^6.0.0",
     "@material/data-table": "^6.0.0",
     "@material/drawer": "^6.0.0",
     "@material/form-field": "^6.0.0",
