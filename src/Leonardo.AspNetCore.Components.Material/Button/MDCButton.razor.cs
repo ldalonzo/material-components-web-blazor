@@ -15,6 +15,8 @@ namespace Leonardo.AspNetCore.Components.Material.Button
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        [Parameter] public bool Disabled { get; set; }
+
         [Parameter] public string LeadingIcon { get; set; }
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
