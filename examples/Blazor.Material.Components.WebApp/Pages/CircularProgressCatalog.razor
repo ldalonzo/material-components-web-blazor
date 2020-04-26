@@ -1,7 +1,16 @@
 ﻿@page "/component/circular-progress"
 <ComponentCatalogPanel Title="Circular Progress">
     <HeroComponent>
-        <MDCCircularProgress>
+        <MDCCircularProgress Indeterminate="@Indeterminate">
         </MDCCircularProgress>
     </HeroComponent>
+    <HeroComponentOptions>
+        <ComponentOption>
+            <MDCCheckbox Label="Indeterminate" @bind-Value="@Indeterminate" />
+        </ComponentOption>
+    </HeroComponentOptions>
 </ComponentCatalogPanel>
+
+@code{
+    private bool Indeterminate { get; set; }
+}

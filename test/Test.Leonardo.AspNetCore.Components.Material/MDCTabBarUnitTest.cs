@@ -11,18 +11,17 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCTabBarUnitTest()
         {
-            tabBarJsInterop = new MDCTabBarJsInteropFake();
             host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(tabBarJsInterop));
         }
 
-        private readonly MDCTabBarJsInteropFake tabBarJsInterop;
+        private readonly MDCTabBarJsInteropFake tabBarJsInterop = new MDCTabBarJsInteropFake();
 
         [Fact]
         public void HtmlStructure_MdcTabBar()
         {
             var sut = AddComponent();
 
-            var rootNode = sut.GetDocumentNode().FirstChild;
+            var rootNode = sut.GetDocumentNode();
             var divElement = rootNode.SelectNodes("/div[1]").ShouldHaveSingleItem();
             divElement.ShouldContainCssClasses("mdc-tab-bar");
         }

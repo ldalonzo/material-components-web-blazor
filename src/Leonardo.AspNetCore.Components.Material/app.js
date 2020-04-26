@@ -1,6 +1,7 @@
 ﻿import './app.scss'
 
 import './Checkbox/MDCCheckbox.razor.js'
+import './CircularProgress/MDCCircularProgress.razor.js'
 import './Drawer/MDCDrawer.razor.js'
 import './List/MDCList.razor.js'
 import './Ripple/MDCRipple.razor.js'
