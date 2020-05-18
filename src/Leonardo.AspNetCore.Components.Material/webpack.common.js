@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
-    app: './app.js'
+    app: ['./app.scss', './app.js']
   },
   plugins: [
     new CleanWebpackPlugin()
@@ -48,7 +48,11 @@ module.exports = {
             // Compiles Sass to CSS
             loader: 'sass-loader',
             options: {
+              // Prefer Dart Sass
               implementation: require('sass'),
+
+              // See https://github.com/webpack-contrib/sass-loader/issues/804
+              webpackImporter: false,
               sassOptions: {
                 includePaths: ['./node_modules']
               }
@@ -58,20 +62,11 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['transform-object-assign']
           }
-        }
-      },
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
         }
       },
       {

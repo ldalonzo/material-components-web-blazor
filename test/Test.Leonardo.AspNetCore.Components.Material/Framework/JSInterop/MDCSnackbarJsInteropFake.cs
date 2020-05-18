@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Shouldly;
+﻿using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,15 +7,15 @@ using Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components;
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
 {
-    internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbar>
+    internal class MDCSnackbarJsInteropFake : MDCComponentJsInterop<MDCSnackbarFake>
     {
+        protected override string ComponentIdentifier => "MDCSnackbarComponent";
+
         public Task Open(object[] args)
         {
             args.Length.ShouldBe(1);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            var component = FindComponentById(elementRef.Id);
+            var id = args[0].ShouldBeOfType<string>();
+            var component = FindComponentById(id);
             component.Open();
 
             return Task.CompletedTask;
@@ -25,21 +24,18 @@ namespace Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop
         public Task SetLabelText(object[] args)
         {
             args.Length.ShouldBe(2);
-            var elementRef = args[0].ShouldBeOfType<ElementReference>();
-            elementRef.Id.ShouldNotBeNullOrWhiteSpace();
-
-            var component = FindComponentById(elementRef.Id);
+            var id = args[0].ShouldBeOfType<string>();
+            var component = FindComponentById(id);
             component.ShouldNotBeNull();
             component.LabelText = args[1].ShouldBeOfType<string>();
 
             return Task.CompletedTask;
         }
 
-        public override IDictionary<string, Func<object[], Task>> GetFunctionsDefinitions() => new Dictionary<string, Func<object[], Task>>
+        protected override IEnumerable<(string, Func<object[], Task>)> EnumerateFunctionsDefinitions()
         {
-            { "MDCSnackbarComponent.attachTo", AttachTo },
-            { "MDCSnackbarComponent.open", Open },
-            { "MDCSnackbarComponent.setLabelText", SetLabelText}
-        };
+            yield return ("open", Open);
+            yield return ("setLabelText", SetLabelText);
+        }
     }
 }

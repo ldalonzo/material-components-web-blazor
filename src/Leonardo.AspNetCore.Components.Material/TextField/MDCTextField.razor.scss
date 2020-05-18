@@ -1,1 +1,3 @@
-@use "@material/textfield/mdc-text-field";
+@use "@material/textfield";
+
+@include textfield.core-styles;

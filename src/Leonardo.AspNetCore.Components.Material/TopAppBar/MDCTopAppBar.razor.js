@@ -5,19 +5,13 @@ var MDCTopAppBarComponent = /** @class */ (function () {
     var _this = this
     this.componentsById = {}
 
-    this.attachTo = (domElement) => {
+    this.attachTo = (domElement, id) => {
       const topAppBar = MDCTopAppBar.attachTo(domElement)
-      _this.componentsById[domElement.id] = topAppBar
+      _this.componentsById[id] = topAppBar
     }
 
-    this.setScrollTarget = (target) => {
-      _this.topAppBar.setScrollTarget(target)
-
-      return true
-    }
-
-    this.listenToNav = (domElement, dotnetHelper) => {
-      const topAppBar = _this.componentsById[domElement.id]
+    this.listenToNav = (id, dotnetHelper) => {
+      const topAppBar = _this.componentsById[id]
       topAppBar.listen('MDCTopAppBar:nav', () => {
         dotnetHelper.invokeMethodAsync('OnMDCTopAppBarNav')
       })

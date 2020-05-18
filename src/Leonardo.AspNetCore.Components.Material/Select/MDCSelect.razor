@@ -1,13 +1,14 @@
 @inherits MDCSelect
 @typeparam T
-<div class="@ClassString" @ref="mdcSelectElement">
-    <div class="mdc-select__anchor demo-width-class">
+<div class="@ClassString" @ref="_MDCSelect">
+    <div class="mdc-select__anchor">
+        <span class="mdc-select__ripple"></span>
+        <input type="text" disabled readonly class="mdc-select__selected-text">
         <i class="mdc-select__dropdown-icon"></i>
-        <div class="mdc-select__selected-text">@SelectedText</div>
         <span class="@LabelClassString">@Label</span>
         <div class="mdc-line-ripple"></div>
     </div>
-    <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
+    <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
         <ul class="mdc-list">
             @if (IncludeEmptyItem)
             {

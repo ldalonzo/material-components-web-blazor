@@ -47,13 +47,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [Fact]
         public async Task OnNav_IsCalled()
         {
-            var observer = new Mock<Spy>();
-            var sut = AddComponent(("OnNav", EventCallback.Factory.Create(this, observer.Object.Call)));
+            var spy = new Mock<Spy>();
+            var sut = AddComponent(("OnNav", EventCallback.Factory.Create(this, spy.Object.Call)));
 
-            var jsComponent = jsInterop.FindComponentById(sut.Instance.MdcTopAppBarElementId);
-            await jsComponent.Emit("MDCTopAppBar:nav");
+            var jsComponent = jsInterop.FindComponentById(sut.Instance.Id);
+            await jsComponent.HandleNavigationClick();
 
-            observer.Verify(o => o.Call(), Times.Once);
+            spy.Verify(o => o.Call(), Times.Once);
         }
 
         [Theory]

@@ -1,5 +1,5 @@
 @inherits MaterialComponent
-<button class="@ClassString" @ref="mdcButtonElement" @onclick=OnClick>
+<button class="@ClassString" @ref="mdcButtonElement" @onclick=OnClick disabled="@Disabled">
     <div class="mdc-button__ripple"></div>
 
     @if (!string.IsNullOrWhiteSpace(LeadingIcon))

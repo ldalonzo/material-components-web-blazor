@@ -20,10 +20,9 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
 
         [Parameter] public MDCDrawerVariant Variant { get; set; }
 
-        [Inject] protected IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCDrawer;
-        public string MDCDrawerElementId => _MDCDrawer.Id;
 
         protected ElementReference _MDCList;
 
@@ -60,14 +59,14 @@ namespace Leonardo.AspNetCore.Components.Material.Drawer
                         break;
 
                     case MDCDrawerVariant.Dismissible:
-                        await JSRuntime.InvokeVoidAsync("MDCDrawerComponent.attachTo", _MDCDrawer);
+                        await JSRuntime.InvokeVoidAsync("MDCDrawerComponent.attachTo", _MDCDrawer, Id);
                         break;
                 }
             }
         }
 
         public ValueTask ToggleOpen()
-            => JSRuntime.InvokeVoidAsync("MDCDrawerComponent.toggleOpen", _MDCDrawer);
+            => JSRuntime.InvokeVoidAsync("MDCDrawerComponent.toggleOpen", Id);
 
         private static class CSSClasses
         {

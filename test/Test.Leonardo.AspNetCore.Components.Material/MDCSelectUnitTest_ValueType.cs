@@ -12,21 +12,41 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         [Theory]
         [AutoData]
-        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(List<Season> dataSource)
+        public void GivenDataSourceAndValue_WhenFirstRendered_OptionIsPreSelected(string id, List<Season> dataSource)
         {
-            var preSelectedValue = default(Season);
-
             var sut = AddComponent(
+                ("Id", id),
                 ("DataSource", dataSource));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCSelectComponent.setSelectedIndex", It.Is<object[]>(s => (int)s[1] == 0)));
-
+            selectJsInterop.FindComponentById(id).SelectedIndex.ShouldBe(0);
             sut.Instance.Value.ShouldBe(default);
 
             sut.DataValueAttributeShouldBePresentOnEachOption(dataSource, includeEmpty: false);
-            sut.LabelShouldFloatAbove();
-            sut.SelectedTextShouldBe(default(Season).ToString());
+        }
+
+        [Theory]
+        [AutoData]
+        public void PreFilled_LabelShouldFloat(List<Season> dataSource, string label)
+        {
+            var sut = AddComponent(
+                ("Label", label),
+                ("DataSource", dataSource));
+
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            labelElement.Attributes["class"].Value.Split(" ").ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
+
+            labelElement.InnerText.ShouldBe(label);
+        }
+
+        [Theory]
+        [AutoData]
+        public void OptionIsPreSelected(List<Season> dataSource)
+        {
+            var preSelectedValue = default(Season);
+
+            var sut = AddComponent(("DataSource", dataSource));
+
             sut.DropdownShouldHaveSingleSelectedItem(preSelectedValue.ToString());
         }
 

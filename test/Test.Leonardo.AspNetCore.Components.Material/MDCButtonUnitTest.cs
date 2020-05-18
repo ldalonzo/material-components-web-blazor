@@ -19,10 +19,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
-        public void Style_Text_HasMandatoryCssClasses()
+        public void TextButton_MandatoryCssClasses()
         {
-            var button = AddComponent(("Variant", MDCButtonStyle.Text));
-            button.Find("button").ShouldContainCssClasses("mdc-button");
+            var sut = AddComponent(("Variant", MDCButtonStyle.Text));
+
+            var rootNode = sut.GetDocumentNode();
+            var buttonElement = rootNode.SelectNodes("/button").ShouldHaveSingleItem();
+            buttonElement.ShouldContainCssClasses("mdc-button");
         }
 
         [Fact]
@@ -85,6 +88,28 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             component.Find("button").Click();
 
             counter.Count.ShouldBe(1);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Disabled(bool disabled)
+        {
+            var sut = AddComponent(("Disabled", disabled));
+
+            var rootNode = sut.GetDocumentNode();
+            var buttonElement = rootNode.SelectNodes("/button").ShouldHaveSingleItem();
+
+            var disabledAttribute = buttonElement.Attributes["disabled"];
+
+            if (disabled)
+            {
+                disabledAttribute.ShouldNotBeNull();
+            }
+            else
+            {
+                disabledAttribute.ShouldBeNull();
+            }
         }
 
         private class Counter

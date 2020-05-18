@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Leonardo.AspNetCore.Components.Material.TextField
 {
     /// <summary>
-    /// Text fields allow users to input, edit, and select text.
+    /// Text fields allow users to enter text into a UI. They typically appear in forms and dialogs.
     /// </summary>
     /// <seealso href="https://material.io/develop/web/components/input-controls/text-field/"/>
     public partial class MDCTextField
@@ -35,12 +35,17 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
-            sb.Append(CssClasses.MDCTextField);
+            sb.Append("mdc-text-field");
 
-            if (Variant == MDCTextFieldStyle.Outlined)
+
+            switch (Variant)
             {
-                sb.Append(" ");
-                sb.Append(CssClasses.MDCTextFieldOutlined);
+                case MDCTextFieldStyle.Filled:
+                    sb.Append(" mdc-text-field--filled");
+                    break;
+                case MDCTextFieldStyle.Outlined:
+                    sb.Append(" mdc-text-field--outlined");
+                    break;
             }
 
             if (Disabled)
@@ -103,17 +108,8 @@ namespace Leonardo.AspNetCore.Components.Material.TextField
 
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCTextFieldComponent.attachTo", mdcTextFieldElement);
+                await JSRuntime.InvokeVoidAsync("MDCTextFieldComponent.attachTo", mdcTextFieldElement, Id);
             }
-        }
-
-        private static class CssClasses
-        {
-            /// <summary>Mandatory</summary>
-            public static string MDCTextField = "mdc-text-field";
-
-            /// <summary>Styles the text field as an outlined text field.</summary>
-            public static string MDCTextFieldOutlined = "mdc-text-field--outlined";
         }
     }
 }

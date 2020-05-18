@@ -1,12 +1,13 @@
-@use "../node_modules/@material/data-table/mdc-data-table";
-@use "../node_modules/@material/data-table/mixins" as data-table-mixins;
+@use "@material/data-table";
+
+@include data-table.core-styles;
 
 .mdc-data-table {
   &--density-2 {
-    @include data-table-mixins.density(-2);
+    @include data-table.density(-2);
   }
   &--density-4 {
-    @include data-table-mixins.density(-4);
+    @include data-table.density(-4);
   }
 }
 

@@ -31,8 +31,16 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         [Theory, AutoData]
         public void TestRenderCustomCssClass(string customCssClass)
         {
-            var component = AddComponent(("class", customCssClass));
-            component.GetMarkup().ShouldContain(customCssClass);
+            var sut = AddComponent(("class", customCssClass));
+
+            var rootNode = sut.GetDocumentNode().FirstChild;
+            rootNode.ShouldNotBeNull();
+
+            var classAttribute = rootNode.Attributes["class"];
+            classAttribute.ShouldNotBeNull();
+
+            var cssClasses = classAttribute.Value.Split();
+            cssClasses.ShouldContain(customCssClass);
         }
     }
 }

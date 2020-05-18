@@ -1,11 +1,8 @@
 ﻿using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Select;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Moq;
 using Shouldly;
-using System.Reflection;
-using System.Threading.Tasks;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -15,47 +12,43 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCSelectUnitTest()
         {
-            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCSelectComponent.attachTo"),
-                    It.Is<object[]>(args => MatchArgs_Attach(args))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCSelectComponent.setSelectedIndex"),
-                    It.Is<object[]>(args => true)))
-                .Returns(new ValueTask<object>());
-
-            host.AddService(jsMock.Object);
+            selectJsInterop = new MDCSelectJsInteropFake();
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(selectJsInterop));
         }
 
-        protected readonly Mock<IJSRuntime> jsMock;
+        protected readonly MDCSelectJsInteropFake selectJsInterop;
 
         [Fact]
-        public void Style_HasMandatoryCssClasses()
+        public void MdcSelect_HasMandatoryCssClasses()
         {
-            var select = AddComponent();
-            select.Find("div").ShouldContainCssClasses("mdc-select");
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var rootElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
+            rootElement.ShouldContainCssClasses("mdc-select");
+        }
+
+        [Fact]
+        public void MdcSelect_Anchor_HasMandatoryCssClasses()
+        {
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var anchorElement = rootNode.SelectNodes("/div/div[1]").ShouldHaveSingleItem();
+            anchorElement.ShouldContainCssClasses("mdc-select__anchor");
         }
 
         [Theory]
         [AutoData]
-        public void Label_IsRendered(string label)
+        public void MdcSelect_Label(string label)
         {
-            var select = AddComponent(("Label", label));
+            var sut = AddComponent(("Label", label));
 
-            // ASSERT the label is present in the markup.
-            select.GetMarkup().ShouldContain(label);
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            labelElement.Attributes["class"].Value.Split(" ").ShouldContain("mdc-floating-label");
 
-            // ASSERT the label is in the right place.
-            var floatingLabelNode = select.FindFloatingLabelNode();
-            floatingLabelNode.ShouldNotBeNull();
-            floatingLabelNode.ChildNodes.ShouldNotBeEmpty();
-            floatingLabelNode.ChildNodes.ShouldHaveSingleItem().InnerText.ShouldBe(label);
+            labelElement.InnerText.ShouldBe(label);
         }
 
         [Fact]
@@ -67,50 +60,13 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             selectListNode.ShouldContainCssClasses("mdc-list");
         }
 
-        [Fact]
-        public void JavaScriptInstantiation()
+        [Theory]
+        [AutoData]
+        public void JavaScriptInstantiation(string id)
         {
-            var textField = AddComponent();
+            AddComponent(("Id", id));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCSelectComponent.attachTo", It.IsAny<object[]>()),
-                Times.Once);
-        }
-
-        protected static Task InvokeMethodAsync<TComponent>(DotNetObjectReference<TComponent> target, string methodName, params object[] args)
-            where TComponent : class
-        {
-            var targetMethod = typeof(TComponent).GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
-            targetMethod.ShouldNotBeNull();
-
-            return (Task)targetMethod.Invoke(target.Value, args);
-        }
-
-        private static bool MatchArgs_Attach(object[] args)
-        {
-            if (args.Length != 2)
-            {
-                return false;
-            }
-
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            var dotNetObjectRef = args[1] as DotNetObjectReference<MDCSelect>;
-            if (dotNetObjectRef == null)
-            {
-                return false;
-            }
-
-            return true;
+            selectJsInterop.FindComponentById(id).ShouldNotBeNull();
         }
     }
 }

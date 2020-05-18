@@ -2,7 +2,7 @@
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components
 {
-    internal class MDCDrawer : MDCComponent<MDCDismissibleDrawerFoundation>
+    internal class MDCDrawerFake : MDCComponentFake<MDCDismissibleDrawerFoundation>
     {
         public bool Open { get; set; }
     }

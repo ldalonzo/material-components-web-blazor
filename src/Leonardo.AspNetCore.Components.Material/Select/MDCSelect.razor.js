@@ -5,17 +5,19 @@ var MDCSelectComponent = /** @class */ (function () {
     var _this = this
     this.componentsById = {}
 
-    this.attachTo = (domElement, dotnetHelper) => {
-      const select = new MDCSelect(domElement)
-      select.listen('MDCSelect:change', () => {
-        dotnetHelper.invokeMethodAsync('OnChange', select.value, select.selectedIndex)
-      })
-
-      _this.componentsById[domElement.id] = select
+    this.attachTo = (domElement, id) => {
+      _this.componentsById[id] = MDCSelect.attachTo(domElement)
     }
 
-    this.setSelectedIndex = (domElement, selectedIndex) => {
-      const select = _this.componentsById[domElement.id]
+    this.listenToChange = (id, dotnetHelper) => {
+      const select = _this.componentsById[id]
+      select.listen('MDCSelect:change', evt => {
+        dotnetHelper.invokeMethodAsync('OnChange', evt.detail)
+      })
+    }
+
+    this.setSelectedIndex = (id, selectedIndex) => {
+      const select = _this.componentsById[id]
       select.selectedIndex = selectedIndex
     }
   }

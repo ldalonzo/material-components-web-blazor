@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Microsoft.AspNetCore.Components.Testing;
 using Xunit;
-using Moq;
 using Microsoft.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
 {
@@ -16,59 +16,87 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCCheckboxUnitTest()
         {
-            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCCheckboxComponent.attachTo"),
-                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(i => i == "MDCCheckboxComponent.setChecked"),
-                    It.Is<object[]>(a => MatchArgs_SetChecked(a))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            host.AddService(jsMock.Object);
+            host.AddService<IJSRuntime, JSRuntimeFake>(new JSRuntimeFake(checkboxJsInterop));
         }
 
-        private readonly Mock<IJSRuntime> jsMock;
+        private readonly MDCCheckboxJsInteropFake checkboxJsInterop = new MDCCheckboxJsInteropFake();
 
         [Fact]
-        public void HasMandatoryCssClasses()
+        public void HtmlStructure_MdcCheckbox()
         {
             var sut = AddComponent();
 
-            sut.ShouldHaveMdcCheckboxNode().ShouldContainCssClasses("mdc-checkbox");
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div").ShouldHaveSingleItem();
+
+            divElement.ShouldContainCssClasses("mdc-checkbox");
         }
 
         [Fact]
-        public void HasMandatoryCssClasses_Disabled()
+        public void HtmlStructure_MdcCheckbox_Disabled()
         {
             var sut = AddComponent(("Disabled", true));
 
-            sut.ShouldHaveMdcCheckboxNode().ShouldContainCssClasses("mdc-checkbox", "mdc-checkbox--disabled");
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div").ShouldHaveSingleItem();
+
+            divElement.ShouldContainCssClasses("mdc-checkbox", "mdc-checkbox--disabled");
         }
 
         [Fact]
-        public void Disabled()
-        {
-            var sut = AddComponent(("Disabled", true));
-
-            sut.ShouldHaveMdcCheckboxNode().ShouldContainCssClasses("mdc-checkbox", "mdc-checkbox--disabled");
-
-            var inputNode = sut.ShouldHaveInputNode();
-            inputNode.Attributes["disabled"].ShouldNotBeNull();
-        }
-
-        [Fact]
-        public void HasId()
+        public void HtmlStructure_MdcCheckbox_HasId()
         {
             var sut = AddComponent();
-            sut.ShouldHaveMdcCheckboxNode().Attributes["id"].Value.ShouldNotBeNullOrEmpty();
+
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div").ShouldHaveSingleItem();
+
+            divElement.Attributes["id"].Value.ShouldNotBeNullOrEmpty();
+        }
+
+        [Theory]
+        [AutoData]
+        public void HtmlStructure_MdcCheckbox_HasId_Assigned(string id)
+        {
+            var sut = AddComponent(("Id", id));
+
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div").ShouldHaveSingleItem();
+
+            divElement.Attributes["id"].Value.ShouldBe(id);
+        }
+
+        [Fact]
+        public void HtmlStructure_MdcCheckbox_Input()
+        {
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var inputNode = rootNode.SelectNodes("/div/div/input").ShouldHaveSingleItem();
+
+            inputNode.ShouldContainCssClasses("mdc-checkbox__native-control");
+        }
+
+        [Fact]
+        public void HtmlStructure_MdcCheckbox_Input_HasId()
+        {
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div/input").ShouldHaveSingleItem();
+
+            divElement.Attributes["id"].Value.ShouldNotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public void HtmlStructure_MdcCheckbox_Input_Disabled()
+        {
+            var sut = AddComponent(("Disabled", true));
+
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div/input").ShouldHaveSingleItem();
+
+            divElement.Attributes["disabled"].ShouldNotBeNull();
         }
 
         [Theory]
@@ -84,7 +112,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         {
             var sut = AddComponent();
 
-            var inputNode = sut.ShouldHaveInputNode();
+            var rootNode = sut.GetDocumentNode();
+            var inputNode = rootNode.SelectNodes("/div/div/input").ShouldHaveSingleItem();
+
             var inputId = inputNode.Attributes["id"].Value;
             inputId.ShouldNotBeNullOrEmpty();
 
@@ -100,8 +130,8 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut1 = AddComponent();
             var sut2 = AddComponent();
 
-            var id1 = sut1.ShouldHaveInputNode().Attributes["id"].Value;
-            var id2 = sut2.ShouldHaveInputNode().Attributes["id"].Value;
+            var id1 = sut1.GetDocumentNode().SelectNodes("/div/div/input").ShouldHaveSingleItem().Attributes["id"].Value;
+            var id2 = sut2.GetDocumentNode().SelectNodes("/div/div/input").ShouldHaveSingleItem().Attributes["id"].Value;
 
             id1.ShouldNotBe(id2);
         }
@@ -122,69 +152,54 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             spy.Value.ShouldBe(!value);
         }
 
-        [Fact]
-        public void JavaScriptInstantiation_AttachTo()
-        {
-            var sut = AddComponent();
-
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCCheckboxComponent.attachTo", It.IsAny<object[]>()),
-                Times.Once);
-        }
-
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void JavaScriptInstantiation_SetChecked(bool value)
+        public async Task ChainedBind_ToggleValue_ClearsIndeterminate(bool value)
         {
+            var spy = new ValueSpy<bool>(true);
+
             var sut = AddComponent(
+                ("Indeterminate", true),
+                ("IndeterminateChanged", EventCallback.Factory.Create<bool>(this, spy.SetValue)),
                 ("Value", value));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCCheckboxComponent.setChecked", It.Is<object[]>(a => a.Length == 2 && Equals(a[1], value))),
-                Times.Once);
+            await sut.Find("input").InputAsync(!value);
+
+            spy.Value.ShouldBe(false);
         }
 
-        private static bool MatchArgs_AttachTo(object[] args)
+        [Theory]
+        [AutoData]
+        public void JavaScriptInstantiation_AttachTo(string id)
         {
-            if (args.Length != 1)
-            {
-                return false;
-            }
+            AddComponent(("Id", id));
 
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            return true;
+            checkboxJsInterop.FindComponentById(id).ShouldNotBeNull();
         }
 
-        private static bool MatchArgs_SetChecked(object[] args)
+        [Theory]
+        [InlineAutoData(true)]
+        [InlineAutoData(false)]
+        public void JavaScriptInstantiation_SetChecked(bool value, string id)
         {
-            if (args.Length != 2)
-            {
-                return false;
-            }
+            AddComponent(
+                ("Id", id),
+                ("Value", value));
 
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
+            checkboxJsInterop.FindComponentById(id).Checked.ShouldBe(value);
+        }
 
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
+        [Theory]
+        [InlineAutoData(true)]
+        [InlineAutoData(false)]
+        public void JavaScriptInstantiation_Indeterminate(string id, bool value)
+        {
+            AddComponent(
+                ("Id", id),
+                ("Indeterminate", value));
 
-            return true;
+            checkboxJsInterop.FindComponentById(id).Indeterminate.ShouldBe(value);
         }
     }
 }

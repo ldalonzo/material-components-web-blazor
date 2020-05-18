@@ -3,10 +3,10 @@ using Leonardo.AspNetCore.Components.Material.TextField;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
-using Moq;
 using Shouldly;
 using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
+using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 
@@ -16,34 +16,32 @@ namespace Test.Leonardo.AspNetCore.Components.Material
     {
         public MDCTextFieldUnitTest()
         {
-            jsMock = new Mock<IJSRuntime>(MockBehavior.Strict);
-
-            jsMock
-                .Setup(r => r.InvokeAsync<object>(
-                    It.Is<string>(identifier => identifier == "MDCTextFieldComponent.attachTo"),
-                    It.Is<object[]>(args => MatchArgs_AttachTo(args))))
-                .Returns(new ValueTask<object>())
-                .Verifiable();
-
-            host.AddService(jsMock.Object);
+            FakeComponent = new MDCTextFieldJsInteropFake();
+            host.AddService<IJSRuntime>(new JSRuntimeFake(FakeComponent));
         }
 
-        private readonly Mock<IJSRuntime> jsMock;
+        private readonly MDCTextFieldJsInteropFake FakeComponent;
 
         [Fact]
-        public void Style_Filled_HasMandatoryCssClasses()
+        public void Filled_LabelNode_CssClasses()
         {
             var sut = AddComponent(("Variant", MDCTextFieldStyle.Filled));
 
-            sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field");
-            sut.ShouldHaveInputNode().Attributes["disabled"].ShouldBeNull();
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/label").ShouldHaveSingleItem();
+
+            labelElement.ShouldContainCssClasses("mdc-text-field", "mdc-text-field--filled");
         }
 
         [Fact]
-        public void Style_Outlined_HasMandatoryCssClasses()
+        public void Outlined_LabelNode_CssClasses()
         {
             var sut = AddComponent(("Variant", MDCTextFieldStyle.Outlined));
-            sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field", "mdc-text-field--outlined");
+
+            var rootNode = sut.GetDocumentNode();
+            var labelElement = rootNode.SelectNodes("/label").ShouldHaveSingleItem();
+
+            labelElement.ShouldContainCssClasses("mdc-text-field", "mdc-text-field--outlined");
         }
 
         [Fact]
@@ -171,45 +169,33 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Theory]
+        [InlineAutoData(MDCTextFieldStyle.Filled)]
+        [InlineAutoData(MDCTextFieldStyle.Outlined)]
+        public void JavaScriptInstantiation(MDCTextFieldStyle variant, string id)
+        {
+            AddComponent(
+                ("Id", id),
+                ("Variant", variant));
+
+            FakeComponent.FindComponentById(id).ShouldNotBeNull();
+        }
+
+        [Theory]
         [InlineData(MDCTextFieldStyle.Filled)]
         [InlineData(MDCTextFieldStyle.Outlined)]
-        public void JavaScriptInstantiation(MDCTextFieldStyle variant)
+        public void Disabled(MDCTextFieldStyle variant)
         {
-            var sut = AddComponent(("Variant", variant));
+            var sut = AddComponent(
+                ("Variant", variant),
+                ("Disabled", true));
 
-            jsMock.Verify(
-                r => r.InvokeAsync<object>("MDCTextFieldComponent.attachTo", It.IsAny<object[]>()),
-                Times.Once);
-        }
+            var rootNode = sut.GetDocumentNode();
 
-        [Fact]
-        public void Disabled()
-        {
-            var sut = AddComponent(("Disabled", true));
+            var labelElement = rootNode.SelectNodes("/label").ShouldHaveSingleItem();            
+            labelElement.Attributes["class"].Value.Split(" ").ShouldContain("mdc-text-field--disabled");
 
-            sut.ShouldHaveMdcTextFieldNode().ShouldContainCssClasses("mdc-text-field", "mdc-text-field--disabled");
-            sut.ShouldHaveInputNode().Attributes["disabled"].ShouldNotBeNull();
-        }
-
-        private static bool MatchArgs_AttachTo(object[] args)
-        {
-            if (args.Length != 1)
-            {
-                return false;
-            }
-
-            if (args[0].GetType() != typeof(ElementReference))
-            {
-                return false;
-            }
-
-            var elementReference = (ElementReference)args[0];
-            if (string.IsNullOrEmpty(elementReference.Id))
-            {
-                return false;
-            }
-
-            return true;
+            var inputElement = rootNode.SelectNodes("/label/input").ShouldHaveSingleItem();
+            inputElement.Attributes["disabled"].ShouldNotBeNull();
         }
     }
 }

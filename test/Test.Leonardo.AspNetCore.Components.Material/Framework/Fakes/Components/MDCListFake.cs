@@ -2,7 +2,7 @@
 
 namespace Test.Leonardo.AspNetCore.Components.Material.Framework.Fakes.Components
 {
-    internal class MDCList : MDCComponent<MDCListFoundation>
+    internal class MDCListFake : MDCComponentFake<MDCListFoundation>
     {
         public bool WrapFocus { get; set; }
     }

@@ -1,0 +1,17 @@
+@inherits MaterialComponent
+<div class="@ClassString" @ref="_MDCCircularProgress" role="progressbar" aria-label="@Label" aria-valuemin="0" aria-valuemax="1">
+    <div class="mdc-circular-progress__determinate-container">
+        <DeterminateCircleGraphic />
+    </div>
+    <div class="mdc-circular-progress__indeterminate-container">
+        <div class="mdc-circular-progress__spinner-layer">
+            <div class="mdc-circular-progress__circle-clipper mdc-circular-progress__circle-left">
+                <IndeterminateCircleGraphic />
+            </div><div class="mdc-circular-progress__gap-patch">
+                <IndeterminateCircleGraphic />
+            </div><div class="mdc-circular-progress__circle-clipper mdc-circular-progress__circle-right">
+                <IndeterminateCircleGraphic />
+            </div>
+        </div>
+    </div>
+</div>

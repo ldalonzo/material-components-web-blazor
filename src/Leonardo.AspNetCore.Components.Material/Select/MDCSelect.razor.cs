@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +16,9 @@ namespace Leonardo.AspNetCore.Components.Material.Select
     {
         [Parameter] public string Label { get; set; }
 
-        [Inject] public IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
 
-        protected ElementReference mdcSelectElement;
+        protected ElementReference _MDCSelect;
 
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
@@ -35,25 +34,30 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             if (firstRender)
             {
                 await Attach();
+                await ListenToChange();
             }
         }
 
         private async Task Attach()
-            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", mdcSelectElement, DotNetObjectReference.Create(this));
+            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.attachTo", _MDCSelect, Id);
+
+        private async Task ListenToChange()
+            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.listenToChange", Id, DotNetObjectReference.Create(this));
 
         /// <summary>
         /// Set the index of the currently selected option.  Set to -1 if no option is currently selected.
         /// Changing this property will update the select element.
         /// </summary>
         protected async Task SetSelectedIndex(int selectedIndex)
-            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.setSelectedIndex", mdcSelectElement, selectedIndex);
+            => await JSRuntime.InvokeVoidAsync("MDCSelectComponent.setSelectedIndex", Id, selectedIndex);
 
         /// <summary>
         /// Used to indicate when an element has been selected.
         /// This event also includes the <paramref name="value"/> of the item and the <paramref name="index"/>.
         /// </summary>
-        [JSInvokable(nameof(OnChange))]
-        public Task OnChange(string value, int index) => HandleOnChange(value, index);
+        [JSInvokable]
+        public Task OnChange(MDCSelectEventDetail arg)
+            => HandleOnChange(arg.Value, arg.Index);
 
         protected virtual Task HandleOnChange(string value, int index) => Task.CompletedTask;
     }
@@ -81,7 +85,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             IncludeEmptyItem = !typeof(T).IsValueType;
             LabelClassString = BuildLabelClassString();
-            SelectedText = GetItemDisplayText(Value);
 
             InitializeOptionsItems();
         }
@@ -99,8 +102,6 @@ namespace Leonardo.AspNetCore.Components.Material.Select
 
             return sb.ToString();
         }
-
-        private string SelectedText { get; set; }
 
         private bool IncludeEmptyItem { get; set; }
 

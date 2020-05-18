@@ -21,8 +21,6 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 
         protected ElementReference mdcTopAppBarElement;
 
-        public string MdcTopAppBarElementId => mdcTopAppBarElement.Id;
-
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
             sb.Append("mdc-top-app-bar");
@@ -36,8 +34,8 @@ namespace Leonardo.AspNetCore.Components.Material.TopAppBar
 
             if (firstRender)
             {
-                await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.attachTo", mdcTopAppBarElement);
-                await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.listenToNav", mdcTopAppBarElement, DotNetObjectReference.Create(this));
+                await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.attachTo", mdcTopAppBarElement, Id);
+                await JSRuntime.InvokeVoidAsync("MDCTopAppBarComponent.listenToNav", Id, DotNetObjectReference.Create(this));
             }
         }
 

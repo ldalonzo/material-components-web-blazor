@@ -1,7 +1,7 @@
 ﻿@page "/component/button"
 <ComponentCatalogPanel Title="Button">
     <HeroComponent>
-        <MDCButton Variant="@Variant">@ButtonText</MDCButton>
+        <MDCButton Variant="@Variant" Disabled="@Disabled">@ButtonText</MDCButton>
     </HeroComponent>
     <HeroComponentOptions>
         <ComponentOption>
@@ -9,6 +9,9 @@
         </ComponentOption>
         <ComponentOption>
             <MDCTextField Label="Button Text" Variant="MDCTextFieldStyle.Outlined" @bind-Value="ButtonText" />
+        </ComponentOption>
+        <ComponentOption>
+            <MDCCheckbox Label="Disabled" @bind-Value="@Disabled" />
         </ComponentOption>
     </HeroComponentOptions>
     <Demos>
@@ -32,6 +35,7 @@
 
 @code {
     private string ButtonText { get; set; } = "Learn More";
+    private bool Disabled { get; set; }
     private IEnumerable<MDCButtonStyle> VariantItems => Enum.GetValues(typeof(MDCButtonStyle)).OfType<MDCButtonStyle>();
     private MDCButtonStyle Variant { get; set; } = MDCButtonStyle.Text;
 }
