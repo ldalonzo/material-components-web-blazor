@@ -4,13 +4,15 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
-    app: ['./app.scss', './app.js']
+    app: ['./app.scss', './app.js'],
+    'mdc-ripple': './Ripple/MDCRipple.cs.ts',
+    'mdc-textfield': './TextField/MDCTextField.razor.ts'
   },
   plugins: [
     new CleanWebpackPlugin()
   ],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'wwwroot')
   },
   node: {
@@ -21,6 +23,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.scss$/,
         use: [
@@ -65,7 +72,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: ['@babel/preset-env']
           }
         }
       },
@@ -95,6 +102,6 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
+    extensions: ['.tsx', '.ts', '.js']
   }
 }

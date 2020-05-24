@@ -53,7 +53,7 @@ namespace Leonardo.AspNetCore.Components.Material.Button
         {
             if (firstRender)
             {
-                await MDCRippleJSRuntime.AttachTo(JSRuntime, mdcButtonElement);
+                await MDCRipple.AttachTo(JSRuntime, mdcButtonElement);
             }
         }
     }
