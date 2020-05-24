@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     app: ['./app.scss', './app.js'],
     'mdc-ripple': './Ripple/MDCRipple.cs.ts',
+    'mdc-snackbar': './Snackbar/MDCSnackbar.razor.ts',
     'mdc-textfield': './TextField/MDCTextField.razor.ts'
   },
   plugins: [

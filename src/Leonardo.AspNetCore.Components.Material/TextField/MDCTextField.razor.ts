@@ -1,7 +1,7 @@
 import { MDCTextField } from '@material/textfield'
 
-export class MDCTextFieldComponent {
-  attachTo(root: Element, id: string) {
+class MDCTextFieldComponent {
+  public attachTo(root: Element, id: string) {
     MDCTextField.attachTo(root)
   }
 }
