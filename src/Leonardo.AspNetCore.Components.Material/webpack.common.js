@@ -5,10 +5,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   entry: {
     app: ['./app.scss', './app.js'],
-    'mdc-ripple': './Ripple/MDCRipple.cs.ts',
-    'mdc-snackbar': './Snackbar/MDCSnackbar.razor.ts',
-    'mdc-textfield': './TextField/MDCTextField.razor.ts',
-    'mdc-top-app-bar': './TopAppBar/MDCTopAppBar.razor.ts'
+    'circular-progress': './CircularProgress/MDCCircularProgress.razor.ts',
+    'ripple': './Ripple/MDCRipple.cs.ts',
+    'snackbar': './Snackbar/MDCSnackbar.razor.ts',
+    'textfield': './TextField/MDCTextField.razor.ts',
+    'top-app-bar': './TopAppBar/MDCTopAppBar.razor.ts'
   },
   plugins: [
     new CleanWebpackPlugin()
