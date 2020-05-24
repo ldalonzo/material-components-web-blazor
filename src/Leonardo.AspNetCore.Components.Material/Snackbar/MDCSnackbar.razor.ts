@@ -1,25 +1,29 @@
 import { MDCSnackbar } from '@material/snackbar'
 
 class MDCSnackbarComponent {
-  readonly componentsById: any;
+  private readonly componentsById: Map<string, MDCSnackbar> = new Map();
 
-  constructor() {
-    this.componentsById = {}
-  }
-
-  public attachTo(root: Element, id: string) {
+  public attachTo(root: Element, id: string) : void {
     const snackbar = MDCSnackbar.attachTo(root)
-    this.componentsById[id] = snackbar
+    this.componentsById.set(id, snackbar)
   }
 
-  public open(id: string) {
-    const snackbar = this.componentsById[id]
-    snackbar.open()
+  public open(id: string) : void {
+    const snackbar = this.componentsById.get(id)
+    if (snackbar) {
+      snackbar.open()
+    }
   }
 
-  public setLabelText(id: string, labelText: string) {
-    const snackbar = this.componentsById[id]
-    snackbar.labelText = labelText
+  public setLabelText(id: string, labelText: string) : void {
+    const snackbar = this.componentsById.get(id)
+    if (snackbar) {
+      snackbar.labelText = labelText
+    }
+  }
+
+  public dispose(id: string) : boolean {
+    return this.componentsById.delete(id)
   }
 }
 

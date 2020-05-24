@@ -7,7 +7,8 @@ module.exports = {
     app: ['./app.scss', './app.js'],
     'mdc-ripple': './Ripple/MDCRipple.cs.ts',
     'mdc-snackbar': './Snackbar/MDCSnackbar.razor.ts',
-    'mdc-textfield': './TextField/MDCTextField.razor.ts'
+    'mdc-textfield': './TextField/MDCTextField.razor.ts',
+    'mdc-top-app-bar': './TopAppBar/MDCTopAppBar.razor.ts'
   },
   plugins: [
     new CleanWebpackPlugin()
