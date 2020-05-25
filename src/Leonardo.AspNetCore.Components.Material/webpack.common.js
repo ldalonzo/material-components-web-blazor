@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   entry: {
     app: ['./app.scss', './app.js'],
+    'checkbox': './Checkbox/MDCCheckbox.razor.ts',
     'circular-progress': './CircularProgress/MDCCircularProgress.razor.ts',
     'ripple': './Ripple/MDCRipple.cs.ts',
     'snackbar': './Snackbar/MDCSnackbar.razor.ts',
