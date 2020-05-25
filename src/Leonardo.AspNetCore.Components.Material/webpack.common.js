@@ -7,6 +7,7 @@ module.exports = {
     app: ['./app.scss', './app.js'],
     'checkbox': './Checkbox/MDCCheckbox.razor.ts',
     'circular-progress': './CircularProgress/MDCCircularProgress.razor.ts',
+    'drawer': './Drawer/MDCDrawer.razor.ts',
     'ripple': './Ripple/MDCRipple.cs.ts',
     'snackbar': './Snackbar/MDCSnackbar.razor.ts',
     'textfield': './TextField/MDCTextField.razor.ts',
