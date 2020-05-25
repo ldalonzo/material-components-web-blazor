@@ -1,10 +1,10 @@
-﻿using AutoFixture.Xunit2;
+﻿using System.Threading.Tasks;
+using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.TextField;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.JSInterop;
 using Shouldly;
-using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;

@@ -1,11 +1,11 @@
-﻿using AutoFixture.Xunit2;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.TopAppBar;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Moq;
 using Shouldly;
-using System.Linq;
-using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;

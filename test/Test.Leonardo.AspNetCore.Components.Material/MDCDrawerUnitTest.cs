@@ -1,13 +1,13 @@
-﻿using AutoFixture.Xunit2;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Drawer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using Shouldly;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
