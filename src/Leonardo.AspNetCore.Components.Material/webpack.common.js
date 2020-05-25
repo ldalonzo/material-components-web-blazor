@@ -10,6 +10,7 @@ module.exports = {
     'drawer': './Drawer/MDCDrawer.razor.ts',
     'ripple': './Ripple/MDCRipple.cs.ts',
     'snackbar': './Snackbar/MDCSnackbar.razor.ts',
+    'tab-bar': './TabBar/MDCTabBar.razor.ts',
     'textfield': './TextField/MDCTextField.razor.ts',
     'top-app-bar': './TopAppBar/MDCTopAppBar.razor.ts'
   },
