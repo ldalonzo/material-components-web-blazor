@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Threading.Tasks;
 
 namespace Leonardo.AspNetCore.Components.Material.Ripple
 {

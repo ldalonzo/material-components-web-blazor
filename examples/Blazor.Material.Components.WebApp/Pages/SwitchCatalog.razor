@@ -1,10 +1,15 @@
 ﻿@page "/component/switch"
 <ComponentCatalogPanel Title="Switch">
     <HeroComponent>
-        <MDCSwitch />
+        <MDCSwitch Label="@Label" />
     </HeroComponent>
+    <HeroComponentOptions>
+        <ComponentOption>
+            <MDCTextField Label="Label" Variant="MDCTextFieldStyle.Outlined" @bind-Value="@Label" />
+        </ComponentOption>
+    </HeroComponentOptions>
 </ComponentCatalogPanel>
 
 @code {
-
+    private string Label { get; set; } = "off/on";
 }
