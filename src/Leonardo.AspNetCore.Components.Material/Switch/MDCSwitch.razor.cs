@@ -12,6 +12,18 @@ namespace Leonardo.AspNetCore.Components.Material.Switch
     {
         [Parameter] public string Label { get; set; }
 
+        [Parameter] public bool Value { get; set; }
+
+        [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+
+        private async Task OnValueChanged(ChangeEventArgs e)
+        {
+            var value = (bool)e.Value;
+
+            Value = value;
+            await ValueChanged.InvokeAsync(Value);
+        }
+
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         protected ElementReference _MDCSwitch;
