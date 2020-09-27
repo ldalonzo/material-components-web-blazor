@@ -7,3 +7,8 @@ Blazor components that implement Google's Material Design.
 
 - [Getting Started](docs/getting-started.md)
 - [Live Demos](https://blazor-material.azurewebsites.net/)
+
+## Contributing
+```
+git submodule update --init --recursive
+```
