@@ -4,13 +4,21 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
-    app: ['./app.scss', './app.js']
+    app: ['./app.scss', './app.js'],
+    'checkbox': './Checkbox/MDCCheckbox.razor.ts',
+    'circular-progress': './CircularProgress/MDCCircularProgress.razor.ts',
+    'drawer': './Drawer/MDCDrawer.razor.ts',
+    'ripple': './Ripple/MDCRipple.cs.ts',
+    'snackbar': './Snackbar/MDCSnackbar.razor.ts',
+    'tab-bar': './TabBar/MDCTabBar.razor.ts',
+    'textfield': './TextField/MDCTextField.razor.ts',
+    'top-app-bar': './TopAppBar/MDCTopAppBar.razor.ts'
   },
   plugins: [
     new CleanWebpackPlugin()
   ],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'wwwroot')
   },
   node: {
@@ -21,6 +29,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.scss$/,
         use: [
@@ -65,7 +78,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: ['@babel/preset-env']
           }
         }
       },
@@ -95,6 +108,6 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
+    extensions: ['.tsx', '.ts', '.js']
   }
 }
