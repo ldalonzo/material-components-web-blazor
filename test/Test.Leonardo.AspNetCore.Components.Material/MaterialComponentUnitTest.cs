@@ -1,8 +1,8 @@
-﻿using AutoFixture.Xunit2;
+﻿using System;
+using AutoFixture.Xunit2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using Shouldly;
-using System;
 using Xunit;
 
 namespace Test.Leonardo.AspNetCore.Components.Material
