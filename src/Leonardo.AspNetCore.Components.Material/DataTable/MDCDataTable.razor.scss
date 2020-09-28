@@ -1,13 +1,18 @@
-@use "@material/data-table";
+@use "@material/checkbox"; // Required only for data table with row selection.
+@use "@material/icon-button"; // Required only for data table with column sorting.
+@use "@material/data-table/data-table";
+@use "@material/data-table/mixins" as data-table-mixins;
 
+@include checkbox.core-styles;
+@include icon-button.core-styles;
 @include data-table.core-styles;
+@include data-table.theme-baseline;
 
 .mdc-data-table {
   &--density-2 {
-    @include data-table.density(-2);
+    @include data-table-mixins.density(-2);
   }
   &--density-4 {
-    @include data-table.density(-4);
+    @include data-table-mixins.density(-4);
   }
 }
-

@@ -126,7 +126,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DrawerContent", (RenderFragment)(b => BuildMDCDrawerNavLinkRenderFragment(b, item))));
 
             var rootNode = sut.GetDocumentNode();
-            var itemsNode = rootNode.SelectNodes("/aside/div/nav/a/span").ShouldHaveSingleItem();
+            var itemsNode = rootNode.SelectNodes("/aside/div/nav/a/span[2]").ShouldHaveSingleItem();
 
             itemsNode.ShouldContainCssClasses("mdc-list-item__text");
             itemsNode.InnerText.ShouldBe(item.Text);

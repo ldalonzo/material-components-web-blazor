@@ -25,7 +25,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var rootNode = sut.GetDocumentNode();
             var rootElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
-            rootElement.ShouldContainCssClasses("mdc-select");
+            var cssClasses = rootElement.GetCssClasses();
+            Assert.NotEmpty(cssClasses);
+            Assert.Contains(cssClasses, c => c == "mdc-select");
         }
 
         [Fact]
@@ -45,7 +47,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent(("Label", label));
 
             var rootNode = sut.GetDocumentNode();
-            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[4]").ShouldHaveSingleItem();
             labelElement.Attributes["class"].Value.Split(" ").ShouldContain("mdc-floating-label");
 
             labelElement.InnerText.ShouldBe(label);

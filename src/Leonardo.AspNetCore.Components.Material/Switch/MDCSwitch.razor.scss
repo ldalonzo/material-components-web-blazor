@@ -1,1 +1,3 @@
-@use "@material/switch/mdc-switch";
+@use "@material/switch";
+
+@include switch.core-styles;

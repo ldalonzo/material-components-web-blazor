@@ -24,6 +24,8 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         {
             sb.Append("mdc-select");
 
+            sb.Append(" mdc-select--filled");
+
             return base.BuildClassString(sb);
         }
 
@@ -131,13 +133,16 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         {
             var sb = new StringBuilder("mdc-list-item");
 
-            if (Equals(item, Value))
+            if (IsSelected(item))
             {
                 sb.Append(" mdc-list-item--selected");
             }
 
             return sb.ToString();
         }
+
+        private bool IsSelected(T item = default)
+            => Equals(item, Value);
 
         private void InitializeOptionsItems()
         {

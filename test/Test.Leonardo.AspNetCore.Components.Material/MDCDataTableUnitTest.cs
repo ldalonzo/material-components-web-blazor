@@ -15,7 +15,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent();
 
             var rootNode = sut.GetDocumentNode();
-            var divElement = rootNode.SelectNodes("//div").ShouldHaveSingleItem();
+            var divElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
             divElement.ShouldContainCssClasses("mdc-data-table");
         }
 
@@ -28,7 +28,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             var sut = AddComponent(("Density", density));
 
             var rootNode = sut.GetDocumentNode();
-            var divElement = rootNode.SelectNodes("//div").ShouldHaveSingleItem();
+            var divElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
 
             switch (density)
             {

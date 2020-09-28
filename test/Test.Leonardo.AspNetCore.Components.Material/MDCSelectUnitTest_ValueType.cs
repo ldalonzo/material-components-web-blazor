@@ -32,7 +32,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
                 ("DataSource", dataSource));
 
             var rootNode = sut.GetDocumentNode();
-            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[4]").ShouldHaveSingleItem();
             labelElement.Attributes["class"].Value.Split(" ").ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
 
             labelElement.InnerText.ShouldBe(label);
