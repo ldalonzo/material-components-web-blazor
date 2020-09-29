@@ -28,7 +28,7 @@ function Send-CoverageResultsToCodecov {
       $CodecovUploadToken
   )
 
-  $codecovFullPath = (Join-Path $NuGetPackagesBasePath -ChildPath "codecov\1.10.0\tools\codecov.exe")
+  $codecovFullPath = (Join-Path $NuGetPackagesBasePath -ChildPath "codecov\1.12.3\tools\codecov.exe")
 
   if (!(Test-Path $codecovFullPath)) {
     Write-Error "Could NOT find codecov.exe"
