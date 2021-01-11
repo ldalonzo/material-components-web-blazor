@@ -57,7 +57,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             selectJsInterop.FindComponentById(id).SelectedIndex.ShouldBe(0);
 
             var rootNode = sut.GetDocumentNode();
-            var labelElement = rootNode.SelectNodes("/div/div[1]/span[4]").ShouldHaveSingleItem();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
             labelElement.ShouldContainCssClasses("mdc-floating-label");
         }
 
@@ -85,7 +85,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             sut.DropdownShouldHaveSingleSelectedItem(preSelectedValue.Id);
 
             var rootNode = sut.GetDocumentNode();
-            var labelElement = rootNode.SelectNodes("/div/div[1]/span[4]").ShouldHaveSingleItem();
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
             labelElement.ShouldContainCssClasses("mdc-floating-label", "mdc-floating-label--float-above");
         }
 

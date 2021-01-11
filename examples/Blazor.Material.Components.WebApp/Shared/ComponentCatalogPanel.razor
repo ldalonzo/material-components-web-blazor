@@ -16,12 +16,14 @@
             @if (HeroComponentOptions != null)
             {
                 <div class="hero-options component-catalog-panel__header-elements component-catalog-panel__header__hero-options">
-                    <ul class="mdc-list mdc-list--non-interactive">
-                        <li class="mdc-list-item">
-                            <span class="mdc-typography--overline">Options</span>
-                        </li>
-                        @HeroComponentOptions
-                    </ul>
+                    <article class="component-options">
+                        <header>
+                            <h1>Options</h1>
+                        </header>
+                        <ul class="component-options-list">
+                            @HeroComponentOptions
+                        </ul>
+                    </article>
                 </div>
             }
         </div>

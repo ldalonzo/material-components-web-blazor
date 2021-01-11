@@ -1,12 +1,14 @@
-@import "@material/typography/mdc-typography";
+@use "@material/typography/mdc-typography";
 
-@import '../../submodules/material-components-web-catalog/src/styles/CatalogPage.scss';
-@import '../../submodules/material-components-web-catalog/src/styles/ComponentCatalogPanel.scss';
-@import '../../submodules/material-components-web-catalog/src/styles/ComponentPage.scss';
-@import '../../submodules/material-components-web-catalog/src/styles/DrawerFrameCatalog.scss';
-@import '../../submodules/material-components-web-catalog/src/styles/HeroComponent.scss';
-@import '../../submodules/material-components-web-catalog/src/styles/SnackbarCatalog.scss';
-@import '../../submodules/material-components-web-catalog/src/styles/TopAppBarCatalog.scss';
+@use "./Shared/ComponentCatalogPanel.razor.scss";
+
+@import "../../submodules/material-components-web-catalog/src/styles/CatalogPage.scss";
+@import "../../submodules/material-components-web-catalog/src/styles/ComponentCatalogPanel.scss";
+@import "../../submodules/material-components-web-catalog/src/styles/ComponentPage.scss";
+@import "../../submodules/material-components-web-catalog/src/styles/DrawerFrameCatalog.scss";
+@import "../../submodules/material-components-web-catalog/src/styles/HeroComponent.scss";
+@import "../../submodules/material-components-web-catalog/src/styles/SnackbarCatalog.scss";
+@import "../../submodules/material-components-web-catalog/src/styles/TopAppBarCatalog.scss";
 
 app {
   display: flex;

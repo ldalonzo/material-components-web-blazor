@@ -24,7 +24,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var rootNode = sut.GetDocumentNode();
             var divElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
-            divElement.ShouldContainCssClasses("mdc-circular-progress", "mdc-circular-progress--large");
+            divElement.ShouldContainCssClasses("mdc-circular-progress");
         }
 
         [Theory]

@@ -1,12 +1,19 @@
 @inherits MDCSelect
 @typeparam T
 <div class="@ClassString" @ref="_MDCSelect">
-    <div class="mdc-select__anchor">
+    <div class="mdc-select__anchor"
+         role="button"
+         aria-haspopup="listbox"
+         aria-expanded="false"
+         aria-labelledby="@LabelledBy">
         <span class="mdc-select__ripple"></span>
-        <span class="mdc-select__selected-text"></span>
+        <span id="@LabelId" class="@LabelClassString">@Label</span>
+        <span class="mdc-select__selected-text-container">
+            <span id="@SelectedTextId" class="mdc-select__selected-text"></span>
+        </span>
         <span class="mdc-select__dropdown-icon">
             <svg class="mdc-select__dropdown-icon-graphic"
-                 viewBox="7 10 10 5">
+                 viewBox="7 10 10 5" focusable="false">
                 <polygon class="mdc-select__dropdown-icon-inactive"
                          stroke="none"
                          fill-rule="evenodd"
@@ -19,20 +26,19 @@
                 </polygon>
             </svg>
         </span>
-        <span class="@LabelClassString">@Label</span>
         <span class="mdc-line-ripple"></span>
     </div>
-    <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth" role="listbox">
-        <ul class="mdc-list">
+    <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+        <ul class="mdc-list" role="listbox">
             @if (IncludeEmptyItem)
             {
-                <li class="@BuildItemClassString()" data-value="" aria-selected="true" role="option">
+                <li class="@BuildItemClassString()" aria-selected="true" data-value="" role="option">
                     <span class="mdc-list-item__ripple"></span>
                 </li>
             }
             @foreach (var item in DataSource)
             {
-                <li class="@BuildItemClassString(item)" data-value="@GetItemDataValue(item)" aria-selected="@IsSelected(item)" role="option">
+                <li class="@BuildItemClassString(item)" aria-selected="@IsSelected(item)" data-value="@GetItemDataValue(item)" role="option">
                     <span class="mdc-list-item__ripple"></span>
                     <span class="mdc-list-item__text">@GetItemDisplayText(item)</span>
                 </li>

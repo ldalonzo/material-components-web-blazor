@@ -85,11 +85,26 @@ namespace Leonardo.AspNetCore.Components.Material.Select
                 DataSource = Enumerable.Empty<T>();
             }
 
+            if (string.IsNullOrWhiteSpace(LabelId))
+            {
+                LabelId = $"{Id}-label";
+            }
+
+            if (string.IsNullOrWhiteSpace(SelectedTextId))
+            {
+                SelectedTextId = $"{Id}-selected-text";
+            }
+
             IncludeEmptyItem = !typeof(T).IsValueType;
             LabelClassString = BuildLabelClassString();
+            LabelledBy = BuildLabelledBy();
 
             InitializeOptionsItems();
         }
+
+        private string LabelId { get; set; }
+
+        private string SelectedTextId { get; set; }
 
         private string LabelClassString { get; set; }
 
@@ -101,6 +116,19 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             {
                 sb.Append(" mdc-floating-label--float-above");
             }
+
+            return sb.ToString();
+        }
+
+        private string LabelledBy { get; set; }
+
+        private string BuildLabelledBy()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(LabelId);
+            sb.Append(" ");
+            sb.Append(SelectedTextId);
 
             return sb.ToString();
         }

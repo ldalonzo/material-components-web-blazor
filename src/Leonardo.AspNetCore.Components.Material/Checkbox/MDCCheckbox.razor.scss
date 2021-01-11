@@ -1,2 +1,5 @@
-@use "@material/form-field/mdc-form-field";
-@use "@material/checkbox/mdc-checkbox";
+@use "@material/checkbox";
+@use "@material/form-field";
+
+@include checkbox.core-styles;
+@include form-field.core-styles;

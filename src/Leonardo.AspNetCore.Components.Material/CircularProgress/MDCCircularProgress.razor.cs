@@ -19,9 +19,6 @@ namespace Leonardo.AspNetCore.Components.Material.CircularProgress
         {
             sb.Append("mdc-circular-progress");
 
-            sb.Append(" ");
-            sb.Append("mdc-circular-progress--large");
-
             return base.BuildClassString(sb);
         }
 
