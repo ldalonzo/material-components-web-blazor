@@ -1,0 +1,18 @@
+@inherits MaterialComponent
+<div class="@ClassString" @ref="_MDCSwitch">
+    <div class="mdc-switch__track"></div>
+    <div class="mdc-switch__thumb-underlay">
+        <div class="mdc-switch__thumb"></div>
+        <input type="checkbox"
+               id="@InputId"
+               class="mdc-switch__native-control"
+               role="switch"
+               @oninput="OnValueChanged"
+               aria-checked="false"
+               checked="@Value">
+    </div>
+</div>
+@if (!string.IsNullOrWhiteSpace(Label))
+{
+<label for="@InputId">@Label</label>
+}

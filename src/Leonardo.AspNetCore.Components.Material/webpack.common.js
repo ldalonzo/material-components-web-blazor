@@ -10,6 +10,7 @@ module.exports = {
     'drawer': './Drawer/MDCDrawer.razor.ts',
     'ripple': './Ripple/MDCRipple.cs.ts',
     'snackbar': './Snackbar/MDCSnackbar.razor.ts',
+    'switch': './Switch/MDCSwitch.razor.ts',
     'tab-bar': './TabBar/MDCTabBar.razor.ts',
     'textfield': './TextField/MDCTextField.razor.ts',
     'top-app-bar': './TopAppBar/MDCTopAppBar.razor.ts'
@@ -53,8 +54,16 @@ module.exports = {
             // Run postcss actions
             loader: 'postcss-loader',
             options: {
-              // postcss plugins, can be exported to postcss.config.js
-              plugins: () => [autoprefixer()]
+              postcssOptions: {
+                plugins: [
+                  [
+                    'autoprefixer',
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
             }
           },
           {
@@ -87,7 +96,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name (file) {
+            name(file) {
               return '[name].[ext]'
             }
           }
@@ -99,7 +108,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             esModule: false,
-            name (file) {
+            name(file) {
               return '[name].[ext]'
             }
           }

@@ -1,8 +1,8 @@
-﻿using AutoFixture.Xunit2;
+﻿using System.Threading.Tasks;
+using AutoFixture.Xunit2;
 using Leonardo.AspNetCore.Components.Material.Snackbar;
 using Microsoft.JSInterop;
 using Shouldly;
-using System.Threading.Tasks;
 using Test.Leonardo.AspNetCore.Components.Material.Framework.JSInterop;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;

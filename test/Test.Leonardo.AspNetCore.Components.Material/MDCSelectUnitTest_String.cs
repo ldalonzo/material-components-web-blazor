@@ -1,7 +1,7 @@
-﻿using AutoFixture.Xunit2;
-using Shouldly;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.Xunit2;
+using Shouldly;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 

@@ -25,7 +25,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var rootNode = sut.GetDocumentNode();
             var rootElement = rootNode.SelectNodes("/div").ShouldHaveSingleItem();
-            rootElement.ShouldContainCssClasses("mdc-select");
+            var cssClasses = rootElement.GetCssClasses();
+            Assert.NotEmpty(cssClasses);
+            Assert.Contains(cssClasses, c => c == "mdc-select");
         }
 
         [Fact]
@@ -49,6 +51,26 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             labelElement.Attributes["class"].Value.Split(" ").ShouldContain("mdc-floating-label");
 
             labelElement.InnerText.ShouldBe(label);
+        }
+
+        [Fact]
+        public void LabelledBy_RefersToTargets()
+        {
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+
+            var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            var labelId = labelElement.Attributes["id"].Value;
+            labelId.ShouldNotBeNullOrEmpty();
+
+            var selectedTextElement = rootNode.SelectNodes("/div/div[1]/span[3]/span").ShouldHaveSingleItem();
+            var selectedTextElementId = selectedTextElement.Attributes["id"].Value;
+            selectedTextElementId.ShouldNotBeNullOrEmpty();
+
+            var anchorElement = rootNode.SelectNodes("/div/div[1]").ShouldHaveSingleItem();
+
+            anchorElement.Attributes["aria-labelledby"].Value.Split(" ").ShouldBe(new[] { labelId, selectedTextElementId }, Case.Sensitive);
         }
 
         [Fact]

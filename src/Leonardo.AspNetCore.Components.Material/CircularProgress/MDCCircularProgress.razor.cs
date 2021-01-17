@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Leonardo.AspNetCore.Components.Material.CircularProgress
 {
@@ -18,9 +18,6 @@ namespace Leonardo.AspNetCore.Components.Material.CircularProgress
         protected override StringBuilder BuildClassString(StringBuilder sb)
         {
             sb.Append("mdc-circular-progress");
-
-            sb.Append(" ");
-            sb.Append("mdc-circular-progress--large");
 
             return base.BuildClassString(sb);
         }

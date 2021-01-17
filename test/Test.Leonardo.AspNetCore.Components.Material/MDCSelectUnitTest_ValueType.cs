@@ -1,7 +1,6 @@
-﻿using AutoFixture.Xunit2;
-using Moq;
+﻿using System.Collections.Generic;
+using AutoFixture.Xunit2;
 using Shouldly;
-using System.Collections.Generic;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_ValueType;
@@ -34,6 +33,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var rootNode = sut.GetDocumentNode();
             var labelElement = rootNode.SelectNodes("/div/div[1]/span[2]").ShouldHaveSingleItem();
+            labelElement.ShouldNotBeNull();
             labelElement.Attributes["class"].Value.Split(" ").ShouldBe(new[] { "mdc-floating-label", "mdc-floating-label--float-above" });
 
             labelElement.InnerText.ShouldBe(label);

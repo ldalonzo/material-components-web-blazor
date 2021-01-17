@@ -24,6 +24,8 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         {
             sb.Append("mdc-select");
 
+            sb.Append(" mdc-select--filled");
+
             return base.BuildClassString(sb);
         }
 
@@ -83,11 +85,26 @@ namespace Leonardo.AspNetCore.Components.Material.Select
                 DataSource = Enumerable.Empty<T>();
             }
 
+            if (string.IsNullOrWhiteSpace(LabelId))
+            {
+                LabelId = $"{Id}-label";
+            }
+
+            if (string.IsNullOrWhiteSpace(SelectedTextId))
+            {
+                SelectedTextId = $"{Id}-selected-text";
+            }
+
             IncludeEmptyItem = !typeof(T).IsValueType;
             LabelClassString = BuildLabelClassString();
+            LabelledBy = BuildLabelledBy();
 
             InitializeOptionsItems();
         }
+
+        private string LabelId { get; set; }
+
+        private string SelectedTextId { get; set; }
 
         private string LabelClassString { get; set; }
 
@@ -99,6 +116,19 @@ namespace Leonardo.AspNetCore.Components.Material.Select
             {
                 sb.Append(" mdc-floating-label--float-above");
             }
+
+            return sb.ToString();
+        }
+
+        private string LabelledBy { get; set; }
+
+        private string BuildLabelledBy()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(LabelId);
+            sb.Append(" ");
+            sb.Append(SelectedTextId);
 
             return sb.ToString();
         }
@@ -131,13 +161,16 @@ namespace Leonardo.AspNetCore.Components.Material.Select
         {
             var sb = new StringBuilder("mdc-list-item");
 
-            if (Equals(item, Value))
+            if (IsSelected(item))
             {
                 sb.Append(" mdc-list-item--selected");
             }
 
             return sb.ToString();
         }
+
+        private bool IsSelected(T item = default)
+            => Equals(item, Value);
 
         private void InitializeOptionsItems()
         {

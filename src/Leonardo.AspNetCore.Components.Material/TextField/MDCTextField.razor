@@ -3,28 +3,18 @@
     @if (Variant == MDCTextFieldStyle.Filled)
     {
         <span class="mdc-text-field__ripple"></span>
-
-        <input type="text"
+        <span class="@LabelClassString" id="@LabelId">@Label</span>
+        <input class="mdc-text-field__input"
                id="@Id"
+               type="text"
                aria-labelledby="@LabelId"
-               class="mdc-text-field__input"
                value="@Value"
                @oninput="@OnValueChanged"
                disabled="@Disabled" />
-
-        <span class="@LabelClassString" id="@LabelId">@Label</span>
         <span class="mdc-line-ripple"></span>
     }
     else if (Variant == MDCTextFieldStyle.Outlined)
     {
-        <input type="text"
-               id="@Id"
-               aria-labelledby="@LabelId"
-               class="mdc-text-field__input"
-               value="@Value"
-               @oninput="@OnValueChanged"
-               disabled="@Disabled" />
-
         <span class="@NotchedOutlineClassString">
             <span class="mdc-notched-outline__leading"></span>
             <span class="mdc-notched-outline__notch">
@@ -32,5 +22,12 @@
             </span>
             <span class="mdc-notched-outline__trailing"></span>
         </span>
+        <input class="mdc-text-field__input"
+               id="@Id"
+               type="text"
+               aria-labelledby="@LabelId"
+               value="@Value"
+               @oninput="@OnValueChanged"
+               disabled="@Disabled" />
     }
 </label>

@@ -1,9 +1,9 @@
-﻿using AutoFixture;
-using AutoFixture.Xunit2;
-using Shouldly;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoFixture;
+using AutoFixture.Xunit2;
+using Shouldly;
 using Test.Leonardo.AspNetCore.Components.Material.Shouldly;
 using Xunit;
 using static Test.Leonardo.AspNetCore.Components.Material.MDCSelectUnitTest_ReferenceType;
