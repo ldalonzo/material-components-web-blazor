@@ -40,6 +40,19 @@ namespace Test.Leonardo.AspNetCore.Components.Material
         }
 
         [Fact]
+        public void HtmlStructure_MdcSnackbar_Surface_Role()
+        {
+            var sut = AddComponent();
+
+            var rootNode = sut.GetDocumentNode();
+            var divElement = rootNode.SelectNodes("/div/div[1]").ShouldHaveSingleItem();
+            
+            var roleAttribute = divElement.Attributes["role"];
+            roleAttribute.ShouldNotBeNull();
+            roleAttribute.Value.ShouldBe("status");
+        }
+
+        [Fact]
         public void HtmlStructure_MdcSnackbar_Label_CssClass()
         {
             var sut = AddComponent();
@@ -60,17 +73,7 @@ namespace Test.Leonardo.AspNetCore.Components.Material
             divElement.InnerText.Trim().ShouldBe(label);
         }
 
-        [Fact]
-        public void HtmlStructure_MdcSnackbar_Label_Role()
-        {
-            var sut = AddComponent();
-
-            var rootNode = sut.GetDocumentNode();
-            var divElement = rootNode.SelectNodes("/div/div[1]/div").ShouldHaveSingleItem();
-            var roleAttribute = divElement.Attributes["role"];
-            roleAttribute.ShouldNotBeNull();
-            roleAttribute.Value.ShouldBe("status");
-        }
+       
 
         [Fact]
         public void HtmlStructure_MdcSnackbar_Label_Aria()
@@ -79,9 +82,9 @@ namespace Test.Leonardo.AspNetCore.Components.Material
 
             var rootNode = sut.GetDocumentNode();
             var divElement = rootNode.SelectNodes("/div/div[1]/div").ShouldHaveSingleItem();
-            var ariaAttribute = divElement.Attributes["aria-live"];
+            var ariaAttribute = divElement.Attributes["aria-atomic"];
             ariaAttribute.ShouldNotBeNull();
-            ariaAttribute.Value.ShouldBe("polite");
+            ariaAttribute.Value.ShouldBe("false");
         }
 
         [Theory]
