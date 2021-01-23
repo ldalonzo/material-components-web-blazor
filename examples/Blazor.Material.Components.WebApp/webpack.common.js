@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
@@ -10,7 +9,8 @@ module.exports = {
     new CleanWebpackPlugin()
   ],
   output: {
-    path: path.resolve(__dirname, 'wwwroot/assets')
+    path: path.resolve(__dirname, 'wwwroot/assets'),
+    assetModuleFilename: 'images/[name][ext][query]'
   },
   module: {
     rules: [
@@ -55,7 +55,11 @@ module.exports = {
             }
           }
         ]
-      }
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ]
   }
 }
