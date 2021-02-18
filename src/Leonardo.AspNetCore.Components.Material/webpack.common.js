@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
@@ -20,21 +19,11 @@ module.exports = {
   ],
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'wwwroot')
-  },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    dns: 'empty'
+    path: path.resolve(__dirname, 'wwwroot'),
+    publicPath: ""
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
-      },
       {
         test: /\.scss$/,
         use: [
@@ -44,12 +33,8 @@ module.exports = {
               name: 'bundle.css'
             }
           },
-          {
-            loader: 'extract-loader'
-          },
-          {
-            loader: 'css-loader'
-          },
+          'extract-loader',
+          'css-loader',
           {
             // Run postcss actions
             loader: 'postcss-loader',
@@ -57,10 +42,7 @@ module.exports = {
               postcssOptions: {
                 plugins: [
                   [
-                    'autoprefixer',
-                    {
-                      // Options
-                    },
+                    'autoprefixer'
                   ],
                 ],
               },
@@ -92,15 +74,13 @@ module.exports = {
         }
       },
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
+      {
         test: /\.(png|svg|jpg|gif)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name(file) {
-              return '[name].[ext]'
-            }
-          }
-        }
+        type: 'asset/resource'
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,

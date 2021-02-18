@@ -1,4 +1,5 @@
-﻿import './app.scss'
+﻿import './favicon-32.png'
+import './app.scss'
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 
 const appInsights = new ApplicationInsights({ config: {
