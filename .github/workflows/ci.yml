@@ -1,0 +1,75 @@
+name: CI
+
+on: [ push ]
+
+env:
+  Major: 9
+  Minor: 1
+  Patch: 0
+  BuildConfiguration: 'Release'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: true
+        submodules: recursive
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set Version
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: |
+        echo "version=$Major.$Minor.$Patch-preview1" >> $GITHUB_ENV
+        echo "assembly_version=$Major.$Minor.$Patch.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+    - name: Set Version
+      if: ${{ github.ref != 'refs/heads/master' }}
+      run: |
+        echo "version=$Major.$Minor.$Patch-preview1" >> $GITHUB_ENV
+        echo "assembly_version=$Major.$Minor.$Patch.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Components - Build static assets
+      working-directory: ${{github.workspace}}/src/Leonardo.AspNetCore.Components.Material
+      run: |
+        npm ci
+        npm run build
+
+    - name: Catalog - Build static assets
+      working-directory: ${{github.workspace}}/examples/Blazor.Material.Components.WebApp
+      run: |
+        npm ci
+        npm run build
+
+    - name: Build
+      run: |
+        dotnet build --configuration $BuildConfiguration --no-restore -p:Version=${{ env.version }} -p:AssemblyVersion=${{ env.assembly_version }}
+
+    - name: Test
+      run: |
+        dotnet test --configuration $BuildConfiguration --no-build --collect:"XPlat Code Coverage" --settings ${{github.workspace}}/test/coverletArgs.runsettings
+
+    - name: Report test coverage to Codecov
+      shell: bash
+      run: |
+        bash <(curl -s https://codecov.io/bash)
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        name: material-components-blazor.${{ env.assembly_version }}
+        path: '**/*.nupkg'

@@ -2,24 +2,41 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Authors>Leonardo D'Alonzo</Authors>
-    <Company />
-    <PackageProjectUrl>https://blazor-material.azurewebsites.net/</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Leonardo.AspNetCore.Components.Material</PackageId>
     <Product>Material Components for Blazor WebAssembly</Product>
     <Version>0.0.1</Version>
     <Description>Blazor components that implement Google's Material Design.</Description>
-    <RepositoryUrl>https://github.com/ldalonzo/material-components-web-blazor</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/ldalonzo/material-components-web-blazor</RepositoryUrl>    
+	<PackageProjectUrl>https://blazor-material.azurewebsites.net/</PackageProjectUrl>
+	<Authors>Leonardo D'Alonzo</Authors>
+    <Company />
+	<Copyright>Leonardo D'Alonzo</Copyright>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
-  
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
