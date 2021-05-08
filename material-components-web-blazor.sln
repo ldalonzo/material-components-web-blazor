@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Material.Components.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4477073-11D1-4ED5-9173-B034335D9774}"
 	ProjectSection(SolutionItems) = preProject
-		.azure\pipelines\ci.yaml = .azure\pipelines\ci.yaml
+		.github\workflows\ci.yml = .github\workflows\ci.yml
 		test\coverletArgs.runsettings = test\coverletArgs.runsettings
-		.azure\pipelines\jobs\npm-build.yaml = .azure\pipelines\jobs\npm-build.yaml
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject

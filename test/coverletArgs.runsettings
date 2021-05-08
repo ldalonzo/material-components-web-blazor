@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <RunSettings>
-  <DataCollectionRunSettings>
-    <DataCollectors>
-      <DataCollector friendlyName="XPlat code coverage">
-        <Configuration>
-          <Format>opencover</Format>
-          <Exclude>[Microsoft.AspNetCore.Components.Testing]*,[Leonardo.AspNetCore.Components.Material.Testing]*</Exclude>
-          <Include>[Leonardo.AspNetCore.Components.*]</Include>
-          <SingleHit>false</SingleHit>
-          <UseSourceLink>true</UseSourceLink>
-          <IncludeTestAssembly>false</IncludeTestAssembly>
-        </Configuration>
-      </DataCollector>
-    </DataCollectors>
-  </DataCollectionRunSettings>
+    <DataCollectionRunSettings>
+        <DataCollectors>
+            <DataCollector friendlyName="XPlat code coverage">
+                <Configuration>
+                    <Format>cobertura,opencover</Format>
+                    <Exclude>[Microsoft.AspNetCore.Components.Testing]*,[Leonardo.AspNetCore.Components.Material.Testing]*</Exclude>
+                    <Include>[Leonardo.AspNetCore.Components.*]</Include>
+                    <SingleHit>false</SingleHit>
+                    <UseSourceLink>true</UseSourceLink>
+                    <IncludeTestAssembly>false</IncludeTestAssembly>
+                </Configuration>
+            </DataCollector>
+        </DataCollectors>
+    </DataCollectionRunSettings>
 </RunSettings>
