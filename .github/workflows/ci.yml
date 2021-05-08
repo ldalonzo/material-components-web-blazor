@@ -68,8 +68,13 @@ jobs:
       run: |
         bash <(curl -s https://codecov.io/bash)
 
-    - name: Upload a Build Artifact
+    - name: Upload build artifacts
       uses: actions/upload-artifact@v2.2.2
       with:
         name: material-components-blazor.${{ env.assembly_version }}
         path: '**/*.nupkg'
+
+    - name: NuGet push nuget.org
+      if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' }}
+      run: |
+        dotnet nuget push $GITHUB_WORKSPACE/src/Leonardo.AspNetCore.Components.Material/bin/$BuildConfiguration/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source https://api.nuget.org/v3/index.json
