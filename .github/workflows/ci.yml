@@ -1,6 +1,11 @@
 name: CI
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - feature/*
 
 env:
   Major: 9
@@ -84,8 +89,9 @@ jobs:
       run: |
         dotnet nuget push $GITHUB_WORKSPACE/src/Leonardo.AspNetCore.Components.Material/bin/$BuildConfiguration/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source https://api.nuget.org/v3/index.json
 
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
+    - name: 'Deploy to Azure'
       uses: azure/webapps-deploy@v2
+      if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' }}
       with: 
         app-name: material-components-blazor
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
