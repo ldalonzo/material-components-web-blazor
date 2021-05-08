@@ -1,6 +1,6 @@
 [![CI](https://github.com/ldalonzo/material-components-web-blazor/actions/workflows/ci.yml/badge.svg)](https://github.com/ldalonzo/material-components-web-blazor/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/nuget/vpre/Leonardo.AspNetCore.Components.Material)](https://www.nuget.org/packages/Leonardo.AspNetCore.Components.Material/)
-[![codecov](https://codecov.io/gh/ldalonzo/material-components-web-blazor/branch/master/graph/badge.svg)](https://codecov.io/gh/ldalonzo/material-components-web-blazor)
+[![codecov](https://codecov.io/gh/ldalonzo/material-components-web-blazor/branch/develop/graph/badge.svg)](https://codecov.io/gh/ldalonzo/material-components-web-blazor)
 
 # Material Components for Blazor WebAssembly
 A collection of ASP.NET Core Razor components that wrap [Material Components for the web](https://github.com/material-components/material-components-web).
