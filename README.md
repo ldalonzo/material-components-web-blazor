@@ -5,7 +5,7 @@
 # Material Components for Blazor WebAssembly
 A collection of ASP.NET Core Razor components that wrap [Material Components for the web](https://github.com/material-components/material-components-web).
 
-- [Live Demos](https://blazor-material.azurewebsites.net/)
+- [Live Demo](https://material-components-blazor.azurewebsites.net/)
 
 ## Quick start
 

@@ -29,7 +29,7 @@ jobs:
         echo "version=$Major.$Minor.$Patch-preview1" >> $GITHUB_ENV
         echo "assembly_version=$Major.$Minor.$Patch.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
-    - name: Set Version
+    - name: Set Preview Version
       if: ${{ github.ref != 'refs/heads/master' }}
       run: |
         echo "version=$Major.$Minor.$Patch-preview1" >> $GITHUB_ENV
@@ -63,6 +63,11 @@ jobs:
       run: |
         dotnet test --configuration $BuildConfiguration --no-build --collect:"XPlat Code Coverage" --settings ${{github.workspace}}/test/coverletArgs.runsettings
 
+    - name: Catalog - Package
+      working-directory: ${{github.workspace}}/examples/Blazor.Material.Components.WebApp
+      run: |
+        dotnet publish --configuration $BuildConfiguration --no-restore -p:Version=${{ env.version }} -p:AssemblyVersion=${{ env.assembly_version }} -o ${{github.workspace}}/catalog
+
     - name: Report test coverage to Codecov
       shell: bash
       run: |
@@ -74,7 +79,14 @@ jobs:
         name: material-components-blazor.${{ env.assembly_version }}
         path: '**/*.nupkg'
 
-    - name: NuGet push nuget.org
+    - name: Push NuGet package to nuget.org
       if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' }}
       run: |
         dotnet nuget push $GITHUB_WORKSPACE/src/Leonardo.AspNetCore.Components.Material/bin/$BuildConfiguration/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source https://api.nuget.org/v3/index.json
+
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: material-components-blazor
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
+        package: '${{github.workspace}}/catalog'
