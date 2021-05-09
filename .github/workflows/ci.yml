@@ -89,7 +89,7 @@ jobs:
       run: |
         dotnet nuget push $GITHUB_WORKSPACE/src/Leonardo.AspNetCore.Components.Material/bin/$BuildConfiguration/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source https://api.nuget.org/v3/index.json
 
-    - name: 'Deploy to Azure'
+    - name: 'Catalog - Deploy to Azure'
       uses: azure/webapps-deploy@v2
       if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' }}
       with: 
